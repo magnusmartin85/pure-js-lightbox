@@ -74,31 +74,40 @@ $(".image-gallery a").click(function (event) {
     //Show the overlay.
     $overlay.fadeIn();
 
-    //Get child's alt attribute and set caption
-    var captionText = $(this).children("img").attr("alt");
+    setCaption(event);
+
+
+    $icn_prv.click(function () {
+        $overlay.fadeIn();
+        var currentImageIndex = $.inArray(imageLocation, images);
+        var previousImageLocation = images[currentImageIndex - 1];
+        $image.attr("src", previousImageLocation);
+        imageLocation = $image.attr("src");
+    });
+
+    $icn_nxt.click(function () {
+        $overlay.fadeIn();
+        var currentImageIndex = $.inArray(imageLocation, images);
+        var nextImageLocation = images[currentImageIndex + 1];
+        $image.attr("src", nextImageLocation);
+        imageLocation = $image.attr("src");
+    });
+
+});
+
+//When overlay is clicked
+$overlayClose.click(function () {
+    //Hide the overlay
+    //$overlay.hide();
+});
+
+
+function setCaption(event) {
+    var captionText = $(event.target).children("img").attr("alt");
     if (typeof captionText === 'undefined') {
         $caption.text('');
     }
     else {
         $caption.text(captionText);
     }
-
-
-    $icn_prv.click(function () {
-        $overlay.fadeIn();
-        var currentImageIndex = $.inArray(imageLocation, images);
-        console.log(currentImageIndex);
-
-
-        //Update overlay with the image linked in the link
-        $image.attr("src", imageLocation).attr("max-width", "100%");
-    });
-});
-
-//When overlay is clicked
-$overlay.click(function () {
-    //Hide the overlay
-    // $overlay.hide();
-});
-
-
+}

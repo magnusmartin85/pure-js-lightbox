@@ -1,9 +1,10 @@
 var $icn_prv = $('<div class="grid__col--4 icn-prv"><a href="#">&#60;</a></div>');
-var $overlay = $('<div class="grid__col--4" id="overlay"> </div>');
+var $overlay = $('<div class="grid__col--4" id="overlay"></div>');
 var $icn_nxt = $('<div class="grid__col--4 icn-nxt"><a href="#">&#62;</a></div>');
 
 var $image = $("<img>");
 var $caption = $("<p></p>");
+var $overlayClose = $("<div class='overlay-close'><a href='#'><span class='close-button'><span class='icon-bar'></span><span class='icon-bar'></span></span></a></div>");
 
 var currentImage;
 
@@ -40,26 +41,6 @@ for (var i = 0; i < images.length; i++) {
 appendImageGrid();
 
 appendContainer();
-
-
-function appendImageGrid() {
-    $('.image-gallery').append(html);
-}
-
-function appendContainer() {
-    $overlay.append($icn_prv);
-
-    //An image to overlay
-    $overlay.append($image);
-
-    $overlay.append($icn_nxt);
-    //A caption to overlay
-    $overlay.append($caption);
-
-    //Add overlay
-    $("body").append($overlay);
-}
-
 
 //Capture the click event on a link to an image
 $(".image-gallery a").click(function (event) {
@@ -98,7 +79,7 @@ $(".image-gallery a").click(function (event) {
 //When overlay is clicked
 $overlayClose.click(function () {
     //Hide the overlay
-    //$overlay.hide();
+    $overlay.hide();
 });
 
 
@@ -110,4 +91,17 @@ function setCaption(event) {
     else {
         $caption.text(captionText);
     }
+}
+
+function appendImageGrid() {
+    $('.image-gallery').append(html);
+}
+
+function appendContainer() {
+    $overlay.append($overlayClose);
+    $overlay.append($icn_prv);
+    $overlay.append($image);
+    $overlay.append($icn_nxt);
+    $overlay.append($caption);
+    $("body").append($overlay);
 }

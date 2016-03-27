@@ -1,13 +1,13 @@
-var $icn_prv = $('<div class="grid__col--4 icn-prv"><a href="#">&#60;</a></div>');
-var $overlay = $('<div class="grid__col--4" id="overlay"></div>');
-var $icn_nxt = $('<div class="grid__col--4 icn-nxt"><a href="#">&#62;</a></div>');
+var $icn_prv = $('<div class="grid__col--4"><div class="icn-prv"><a href="#"><span class="icon-bar"></span><span class="icon-bar"></span></a></div></div>');
+var $overlay = $('<div id="overlay"></div>');
+var $icn_nxt = $('<div class="grid__col--4"><div class="icn-nxt"><a href="#"><span class="icon-bar"></span><span class="icon-bar"></span></a></div></div>');
 
 var $image = $("<img>");
 var $caption = $("<p></p>");
-var $overlayClose = $("<div class='overlay-close'><a href='#'><span class='close-button'><span class='icon-bar'></span><span class='icon-bar'></span></span></a></div>");
-
-var currentImage;
-
+var $overlayClose = $("<div class='overlay-close'><div><a href='#'><span class='close-button'><span class='icon-bar'></span><span class='icon-bar'></span></span></a></div></div>");
+var html = '';
+var currentImage = '';
+appendOverlay();
 var images = [
     "../src/img/1.jpeg",
     "../src/img/2.jpeg",
@@ -17,30 +17,35 @@ var images = [
     "../src/img/6.jpeg"
 ];
 
-
-for (var i = 0; i < images.length; i++) {
-
-    var html;
+var captions = [
+    "caption1",
+    "caption2",
+    "../src/img/3.jpeg",
+    "../src/img/4.jpeg",
+    "../src/img/5.jpeg",
+    "../src/img/6.jpeg"
+];
+for (var i = 0; i < (images.length); i++) {
     html = html +
         '<div class="row">' +
         '<div class="grid__col--4">' +
-        '<a href="#"><img class="lazy" data-original="' + images[i] + '" alt="This is a nice caption" /></a>' +
+        '<a href="#"><img class="lazy" data-original="' + images[i] + '" alt="' + captions[i] +'" /></a>' +
         '</div>' +
 
         '<div class="grid__col--4">' +
-        '<a href="#"><img class="lazy" data-original="' + images[i + 1] + '" alt="This is a nice caption" /></a>' +
+        '<a href="#"><img class="lazy" data-original="' + images[i + 1] + '" alt="' + captions[i + 1] +'" /></a>' +
         '</div>' +
 
         '<div class="grid__col--4">' +
-        '<a href="#"><img class="lazy" data-original="' + images[i + 2] + '" alt="This is a nice caption" /></a>' +
+        '<a href="#"><img class="lazy" data-original="' + images[i + 2] + '" alt="' + captions[i + 2] +'" /></a>' +
         '</div>' +
         '</div>';
-    i = i + 3;
+    i = i + 2;
 }
 
 appendImageGrid();
 
-appendContainer();
+appendOverlay();
 
 //Capture the click event on a link to an image
 $(".image-gallery a").click(function (event) {
@@ -50,8 +55,8 @@ $(".image-gallery a").click(function (event) {
 
     var imageLocation = $(this).find('img').attr("data-original");
     //Update overlay with the image linked in the link
-    $image.attr("src", imageLocation).attr("max-width", "80%");
-
+    console.log(imageLocation);
+    $image.attr("src", imageLocation);
     //Show the overlay.
     $overlay.fadeIn();
 
@@ -84,7 +89,7 @@ $overlayClose.click(function () {
 
 
 function setCaption(event) {
-    var captionText = $(event.target).children("img").attr("alt");
+    var captionText = $(event.target).attr("alt");
     if (typeof captionText === 'undefined') {
         $caption.text('');
     }
@@ -97,7 +102,7 @@ function appendImageGrid() {
     $('.image-gallery').append(html);
 }
 
-function appendContainer() {
+function appendOverlay() {
     $overlay.append($overlayClose);
     $overlay.append($icn_prv);
     $overlay.append($image);

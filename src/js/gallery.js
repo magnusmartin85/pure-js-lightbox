@@ -1,20 +1,18 @@
-var $icn_prv = $('<div class="grid__col--4"><div class="icn-prv"><a href="#"><span class="icon-bar"></span><span class="icon-bar"></span></a></div></div>');
-var $overlay = $('<div id="overlay"></div>');
-var $icn_nxt = $('<div class="grid__col--4"><div class="icn-nxt"><a href="#"><span class="icon-bar"></span><span class="icon-bar"></span></a></div></div>');
-var $image = $("<img>");
-var $caption = $("<p></p>");
-var $overlayClose = $("<div class='overlay-close'><div><a href='#'><span class='close-button'><span class='icon-bar'></span><span class='icon-bar'></span></span></a></div></div>");
-
-
 var html = '';
+var currentImageIndex = 0;
 var currentImage = '';
 var captionText = '';
-var nextImageLocation = '';
-var previousImageLocation;
-var imageLocation = '';
-var currentImageIndex = 0;
+var height = 0;
 
-appendOverlay();
+var icn_prv = '';
+var icn_nxt = '';
+
+var locations = {
+    nextImageLocation: '',
+    previousImageLocation: '',
+    imageLocation: ''
+};
+
 
 var images = [
     "../src/img/1.jpeg",
@@ -37,79 +35,91 @@ var captions = [
 for (var i = 0; i < (images.length); i++) {
     html = html +
         '<div class="row">' +
+            '<div class="grid__col--4">' +
+                '<div class="lightbox-item-wrapper">' +
+                    '<a class="lightbox-thumbnail" href="#">' +
+                        '<div class="lightbox-thumbnail-default-wrap">' +
+                            '<img width="400" class="lazy" data-original="' + images[i] + '" alt="' + captions[i] + '" />' +
+                        '</div>' +
+                        '<div class="lightbox-thumbnail-hover-wrap">' +
+                            '<div class="lthw--align-left">' +
+                            '<div class="lthw--body">' +
+                            '<div class="lthw--title">Amet conse ctetur</div>' +
+                            '<div class="lthw--desc">Lorem ipsum dolor sit amet conse' +
+                            '</div>' +
+                            '</div>'+
+                            '</div>' +
+                        '</div>' +
+                    '</a>' +
+                '</div>' +
+            '</div>' +
+
         '<div class="grid__col--4">' +
-        '<a href="#"><img class="lazy" data-original="' + images[i] + '" alt="' + captions[i] + '" /></a>' +
+        '<div class="lightbox-item-wrapper">' +
+        '<a class="lightbox-thumbnail" href="#">' +
+        '<div class="lightbox-thumbnail-default-wrap">' +
+        '<img width="400" class="lazy" data-original="' + images[i + 1] + '" alt="' + captions[i + 1] + '" />' +
+        '</div>' +
+        '<div class="lightbox-thumbnail-hover-wrap">' +
+        '<div class="lthw--align-left">' +
+        '<div class="lthw--body">' +
+        '<div class="lthw--title">Amet conse ctetur</div>' +
+        '<div class="lthw--desc">Lorem ipsum dolor sit amet conse' +
+        '</div>' +
+        '</div>'+
+        '</div>' +
+        '</div>' +
+        '</a>' +
+        '</div>' +
         '</div>' +
 
         '<div class="grid__col--4">' +
-        '<a href="#"><img class="lazy" data-original="' + images[i + 1] + '" alt="' + captions[i + 1] + '" /></a>' +
+        '<div class="lightbox-item-wrapper">' +
+        '<a class="lightbox-thumbnail" href="#">' +
+        '<div class="lightbox-thumbnail-default-wrap">' +
+        '<img width="400" class="lazy" data-original="' + images[i + 2] + '" alt="' + captions[i + 2] + '" />' +
         '</div>' +
-
-        '<div class="grid__col--4">' +
-        '<a href="#"><img class="lazy" data-original="' + images[i + 2] + '" alt="' + captions[i + 2] + '" /></a>' +
+        '<div class="lightbox-thumbnail-hover-wrap">' +
+        '<div class="lthw--align-left">' +
+        '<div class="lthw--body">' +
+        '<div class="lthw--title">Amet conse ctetur</div>' +
+        '<div class="lthw--desc">Lorem ipsum dolor sit amet conse' +
+        '</div>' +
+        '</div>'+
+        '</div>' +
+        '</div>' +
+        '</a>' +
+        '</div>' +
         '</div>' +
         '</div>';
     i = i + 2;
 }
 
 appendImageGrid();
-appendOverlay();
+
 
 //Capture the click event on a link to an image
 $(".image-gallery a").click(function (event) {
-    event.preventDefault();
-    currentImage = event.target;
+    openOverlay(event);
+});
 
-    imageLocation = $(this).find('img').attr("data-original");
-    //Update overlay with the image linked in the link
-    console.log(imageLocation);
-    $image.attr("src", imageLocation);
-    //Show the overlay.
-    $overlay.fadeIn();
+$icn_prv.click(function (event) {
+    showPrvImg(event);
+});
 
-    captionText = getCaption(event);
-    setCaption(captionText);
-
-
-    $icn_prv.click(function () {
-        $overlay.fadeIn();
-        currentImageIndex = $.inArray(imageLocation, images);
-        if (currentImageIndex == 0) {
-            previousImageLocation = images[(images.length - 1)];
-            captionText = captions[(images.length - 1)];
-        }
-        else {
-            previousImageLocation = images[currentImageIndex - 1];
-            captionText = captions[currentImageIndex - 1];
-        }
-        $image.attr("src", previousImageLocation);
-        imageLocation = $image.attr("src");
-        setCaption(captionText);
-    });
-
-    $icn_nxt.click(function () {
-        $overlay.fadeIn();
-        currentImageIndex = $.inArray(imageLocation, images);
-        if (currentImageIndex < (images.length - 1)) {
-            nextImageLocation = images[currentImageIndex + 1];
-            captionText = captions[currentImageIndex + 1];
-        }
-        else {
-            nextImageLocation = images[0];
-            captionText = captions[0];
-        }
-
-        $image.attr("src", nextImageLocation);
-        imageLocation = $image.attr("src");
-        setCaption(captionText);
-    });
-
+$icn_nxt.click(function (event) {
+    showNxtImg(event);
 });
 
 //When overlay is clicked
 $overlayClose.click(function () {
-    //Hide the overlay
     $overlay.hide();
+    currentImageIndex = 0;
+    currentImage = '';
+    captionText = '';
+    locations.nextImageLocation = '';
+    locations.previousImageLocation = '';
+    locations.imageLocation = '';
 });
 
 function getCaption(event) {
@@ -119,10 +129,10 @@ function getCaption(event) {
 
 function setCaption(captionText) {
     if (typeof captionText === 'undefined') {
-        $caption.text('');
+        $captionLeft.text('');
     }
     else {
-        $caption.text(captionText);
+        $captionLeft.text(captionText);
     }
 }
 
@@ -130,11 +140,58 @@ function appendImageGrid() {
     $('.image-gallery').append(html);
 }
 
-function appendOverlay() {
-    $overlay.append($overlayClose);
-    $overlay.append($icn_prv);
-    $overlay.append($image);
-    $overlay.append($icn_nxt);
-    $overlay.append($caption);
-    $("body").append($overlay);
+
+
+function openOverlay(event) {
+    event.preventDefault();
+    currentImage = event.target;
+    locations.imageLocation = $(event.target).attr("data-original");
+    console.log(locations.imageLocation);
+    $image.attr("src", locations.imageLocation);
+    $overlay.fadeIn();
+
+    setCaption(getCaption(event));
+}
+
+function showPrvImg(event) {
+    $overlay.fadeIn();
+    currentImageIndex = $.inArray(locations.imageLocation, images);
+    if (currentImageIndex == 0) {
+        locations.previousImageLocation = images[(images.length - 1)];
+        captionText = captions[(images.length - 1)];
+    }
+    else {
+        locations.previousImageLocation = images[currentImageIndex - 1];
+        captionText = captions[currentImageIndex - 1];
+    }
+    $image.attr("src", locations.previousImageLocation);
+    locations.imageLocation = $image.attr("src");
+    setCaption(captionText);
+}
+
+function showNxtImg(event) {
+    $overlay.fadeIn();
+    currentImageIndex = $.inArray(locations.imageLocation, images);
+    if (currentImageIndex < (images.length - 1)) {
+        locations.nextImageLocation = images[currentImageIndex + 1];
+        captionText = captions[currentImageIndex + 1];
+    }
+    else {
+        locations.nextImageLocation = images[0];
+        captionText = captions[0];
+    }
+
+    $image.attr("src", locations.nextImageLocation);
+    locations.imageLocation = $image.attr("src");
+    setCaption(captionText);
+}
+
+function getHeight (event) {
+    height = $(event.target).height();
+    return height;
+}
+
+function removeImageOverlay (event) {
+    console.log(event.target);
+    $(event.target).find('.image-hover-overlay').remove();
 }

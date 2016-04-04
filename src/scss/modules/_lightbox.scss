@@ -1,0 +1,224 @@
+$alto   :   #BABAB5;
+$white  :   #FFFFFF;
+
+$color-icon--before:    $alto;
+$color-icon--hover:     $white;
+
+#lightbox-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+    height: 100%;
+    overflow-x: hidden;
+    padding: 0 10px;
+    position: fixed;
+    text-align: center !important;
+    z-index: 9990;
+    img {
+        margin-top: 20%;
+        border: 2px solid $white;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+    }
+    p {
+        color: $white;
+    }
+}
+
+.lightbox-item-wrapper {
+    position: relative;
+}
+
+.lightbox-thumbnail {
+    display: block;
+    transition: color 300ms ease 0s;
+    position: relative;
+}
+
+.lightbox-thumbnail-default-wrap {
+    position: relative;
+}
+
+.lightbox-thumbnail-hover-wrap {
+    background-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    top: 0;
+    transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0s;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+}
+
+.lazy {
+    margin-bottom: 0;
+    width:100%;
+}
+
+.grid__col--4 {
+    margin-bottom: em(20px);
+}
+
+.caption-left {
+    font-weight: 500;
+    text-align: left;
+}
+
+.caption-right {
+    font-weight: 500;
+    text-align: right;
+}
+.gallery {
+    padding: em(40px);
+}
+// Buttons
+
+.lightbox-overlay-close {
+    div {
+        text-align: right;
+        width: em(100px);
+        position: relative;
+        right: 0;
+    }
+    a {
+        font-size: em(22px);
+        &:hover {
+            color: $white;
+        }
+    }
+}
+
+.close-button {
+    position: absolute;
+    right: em(20px);
+    top: em(20px);
+    height: em(48px);
+    width: em(48px);
+    float: right;
+    padding: em(16px);
+    border: 2px solid $white;
+    border-radius: 50%;
+    .icon-bar {
+        background-color: $grey;
+        width: em(22px);
+        height: 3px;
+        display: block;
+        border-radius: 4px;
+    }
+    span {
+        &:first-child {
+            transform: rotate(45deg);
+            position: relative;
+            top: em(2px);
+            right: em(4px);
+        }
+        &:last-child {
+            transform: rotate(-45deg);
+            position: relative;
+            top: 0;
+            right: em(4px);
+        }
+    }
+}
+
+.icn-prv, .icn-nxt {
+    font-weight: 100;
+    position: absolute;
+    top: em(300px);
+    height: em(50px);
+    width: em(50px);
+    border: 2px solid $white;
+    border-radius: 50%;
+}
+
+.icn-prv {
+    left: em(150px);
+    a {
+        display: block;
+        padding: em(22px);
+        &:active {
+            outline: none;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    .icon-bar {
+        background-color: $color-icon--before;
+        width: em(16px);
+        height: 3px;
+        display: block;
+        border-radius: 4px;
+        &:hover {
+            background-color: $color-icon--hover;
+        }
+        &:active {
+            background-color: $color-icon--hover;
+        }
+    }
+    span {
+        &:first-child {
+            transform: rotate(45deg);
+            position:relative;
+            top: em(4px);
+            right: em(8px);
+        }
+        &:last-child {
+            transform: rotate(-45deg);
+            position: relative;
+            bottom: em(8px);
+            right: em(8px);
+        }
+    }
+}
+
+.icn-nxt {
+    right: em(150px);
+    a {
+        margin-top: em(5px);
+        display: block;
+        padding: em(22px);
+        float: right;
+        &:active {
+            outline: none;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    .icon-bar {
+        background-color: $color-icon--before;
+        width: em(16px);
+        height: 3px;
+        display: block;
+        border-radius: 4px;
+    }
+    span {
+        &:first-child {
+            transform: rotate(-45deg);
+            position: relative;
+            top: em(1px);
+            left: em(8px);
+        }
+        &:last-child {
+            transform: rotate(45deg);
+            position: relative;
+            bottom: em(12px);
+            left: em(8px);
+        }
+    }
+}
+
+// thumbnail overlay
+.lthw--title {
+    padding: em(15px);
+    color: $white;
+    font-size: em(20px);
+    font-weight: 600;
+}
+
+.lthw--desc {
+    padding: em(15px);
+    font-size: em(16px);
+}

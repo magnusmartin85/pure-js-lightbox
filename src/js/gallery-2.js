@@ -22,6 +22,8 @@ var currentImagePath = '';
 var currentImageIndex = $.inArray(currentImagePath, images);
 
 var initialImagePath = '';
+var initialImageIndex = 0;
+
 var previousImagePath = '';
 var nextImagePath = '';
 
@@ -177,7 +179,7 @@ function openOverlay(event) {
     showOverlayImage(initialImagePath);
     $overlay.fadeIn();
     setCaptionText(getCaptionText(initialImagePath));
-    setImageIndex(getCurrentImageIndex(initialImagePath) + 1);
+    setImageIndex(getInitialImageIndex(initialImagePath) + 1);
 }
 
 function getInitialImagePath(event) {
@@ -190,13 +192,23 @@ function showOverlayImage(initialImagePath) {
 }
 
 function getCaptionText(currentImagePath) {
-    currentImageIndex = getCurrentImageIndex(currentImagePath);
+    currentImageIndex = getImageIndex(currentImagePath);
     captionText = captions[currentImageIndex];
     return captionText;
 }
 
-function getCurrentImageIndex(currentImagePath) {
-    currentImageIndex = $.inArray(currentImagePath, images);
+function getInitialImageIndex(initialImagePath) {
+    initialImageIndex = $.inArray(initialImagePath, images);
+    return initialImageIndex;
+}
+
+
+function setImageIndex(index) {
+    $captionRight.text((index) + ' von ' + $imagesLength);
+    currentImageIndex = index;
+}
+
+function getImageIndex() {
     return currentImageIndex;
 }
 
@@ -210,13 +222,10 @@ function setCaptionText(captionText) {
     return captionText;
 }
 
-function setImageIndex(index) {
-    $captionRight.text((index) + ' von ' + $imagesLength);
-}
 
 function showPreviousImage() {
     currentImagePath = getCurrentImagePath();
-    currentImageIndex = getCurrentImageIndex(currentImagePath);
+    currentImageIndex = getImageIndex(currentImagePath);
     if (currentImageIndex == 0) {
         previousImagePath = images[($imagesLength - 1)];
         setCaptionText(currentImagePath);
@@ -232,7 +241,7 @@ function showPreviousImage() {
 
 function showNextImage() {
     currentImagePath = getCurrentImagePath();
-    currentImageIndex = getCurrentImageIndex(currentImagePath);
+    currentImageIndex = getImageIndex(currentImagePath);
     if (currentImageIndex == 0) {
         nextImagePath = setNextImagePath(currentImageIndex);
         setCaptionText(captions[currentImageIndex + 1]);

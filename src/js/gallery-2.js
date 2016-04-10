@@ -1,8 +1,8 @@
 var images = [
-    "../src/img/img24.jpg",
-    "../src/img/img19.jpg",
-    "../src/img/img20.jpg",
-    "../src/img/img23.jpg",
+    "../src/img/01.jpg",
+    "../src/img/02.jpg",
+    "../src/img/03.jpg",
+    "../src/img/04.jpg",
     "../src/img/5.jpeg",
     "../src/img/6.jpeg"
 ];
@@ -10,24 +10,34 @@ var images = [
 var captions = [
     "caption1",
     "caption2",
-    "../src/img/3.jpeg",
-    "../src/img/4.jpeg",
+    "caption3",
+    "caption4",
     "../src/img/5.jpeg",
     "../src/img/6.jpeg"
 ];
 
+var paths = [];
+
 var html = '';
 var currentImage = '';
 var currentImagePath = '';
-var currentImageIndex = $.inArray(currentImagePath, images);
+var currentImageIndex = 0;
 
+/* Initial Variables */
 var initialImagePath = '';
-var initialImageIndex = 0;
 
+/* Previous Variables */
 var previousImagePath = '';
-var nextImagePath = '';
+var previousImageIndex = 0;
 
+/* Next Variables */
+var nextImagePath = '';
+var nextImageIndex = 0;
+
+/* Caption Variables */
 var captionText = '';
+var nextCaptionText = '';
+var previousCaptionText = '';
 
 var $overlayClose = $('.overlay-close');
 var $overlayImage = $('.overlay-image');
@@ -108,10 +118,10 @@ appendImageGrid();
 // On load
 $(document).ready(function () {
     $('.lightbox-thumbnail-hover-wrap').each(function () {
-        currentImagePath = $(this).prev('div').find('img').attr("data-original");
-        $(this).attr("data-target", currentImagePath);
+        initialImagePath = $(this).prev('div').find('img').attr("data-original");
+        $(this).attr("data-target", initialImagePath);
+        paths.push(initialImagePath);
     });
-
 });
 
 // Button hover states
@@ -131,14 +141,14 @@ $buttonPrevious.find('a').mouseleave(function (event) {
     $(event.target).find('.icon-bar').css('background-color', '#BABAB5');
 });
 
+var $wrap = $('.lightbox-thumbnail-hover-wrap');
+
 // Trigger Overlay on click
-$(".lightbox-thumbnail-hover-wrap, .lthw--title, .lthw--desc").click(function (event) {
+$('.lightbox-thumbnail-hover-wrap, .lthw--desc, .lthw--title').click(function (event) {
     openOverlay(event);
 });
 
 // Trigger thumbnail-overlay on hover
-var $wrap = $('.lightbox-thumbnail-hover-wrap');
-
 $wrap.on('mouseenter', function () {
     $(this).css('opacity', '1');
 });
@@ -146,24 +156,6 @@ $wrap.on('mouseenter', function () {
 $wrap.on('mouseleave', function () {
     $(this).css('opacity', '0');
 });
-
-
-$buttonPrevious.click(function () {
-    showPreviousImage();
-});
-
-$buttonNext.click(function () {
-    showNextImage();
-});
-
-//
-$overlayClose.click(function () {
-    $overlay.hide();
-    currentImageIndex = 0;
-    currentImage = '';
-
-});
-
 
 // ----------------------------------------------------------
 //FUNCTIONS
@@ -175,41 +167,107 @@ function appendImageGrid() {
 
 function openOverlay(event) {
     event.preventDefault();
-    initialImagePath = getInitialImagePath(event);
-    showOverlayImage(initialImagePath);
+    prepareImageData();
+    showOverlayImage(currentImagePath);
     $overlay.fadeIn();
-    setCaptionText(getCaptionText(initialImagePath));
-    setImageIndex(getInitialImageIndex(initialImagePath) + 1);
 }
 
-function getInitialImagePath(event) {
-    initialImagePath = $(event.target).closest('.lightbox-thumbnail-hover-wrap').attr('data-target');
-    return initialImagePath;
+function prepareImageData() {
+    currentImagePath = getInitialImagePath(event);
+    currentImageIndex = getImageIndex(currentImagePath);
+    nextImageIndex = getNextImageIndex(currentImageIndex);
+    previousImageIndex = getPreviousImageIndex(currentImageIndex);
+    nextImagePath = getImagePathFromIndex(nextImageIndex);
+    previousImagePath = getImagePathFromIndex(previousImageIndex);
+    nextCaptionText = getCaptionText(nextImagePath);
+    previousCaptionText = getCaptionText(previousImagePath);
 }
+
+
+/* NEXT AND PREVIOUS */
+$buttonPrevious.click(function () {
+    showPreviousImage();
+});
+
+$buttonNext.click(function () {
+    setCaptionText(getCaptionText(currentImagePath));
+    setNextImagePath(currentImageIndex);
+    nextImageIndex = getNextImageIndex(currentImageIndex);
+    showNextImage(nextImagePath);
+    currentImagePath = nextImagePath;
+    console.log(currentImagePath);
+    currentImageIndex = nextImageIndex;
+    console.log(currentImageIndex);
+});
+
+
+// Overlay Close
+$overlayClose.click(function () {
+    $overlay.hide();
+    clearPathAndIndex();
+});
 
 function showOverlayImage(initialImagePath) {
     $overlayImage.attr('src', initialImagePath);
 }
 
-function getCaptionText(currentImagePath) {
-    currentImageIndex = getImageIndex(currentImagePath);
-    captionText = captions[currentImageIndex];
-    return captionText;
+function getInitialImagePath(event) {
+    var target = $(event.target);
+    if ( target.is('div.lthw--desc') ||  target.is('div.lthw--title') ) {
+        initialImagePath = $(event.target).closest('.lightbox-thumbnail-hover-wrap').attr('data-target');
+    }
+    else {
+        initialImagePath = $(event.target).attr('data-target');
+    }
+    getImageIndex(initialImagePath);
+    return initialImagePath;
+
 }
 
-function getInitialImageIndex(initialImagePath) {
-    initialImageIndex = $.inArray(initialImagePath, images);
-    return initialImageIndex;
+function getImagePath() {
+    return $overlayImage.attr('src');
 }
 
+function getPreviousImageIndex(index) {
+    if (index == 0) {
+        previousImageIndex = $imagesLength;
+        return previousImageIndex;
+    }
+    else {
+        previousImageIndex = index - 1;
+        return previousImageIndex;
+    }
+}
+
+function getImageIndex(imagePath) {
+    currentImageIndex = $.inArray(imagePath, images);
+    return currentImageIndex;
+}
+
+function getNextImageIndex(index) {
+    if (index == $imagesLength - 1) {
+        nextImageIndex = 0;
+        return nextImageIndex;
+    }
+    else {
+        nextImageIndex = index + 1;
+        return nextImageIndex;
+    }
+}
 
 function setImageIndex(index) {
-    $captionRight.text((index) + ' von ' + $imagesLength);
+    $captionRight.text((index + 1) + ' von ' + $imagesLength);
     currentImageIndex = index;
 }
 
-function getImageIndex() {
-    return currentImageIndex;
+function getImagePathFromIndex(index) {
+    imagePath = images[index];
+    return imagePath;
+}
+function getCaptionText(imagePath) {
+    currentImageIndex = getImageIndex(imagePath);
+    captionText = captions[currentImageIndex];
+    return captionText;
 }
 
 function setCaptionText(captionText) {
@@ -219,53 +277,40 @@ function setCaptionText(captionText) {
     else {
         $captionLeft.text(captionText);
     }
-    return captionText;
 }
 
-
 function showPreviousImage() {
-    currentImagePath = getCurrentImagePath();
-    currentImageIndex = getImageIndex(currentImagePath);
-    if (currentImageIndex == 0) {
-        previousImagePath = images[($imagesLength - 1)];
-        setCaptionText(currentImagePath);
-        setImageIndex($imagesLength - 1);
-    }
-    else {
-        previousImagePath = setPreviousImagePath[currentImageIndex - 1];
-        setCaptionText(currentImagePath);
-        setImageIndex(currentImageIndex - 1);
-    }
     $overlayImage.attr("src", previousImagePath);
 }
 
-function showNextImage() {
-    currentImagePath = getCurrentImagePath();
-    currentImageIndex = getImageIndex(currentImagePath);
-    if (currentImageIndex == 0) {
-        nextImagePath = setNextImagePath(currentImageIndex);
-        setCaptionText(captions[currentImageIndex + 1]);
-        setImageIndex(currentImageIndex + 1);
-    }
-    else if (currentImageIndex < ($imagesLength - 1)) {
-        nextImagePath = setNextImagePath(0);
-        setCaptionText(captions[0]);
-        setImageIndex(1);
-    }
+function showNextImage(nextImagePath) {
     $overlayImage.attr("src", nextImagePath);
 }
 
-function setPreviousImagePath(currentImageIndex) {
-    previousImagePath = images[currentImageIndex - 1];
-    return previousImagePath;
+function setPreviousImagePath(imageIndex) {
+    if(imageIndex == 0) {
+        previousImagePath = images[$imagesLength - 1];
+        return previousImagePath;
+    }
+    else {
+        previousImagePath = images[imageIndex - 1];
+        return previousImagePath;
+    }
 }
 
-function setNextImagePath(currentImageIndex) {
-    nextImagePath = images[currentImageIndex + 1];
-    return nextImagePath;
+function setNextImagePath(imageIndex) {
+    if(imageIndex == $imagesLength - 1) {
+        nextImagePath = images[0];
+        return nextImagePath;
+    }
+    else {
+        nextImagePath = images[imageIndex];
+        return nextImagePath;
+    }
 }
 
-function getCurrentImagePath() {
-    currentImagePath = $overlayImage.attr("src");
-    return currentImagePath;
+function clearPathAndIndex () {
+    currentImageIndex = 0;
+    currentImage = '';
+    currentImagePath = '';
 }

@@ -12,8 +12,8 @@ var captions = [
     "caption2",
     "caption3",
     "caption4",
-    "../src/img/5.jpeg",
-    "../src/img/6.jpeg"
+    "caption5",
+    "caption6"
 ];
 
 var paths = [];
@@ -196,7 +196,7 @@ $buttonPrevious.click(function () {
     previousImagePath = getPreviousImagePath(previousImageIndex);
     previousCaptionText = getCaptionText(previousImageIndex);
     previousImageNumber = previousImageIndex + 1;
-    setImageText(previousImagePath, previousCaptionText, previousImageNumber);
+    setImageText(previousCaptionText, previousImageNumber);
     showPreviousImage(previousImagePath);
     currentImageIndex = previousImageIndex;
 });
@@ -206,7 +206,7 @@ $buttonNext.click(function () {
     nextImagePath = getNextImagePath(nextImageIndex);
     nextCaptionText = getCaptionText(nextImageIndex);
     nextImageNumber = nextImageIndex + 1;
-    setImageText(nextImagePath, nextCaptionText, nextImageNumber);
+    setImageText(nextCaptionText, nextImageNumber);
     showNextImage(nextImagePath);
     currentImageIndex = nextImageIndex;
 });

@@ -20,8 +20,9 @@ var paths = [];
 
 var html = '';
 var currentImage = '';
-var imagePath = '';
-var imageIndex = 0;
+var currentImagePath = '';
+var currentImageIndex = 0;
+var currentImageNumber = 0;
 
 /* Initial Variables */
 var initialImagePath = '';
@@ -29,13 +30,17 @@ var initialImagePath = '';
 /* Previous Variables */
 var previousImagePath = '';
 var previousImageIndex = 0;
+var previousImageNumber = 0;
 
 /* Next Variables */
 var nextImagePath = '';
 var nextImageIndex = 0;
+var nextImageNumber = 0;
 
-
-var captionText = '';
+/* Caption Variables */
+var currentCaptionText = '';
+var nextCaptionText = '';
+var previousCaptionText = '';
 
 var $overlayClose = $('.overlay-close');
 var $overlayImage = $('.overlay-image');
@@ -165,32 +170,45 @@ function appendImageGrid() {
 
 function openOverlay(event) {
     event.preventDefault();
-    initialImagePath = getInitialImagePath(event);
-    showOverlayImage(initialImagePath);
+    prepareImageData(event);
+    showOverlayImage(currentImagePath);
     $overlay.fadeIn();
-    setCaptionText(getCaptionText(initialImagePath));
-    setImageIndex(getImageIndex(initialImagePath));
-    imageIndex = getImageIndex(initialImagePath);
-    nextImagePath = setNextImagePath(nextImageIndex);
-    imagePath = nextImagePath;
-    nextImageIndex = getNextImageIndex(imageIndex);
-    imageIndex = nextImageIndex;
 }
+
+function prepareImageData(event) {
+    currentImagePath = getInitialImagePath(event);
+    currentImageIndex = getImageIndex(currentImagePath);
+    nextImageIndex = getNextImageIndex(currentImageIndex);
+    previousImageIndex = getPreviousImageIndex(currentImageIndex);
+    nextImagePath = getImagePathFromIndex(nextImageIndex);
+    previousImagePath = getImagePathFromIndex(previousImageIndex);
+    nextCaptionText = getCaptionText(nextImageIndex);
+    currentCaptionText = getCaptionText(currentImageIndex);
+    previousCaptionText = getCaptionText(previousImageIndex);
+    currentImageNumber = currentImageIndex + 1;
+    setImageText(currentCaptionText, currentImageNumber)
+}
+
 
 /* NEXT AND PREVIOUS */
 $buttonPrevious.click(function () {
-    showPreviousImage();
+    previousImageIndex = getPreviousImageIndex(currentImageIndex);
+    previousImagePath = getPreviousImagePath(previousImageIndex);
+    previousCaptionText = getCaptionText(previousImageIndex);
+    previousImageNumber = previousImageIndex + 1;
+    setImageText(previousImagePath, previousCaptionText, previousImageNumber);
+    showPreviousImage(previousImagePath);
+    currentImageIndex = previousImageIndex;
 });
 
 $buttonNext.click(function () {
-    setCaptionText(getCaptionText(imagePath));
-    setNextImagePath(imageIndex);
-    nextImageIndex = getNextImageIndex(imageIndex);
+    nextImageIndex = getNextImageIndex(currentImageIndex);
+    nextImagePath = getNextImagePath(nextImageIndex);
+    nextCaptionText = getCaptionText(nextImageIndex);
+    nextImageNumber = nextImageIndex + 1;
+    setImageText(nextImagePath, nextCaptionText, nextImageNumber);
     showNextImage(nextImagePath);
-    imagePath = nextImagePath;
-    console.log(imagePath);
-    imageIndex = nextImageIndex;
-    console.log(imageIndex);
+    currentImageIndex = nextImageIndex;
 });
 
 
@@ -212,9 +230,7 @@ function getInitialImagePath(event) {
     else {
         initialImagePath = $(event.target).attr('data-target');
     }
-    getImageIndex(initialImagePath);
     return initialImagePath;
-
 }
 
 function getImagePath() {
@@ -223,7 +239,7 @@ function getImagePath() {
 
 function getPreviousImageIndex(index) {
     if (index == 0) {
-        previousImageIndex = $imagesLength;
+        previousImageIndex = $imagesLength - 1;
         return previousImageIndex;
     }
     else {
@@ -233,8 +249,9 @@ function getPreviousImageIndex(index) {
 }
 
 function getImageIndex(imagePath) {
-    imageIndex = $.inArray(imagePath, images);
-    return imageIndex;
+    currentImageIndex = $.inArray(imagePath, images);
+    console.log(currentImageIndex);
+    return currentImageIndex;
 }
 
 function getNextImageIndex(index) {
@@ -248,27 +265,29 @@ function getNextImageIndex(index) {
     }
 }
 
-function setImageIndex(index) {
-    $captionRight.text((index + 1) + ' von ' + $imagesLength);
-    imageIndex = index;
-}
-
-function getCaptionText(imagePath) {
-    imageIndex = getImageIndex(imagePath);
-    captionText = captions[imageIndex];
-    return captionText;
-}
-
-function    setCaptionText(captionText) {
+function setImageText(captionText, imageNumber) {
     if (typeof captionText === 'undefined') {
         $captionLeft.text('');
     }
     else {
         $captionLeft.text(captionText);
     }
+    $captionRight.text((imageNumber) + ' von ' + $imagesLength);
+    currentImageNumber = imageNumber;
+    return currentImageNumber;
 }
 
-function showPreviousImage() {
+function getImagePathFromIndex(index) {
+    imagePath = images[index];
+    return imagePath;
+}
+
+function getCaptionText(currentImageIndex) {
+    captionText = captions[currentImageIndex];
+    return captionText;
+}
+
+function showPreviousImage(previousImagePath) {
     $overlayImage.attr("src", previousImagePath);
 }
 
@@ -276,19 +295,19 @@ function showNextImage(nextImagePath) {
     $overlayImage.attr("src", nextImagePath);
 }
 
-function setPreviousImagePath(imageIndex) {
-    if(imageIndex == 0) {
+function getPreviousImagePath(currentImageIndex) {
+    if(currentImageIndex == 0) {
         previousImagePath = images[$imagesLength - 1];
         return previousImagePath;
     }
     else {
-        previousImagePath = images[imageIndex - 1];
+        previousImagePath = images[currentImageIndex];
         return previousImagePath;
     }
 }
 
-function setNextImagePath(imageIndex) {
-    if(imageIndex == $imagesLength - 1) {
+function getNextImagePath(imageIndex) {
+    if(imageIndex == $imagesLength) {
         nextImagePath = images[0];
         return nextImagePath;
     }
@@ -299,7 +318,7 @@ function setNextImagePath(imageIndex) {
 }
 
 function clearPathAndIndex () {
-    imageIndex = 0;
+    currentImageIndex = 0;
     currentImage = '';
-    imagePath = '';
+    currentImagePath = '';
 }

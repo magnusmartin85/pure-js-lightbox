@@ -1,7 +1,7 @@
 $alto   :   #BABAB5;
 $white  :   #FFFFFF;
 
-$color-icon--before:    $alto;
+$color-icon--before:    darken($alto, 10%);
 $color-icon--hover:     $white;
 
 #lightbox-overlay {
@@ -49,7 +49,6 @@ $color-icon--hover:     $white;
     width: 100%;
     position: absolute;
     z-index: 2;
-
 }
 
 .lazy {
@@ -101,23 +100,36 @@ $color-icon--hover:     $white;
     border: 2px solid $white;
     border-radius: 50%;
     .icon-bar {
-        background-color: $grey;
+        background-color: $white;
         width: em(22px);
         height: 3px;
         display: block;
         border-radius: 4px;
+        &:hover {
+            background-color: $color-icon--hover;
+        }
+        &:active {
+            background-color: $color-icon--hover;
+        }
     }
+    &:hover {
+        background-color: $black;
+    }
+    &:active {
+        background-color: $black;
+    }
+
     span {
         &:first-child {
             transform: rotate(45deg);
             position: relative;
-            top: em(2px);
+            top: em(4px);
             right: em(4px);
         }
         &:last-child {
             transform: rotate(-45deg);
             position: relative;
-            top: 0;
+            top: 1px;
             right: em(4px);
         }
     }

@@ -177,7 +177,7 @@ function openOverlay(event) {
 
 function prepareImageData(event) {
     currentImagePath = getInitialImagePath(event);
-    currentImageIndex = getImageIndex(currentImagePath);
+    currentImageIndex = getCurrentImageIndex(currentImagePath);
     nextImageIndex = getNextImageIndex(currentImageIndex);
     previousImageIndex = getPreviousImageIndex(currentImageIndex);
     nextImagePath = getImagePathFromIndex(nextImageIndex);
@@ -193,7 +193,7 @@ function prepareImageData(event) {
 /* NEXT AND PREVIOUS */
 $buttonPrevious.click(function () {
     previousImageIndex = getPreviousImageIndex(currentImageIndex);
-    previousImagePath = getPreviousImagePath(previousImageIndex);
+    previousImagePath = getPreviousImagePath(currentImageIndex);
     previousCaptionText = getCaptionText(previousImageIndex);
     previousImageNumber = previousImageIndex + 1;
     setImageText(previousCaptionText, previousImageNumber);
@@ -203,7 +203,7 @@ $buttonPrevious.click(function () {
 
 $buttonNext.click(function () {
     nextImageIndex = getNextImageIndex(currentImageIndex);
-    nextImagePath = getNextImagePath(nextImageIndex);
+    nextImagePath = getNextImagePath(currentImageIndex);
     nextCaptionText = getCaptionText(nextImageIndex);
     nextImageNumber = nextImageIndex + 1;
     setImageText(nextCaptionText, nextImageNumber);
@@ -233,10 +233,6 @@ function getInitialImagePath(event) {
     return initialImagePath;
 }
 
-function getImagePath() {
-    return $overlayImage.attr('src');
-}
-
 function getPreviousImageIndex(index) {
     if (index == 0) {
         previousImageIndex = $imagesLength - 1;
@@ -248,7 +244,7 @@ function getPreviousImageIndex(index) {
     }
 }
 
-function getImageIndex(imagePath) {
+function getCurrentImageIndex(imagePath) {
     currentImageIndex = $.inArray(imagePath, images);
     console.log(currentImageIndex);
     return currentImageIndex;
@@ -295,19 +291,19 @@ function showNextImage(nextImagePath) {
     $overlayImage.attr("src", nextImagePath);
 }
 
-function getPreviousImagePath(currentImageIndex) {
-    if(currentImageIndex == 0) {
+function getPreviousImagePath(imageIndex) {
+    if(imageIndex == 0) {
         previousImagePath = images[$imagesLength - 1];
         return previousImagePath;
     }
     else {
-        previousImagePath = images[currentImageIndex];
+        previousImagePath = images[previousImageIndex];
         return previousImagePath;
     }
 }
 
 function getNextImagePath(imageIndex) {
-    if(imageIndex == $imagesLength) {
+    if(imageIndex == $imagesLength - 1) {
         nextImagePath = images[0];
         return nextImagePath;
     }

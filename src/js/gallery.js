@@ -203,7 +203,7 @@ $buttonPrevious.click(function () {
 
 $buttonNext.click(function () {
     nextImageIndex = getNextImageIndex(currentImageIndex);
-    nextImagePath = getNextImagePath(currentImageIndex);
+    nextImagePath = getNextImagePath(nextImageIndex);
     nextCaptionText = getCaptionText(nextImageIndex);
     nextImageNumber = nextImageIndex + 1;
     setImageText(nextCaptionText, nextImageNumber);
@@ -303,7 +303,7 @@ function getPreviousImagePath(imageIndex) {
 }
 
 function getNextImagePath(imageIndex) {
-    if(imageIndex == $imagesLength - 1) {
+    if(imageIndex == $imagesLength) {
         nextImagePath = images[0];
         return nextImagePath;
     }

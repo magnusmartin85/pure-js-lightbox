@@ -3,7 +3,7 @@ var uglify = require('gulp-uglifyjs');
 var concat = require('gulp-concat');
 
 gulp.task('scripts', function() {
-    return gulp.src('src/js/*.js')
+    return gulp.src(['src/js/modernizr-2.8.3.min.js', 'src/js/jquery-1.12.1.min.js', 'src/js/jquery.lazyload.min.js', 'src/js/gallery.js'])
         .pipe(concat('app.js'))
         .pipe(gulp.dest('dist/js'));
 });

@@ -3,25 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Gallery</title>
+    <title>Image Gallery Lightbox Slider</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
 
-
     <link rel="stylesheet" href="../dist/css/app.css">
-    <script src="js/modernizr-2.8.3.min.js"></script>
-    <script src="js/jquery-1.12.1.min.js"></script>
-    <script src="js/jquery.lazyload.min.js"></script>
+
 </head>
 <body>
-<script>
-    $(function () {
-        $("img.lazy").lazyload();
-    });
-</script>
+
 <div class="gallery">
     <h1>Gallery</h1>
     <section class="image-gallery">
@@ -77,10 +70,12 @@
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
-
-
-<script src="js/gallery.js"></script>
-
+<script src="../dist/js/app.min.js"></script>
+<script>
+    $(function () {
+        $("img.lazy").lazyload();
+    });
+</script>
 </body>
 </html>
 

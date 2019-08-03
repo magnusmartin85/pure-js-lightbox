@@ -1,37 +1,32 @@
 let images = [
-    "../src/img/01.jpg",
-    "../src/img/02.jpg",
-    "../src/img/03.jpg",
-    "../src/img/04.jpg",
-    "../src/img/15.jpg",
-    "../src/img/16.jpg",
-    "../src/img/17.jpg",
-    "../src/img/18.jpg",
-    "../src/img/19.jpg",
+    "../dist/img/01.jpg",
+    "../dist/img/02.jpg",
+    "../dist/img/03.jpg",
+    "../dist/img/04.jpg",
+    "../dist/img/05.jpg",
+    "../dist/img/06.jpg",
+    "../dist/img/07.jpg",
+    "../dist/img/08.jpg",
+    "../dist/img/09.jpg",
 ];
 
 let imgTitles = [
-    "kink",
-    "retro look",
-    "flower power",
-    "caption4",
-    "caption5",
-    "caption6",
-    "caption7",
-    "caption8",
-    "caption9",
+    "Photo by Ian Turnell from Pexels",
+    "Photo by Jaymantri from Pexels",
+    "Photo by Markus Spiske temporausch.com from Pexels",
+    "Photo by James Wheeler from Pexels",
+    "Photo by Joyston Judah from Pexels",
+    "Photo by Bess Hamiti from Pexels"
+
 ];
 
 let imgDescriptions = [
-    "it's kinda kinky",
-    "woman with sunglasses",
-    "woman with white dress and flowers",
-    "caption4",
-    "caption5",
-    "caption6",
-    "caption7",
-    "caption8",
-    "caption9",
+    "Body of Water Between Green Leaf Trees",
+    "High Angle-photography of Green Forest Trees",
+    "Trees Under Blue Sky during Daytime",
+    "Lake and Mountain",
+    "White and Black Mountain Wallpaper",
+    "Multicolored Hot Air Balloon over Calm Sea"
 ];
 
 let paths = [];
@@ -131,9 +126,54 @@ $(document).ready(() => {
     });
 });
 
-// Trigger Overlay on click
+// Trigger Lightbox on click
 $('.lightbox-thumbnail-overlay, .lto-description, .lto-title').on('click', event => {
     openOverlay(event);
+});
+
+
+$buttonPrevious.on('click', () => {
+    previousImageIndex = getPreviousImageIndex(currentImageIndex);
+    previousImagePath = getPreviousImagePath(currentImageIndex);
+    previousCaptionText = getCaptionText(previousImageIndex);
+    previousImageNumber = previousImageIndex + 1;
+    setImageText(previousCaptionText, previousImageNumber);
+    showPreviousImage(previousImagePath);
+    currentImageIndex = previousImageIndex;
+});
+
+$buttonNext.on('click', () => {
+    nextImageIndex = getNextImageIndex(currentImageIndex);
+    nextImagePath = getNextImagePath(nextImageIndex);
+    nextCaptionText = getCaptionText(nextImageIndex);
+    nextImageNumber = nextImageIndex + 1;
+    setImageText(nextCaptionText, nextImageNumber);
+    showNextImage(nextImagePath);
+    currentImageIndex = nextImageIndex;
+});
+
+
+// Close lightboxOverlay
+$buttonClose.on('click', () => {
+    $lightboxOverlay.hide();
+    clearPathAndIndex();
+});
+
+// Key events
+$(document).keyup(event => {
+    switch (event.keyCode) {
+        case 27: // esc
+            return $('.button-close').click();
+
+        case 37: // left
+            return $('.button-prev').click();
+
+        case 39: // right
+            return $('.button-next').click();
+
+        default:
+            return;
+    }
 });
 
 // ----------------------------------------------------------
@@ -161,38 +201,8 @@ function prepareImageData(event) {
     nextCaptionText = getCaptionText(nextImageIndex);
     currentCaptionText = getCaptionText(currentImageIndex);
     previousCaptionText = getCaptionText(previousImageIndex);
-    currentImageNumber = currentImageIndex + 1;
-    setImageText(currentCaptionText, currentImageNumber)
+    setImageText(currentCaptionText, currentImageIndex + 1)
 }
-
-
-/* NEXT AND PREVIOUS */
-$buttonPrevious.on('click', () => {
-    previousImageIndex = getPreviousImageIndex(currentImageIndex);
-    previousImagePath = getPreviousImagePath(currentImageIndex);
-    previousCaptionText = getCaptionText(previousImageIndex);
-    previousImageNumber = previousImageIndex + 1;
-    setImageText(previousCaptionText, previousImageNumber);
-    showPreviousImage(previousImagePath);
-    currentImageIndex = previousImageIndex;
-});
-
-$buttonNext.on('click', () => {
-    nextImageIndex = getNextImageIndex(currentImageIndex);
-    nextImagePath = getNextImagePath(nextImageIndex);
-    nextCaptionText = getCaptionText(nextImageIndex);
-    nextImageNumber = nextImageIndex + 1;
-    setImageText(nextCaptionText, nextImageNumber);
-    showNextImage(nextImagePath);
-    currentImageIndex = nextImageIndex;
-});
-
-
-// Close overlay
-$buttonClose.on('click', () => {
-    $lightboxOverlay.hide();
-    clearPathAndIndex();
-});
 
 function showLightboxImage(initialImagePath) {
     $lightboxImage.attr('src', initialImagePath);

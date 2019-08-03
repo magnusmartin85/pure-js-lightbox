@@ -6382,7 +6382,7 @@ html {
   .mx-xl-auto {
     margin-left: auto !important; } }
 .lightbox-overlay {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   display: none;
   height: 100%;
   left: 0;
@@ -6393,8 +6393,6 @@ html {
   top: 0;
   width: 100%;
   z-index: 9990; }
-  .lightbox-overlay p {
-    color: #fff; }
 
 .lightbox-image {
   border: 2px solid #fff;
@@ -6406,8 +6404,7 @@ html {
 
 .lightbox-thumbnail {
   display: block;
-  position: relative;
-  transition: color 300ms ease 0s; }
+  position: relative; }
 
 .lightbox-thumbnail-container {
   position: relative; }
@@ -6417,14 +6414,14 @@ html {
 .lightbox-thumbnail-overlay {
   background-color: rgba(0, 0, 0, 0.9);
   bottom: 0;
-  height: 100%;
+  height: 98%;
   left: 0;
   opacity: 0;
   overflow: hidden;
   position: absolute;
   right: 0;
   top: 0;
-  transition: opacity 0.2s cubic-bezier(0.19, 1, 0.22, 1) 0s;
+  transition: opacity ease-in-out 0.3s;
   width: 100%;
   z-index: 2; }
 
@@ -6445,10 +6442,12 @@ html {
   margin-bottom: 20px; }
 
 .caption-left {
+  color: #a1a19b;
   font-weight: 500;
   text-align: left; }
 
 .caption-right {
+  color: #a1a19b;
   text-align: right; }
 
 .gallery {

@@ -1,0 +1,34 @@
+{
+  "name": "image-gallery-lightbox-slider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mmartin11@bitbucket.org/mmartin11/image-gallery.git"
+  },
+  "keywords": [
+    "gallery",
+    "images",
+    "slider",
+    "lightbox"
+  ],
+  "author": "mgnmrt",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/mmartin11/image-gallery#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "bootstrap": "^4.3.1",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglifyjs": "^0.6.2"
+  },
+  "dependencies": {
+    "gulp-copy": "^4.0.1"
+  }
+}

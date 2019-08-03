@@ -1,163 +1,139 @@
-var images = [
+let images = [
     "../src/img/01.jpg",
     "../src/img/02.jpg",
     "../src/img/03.jpg",
     "../src/img/04.jpg",
-    "../src/img/5.jpeg",
-    "../src/img/6.jpeg"
+    "../src/img/15.jpg",
+    "../src/img/16.jpg",
+    "../src/img/17.jpg",
+    "../src/img/18.jpg",
+    "../src/img/19.jpg",
 ];
 
-var captions = [
-    "caption1",
-    "caption2",
-    "caption3",
+let imgTitles = [
+    "kink",
+    "retro look",
+    "flower power",
     "caption4",
     "caption5",
-    "caption6"
+    "caption6",
+    "caption7",
+    "caption8",
+    "caption9",
 ];
 
-var paths = [];
+let imgDescriptions = [
+    "it's kinda kinky",
+    "woman with sunglasses",
+    "woman with white dress and flowers",
+    "caption4",
+    "caption5",
+    "caption6",
+    "caption7",
+    "caption8",
+    "caption9",
+];
 
-var html = '';
-var currentImage = '';
-var currentImagePath = '';
-var currentImageIndex = 0;
-var currentImageNumber = 0;
+let paths = [];
 
-/* Initial Variables */
-var initialImagePath = '';
+let html = '';
+let currentImage = '';
+let currentImagePath = '';
+let currentImageIndex = 0;
+let currentImageNumber = 0;
 
-/* Previous Variables */
-var previousImagePath = '';
-var previousImageIndex = 0;
-var previousImageNumber = 0;
+/* Initial variables */
+let initialImagePath = '';
 
-/* Next Variables */
-var nextImagePath = '';
-var nextImageIndex = 0;
-var nextImageNumber = 0;
+/* Previous variables */
+let previousImagePath = '';
+let previousImageIndex = 0;
+let previousImageNumber = 0;
 
-/* Caption Variables */
-var currentCaptionText = '';
-var nextCaptionText = '';
-var previousCaptionText = '';
+/* Next variables */
+let nextImagePath = '';
+let nextImageIndex = 0;
+let nextImageNumber = 0;
 
-var $overlayClose = $('.overlay-close');
-var $overlayImage = $('.overlay-image');
-var $overlay = $('#lightbox-overlay');
-var $captionLeft = $('.caption-left');
-var $captionRight = $('.caption-right');
+/* Caption variables */
+let currentCaptionText = '';
+let nextCaptionText = '';
+let previousCaptionText = '';
 
-var $buttonPrevious = $('.icn-prv');
-var $buttonNext = $('.icn-nxt');
+let $buttonClose = $('.button-close');
+let $buttonNext = $('.button-next');
+let $buttonPrevious = $('.button-prev');
+let $captionLeft = $('.caption-left');
+let $captionRight = $('.caption-right');
+let $lightboxOverlay = $('.lightbox-overlay');
+let $lightboxImage = $('.lightbox-image');
+let $imagesLength = images.length;
 
-
-var $imagesLength = images.length;
-for (var i = 0; i < $imagesLength; i++) {
+for (let i = 0; i < $imagesLength; i++) {
     html = html +
-        '<div class="row">' +
-        '<div class="grid__col--4">' +
-        '<div class="lightbox-item-wrapper">' +
-        '<a class="lightbox-thumbnail" href="#">' +
-        '<div class="lightbox-thumbnail-default-wrap">' +
-        '<img width="400" class="lazy" data-original="' + images[i] + '" alt="' + captions[i] + '" />' +
-        '</div>' +
-        '<div class="lightbox-thumbnail-hover-wrap">' +
-        '<div class="lthw--align-left">' +
-        '<div class="lthw--body">' +
-        '<div class="lthw--title">Amet conse ctetur</div>' +
-        '<div class="lthw--desc">Lorem ipsum dolor sit amet conse' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</a>' +
-        '</div>' +
-        '</div>' +
-
-        '<div class="grid__col--4">' +
-        '<div class="lightbox-item-wrapper">' +
-        '<a class="lightbox-thumbnail" href="#">' +
-        '<div class="lightbox-thumbnail-default-wrap">' +
-        '<img width="400" class="lazy" data-original="' + images[i + 1] + '" alt="' + captions[i + 1] + '" />' +
-        '</div>' +
-        '<div class="lightbox-thumbnail-hover-wrap">' +
-        '<div class="lthw--align-left">' +
-        '<div class="lthw--body">' +
-        '<div class="lthw--title">Amet conse ctetur</div>' +
-        '<div class="lthw--desc">Lorem ipsum dolor sit amet conse' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</a>' +
-        '</div>' +
-        '</div>' +
-
-        '<div class="grid__col--4">' +
-        '<div class="lightbox-item-wrapper">' +
-        '<a class="lightbox-thumbnail" href="#">' +
-        '<div class="lightbox-thumbnail-default-wrap">' +
-        '<img width="400" class="lazy" data-original="' + images[i + 2] + '" alt="' + captions[i + 2] + '" />' +
-        '</div>' +
-        '<div class="lightbox-thumbnail-hover-wrap">' +
-        '<div class="lthw--align-left">' +
-        '<div class="lthw--body">' +
-        '<div class="lthw--title">Amet conse ctetur</div>' +
-        '<div class="lthw--desc">Lorem ipsum dolor sit amet conse' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</a>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
+        `<div class="row my-3">
+        <div class="col-12 col-md-4">
+        <div class="lightbox-thumbnail-container">
+        <img 
+        alt="${imgDescriptions[i]}" 
+        class="lazy" 
+        data-original="${images[i]}" 
+        src=""
+        width="400" 
+        />
+        <div class="lightbox-thumbnail-overlay">
+        <div class="lto-title">${imgTitles[i]}</div>
+        <div class="lto-description">${imgDescriptions[i]}</div> 
+        </div> 
+        </div> 
+        </div> 
+        <div class="col-12 col-md-4"> 
+        <div class="lightbox-thumbnail-container"> 
+        <img 
+        alt="${imgDescriptions[i + 1]}" 
+        class="lazy" 
+        data-original="${images[i + 1]}" 
+        src=""
+        width="400" 
+        />
+        <div class="lightbox-thumbnail-overlay"> 
+        <div class="lto-title">${imgTitles[i + 1]}</div> 
+        <div class="lto-description">${imgDescriptions[i + 1]}</div> 
+        </div> 
+        </div> 
+        </div>
+        <div class="col-12 col-md-4"> 
+        <div class="lightbox-thumbnail-container"> 
+        <img 
+            alt="${imgDescriptions[i + 2]}"
+            class="lazy" 
+            data-original="${images[i + 2]}"
+            src=""
+            width="400" 
+        />
+        <div class="lightbox-thumbnail-overlay"> 
+        <div class="lto-title">${imgTitles[i + 2]}</div> 
+        <div class="lto-description">${imgDescriptions[i + 2]}</div> 
+        </div> 
+        </div>  
+        </div> 
+        </div>`;
     i = i + 2;
 }
-
 appendImageGrid();
 
 // On load
-$(document).ready(function () {
-    $('.lightbox-thumbnail-hover-wrap').each(function () {
-        initialImagePath = $(this).prev('div').find('img').attr("data-original");
-        $(this).attr("data-target", initialImagePath);
+$(document).ready(() => {
+    $('.lightbox-thumbnail-container').each((index, item) => {
+        initialImagePath = $(item).find('img').attr("data-original");
+        $(item).attr("data-target", initialImagePath);
         paths.push(initialImagePath);
     });
 });
 
-// Button hover states
-$buttonNext.find('a').mouseenter(function (event) {
-    $(event.target).find('.icon-bar').css('background-color', '#fff');
-});
-
-$buttonNext.find('a').mouseleave(function (event) {
-    $(event.target).find('.icon-bar').css('background-color', '#BABAB5');
-});
-
-$buttonPrevious.find('a').mouseenter(function (event) {
-    $(event.target).find('.icon-bar').css('background-color', '#fff');
-});
-
-$buttonPrevious.find('a').mouseleave(function (event) {
-    $(event.target).find('.icon-bar').css('background-color', '#BABAB5');
-});
-
-var $wrap = $('.lightbox-thumbnail-hover-wrap');
-
 // Trigger Overlay on click
-$('.lightbox-thumbnail-hover-wrap, .lthw--desc, .lthw--title').click(function (event) {
+$('.lightbox-thumbnail-overlay, .lto-description, .lto-title').on('click', event => {
     openOverlay(event);
-});
-
-// Trigger thumbnail-overlay on hover
-$wrap.on('mouseenter', function () {
-    $(this).css('opacity', '1');
-});
-
-$wrap.on('mouseleave', function () {
-    $(this).css('opacity', '0');
 });
 
 // ----------------------------------------------------------
@@ -171,8 +147,8 @@ function appendImageGrid() {
 function openOverlay(event) {
     event.preventDefault();
     prepareImageData(event);
-    showOverlayImage(currentImagePath);
-    $overlay.fadeIn();
+    showLightboxImage(currentImagePath);
+    $lightboxOverlay.fadeIn();
 }
 
 function prepareImageData(event) {
@@ -191,7 +167,7 @@ function prepareImageData(event) {
 
 
 /* NEXT AND PREVIOUS */
-$buttonPrevious.click(function () {
+$buttonPrevious.on('click', () => {
     previousImageIndex = getPreviousImageIndex(currentImageIndex);
     previousImagePath = getPreviousImagePath(currentImageIndex);
     previousCaptionText = getCaptionText(previousImageIndex);
@@ -201,7 +177,7 @@ $buttonPrevious.click(function () {
     currentImageIndex = previousImageIndex;
 });
 
-$buttonNext.click(function () {
+$buttonNext.on('click', () => {
     nextImageIndex = getNextImageIndex(currentImageIndex);
     nextImagePath = getNextImagePath(nextImageIndex);
     nextCaptionText = getCaptionText(nextImageIndex);
@@ -212,33 +188,31 @@ $buttonNext.click(function () {
 });
 
 
-// Overlay Close
-$overlayClose.click(function () {
-    $overlay.hide();
+// Close overlay
+$buttonClose.on('click', () => {
+    $lightboxOverlay.hide();
     clearPathAndIndex();
 });
 
-function showOverlayImage(initialImagePath) {
-    $overlayImage.attr('src', initialImagePath);
+function showLightboxImage(initialImagePath) {
+    $lightboxImage.attr('src', initialImagePath);
 }
 
 function getInitialImagePath(event) {
-    var target = $(event.target);
-    if ( target.is('div.lthw--desc') ||  target.is('div.lthw--title') ) {
-        initialImagePath = $(event.target).closest('.lightbox-thumbnail-hover-wrap').attr('data-target');
-    }
-    else {
-        initialImagePath = $(event.target).attr('data-target');
+    let target = $(event.target);
+    if (target.is('div.lto-description') || target.is('div.lto-title')) {
+        initialImagePath = $(event.target).closest('.lightbox-thumbnail-container').attr('data-target');
+    } else {
+        initialImagePath = $(event.target).parent().attr('data-target');
     }
     return initialImagePath;
 }
 
 function getPreviousImageIndex(index) {
-    if (index == 0) {
+    if (index === 0) {
         previousImageIndex = $imagesLength - 1;
         return previousImageIndex;
-    }
-    else {
+    } else {
         previousImageIndex = index - 1;
         return previousImageIndex;
     }
@@ -246,16 +220,14 @@ function getPreviousImageIndex(index) {
 
 function getCurrentImageIndex(imagePath) {
     currentImageIndex = $.inArray(imagePath, images);
-    console.log(currentImageIndex);
     return currentImageIndex;
 }
 
 function getNextImageIndex(index) {
-    if (index == $imagesLength - 1) {
+    if (index === $imagesLength - 1) {
         nextImageIndex = 0;
         return nextImageIndex;
-    }
-    else {
+    } else {
         nextImageIndex = index + 1;
         return nextImageIndex;
     }
@@ -264,8 +236,7 @@ function getNextImageIndex(index) {
 function setImageText(captionText, imageNumber) {
     if (typeof captionText === 'undefined') {
         $captionLeft.text('');
-    }
-    else {
+    } else {
         $captionLeft.text(captionText);
     }
     $captionRight.text((imageNumber) + ' von ' + $imagesLength);
@@ -274,46 +245,39 @@ function setImageText(captionText, imageNumber) {
 }
 
 function getImagePathFromIndex(index) {
-    imagePath = images[index];
-    return imagePath;
+    return images[index];
 }
 
 function getCaptionText(currentImageIndex) {
-    captionText = captions[currentImageIndex];
-    return captionText;
+    return imgDescriptions[currentImageIndex];
 }
 
 function showPreviousImage(previousImagePath) {
-    $overlayImage.attr("src", previousImagePath);
+    $lightboxImage.attr("src", previousImagePath);
 }
 
 function showNextImage(nextImagePath) {
-    $overlayImage.attr("src", nextImagePath);
+    $lightboxImage.attr("src", nextImagePath);
 }
 
 function getPreviousImagePath(imageIndex) {
-    if(imageIndex == 0) {
+    if (imageIndex === 0) {
         previousImagePath = images[$imagesLength - 1];
         return previousImagePath;
-    }
-    else {
+    } else {
         previousImagePath = images[previousImageIndex];
         return previousImagePath;
     }
 }
 
 function getNextImagePath(imageIndex) {
-    if(imageIndex == $imagesLength) {
-        nextImagePath = images[0];
-        return nextImagePath;
+    if (imageIndex === $imagesLength) {
+        return images[0];
     }
-    else {
-        nextImagePath = images[imageIndex];
-        return nextImagePath;
-    }
+    return images[imageIndex];
 }
 
-function clearPathAndIndex () {
+function clearPathAndIndex() {
     currentImageIndex = 0;
     currentImage = '';
     currentImagePath = '';

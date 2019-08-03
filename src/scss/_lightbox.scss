@@ -1,0 +1,131 @@
+@import 'vendor/bootstrap/bootstrap-grid';
+@import 'colors';
+
+.lightbox-overlay {
+  background: $black-08;
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow-x: hidden;
+  padding: 0 10px;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 9990;
+
+  p {
+    color: $white;
+  }
+}
+
+.lightbox-image {
+  border: 2px solid $white;
+  box-shadow: 0 0 8px $black-06;
+  width: 100%;
+}
+
+.lightbox-item-wrapper {
+  position: relative;
+}
+
+.lightbox-thumbnail {
+  display: block;
+  position: relative;
+  transition: color 300ms ease 0s;
+}
+
+.lightbox-thumbnail-container {
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.lightbox-thumbnail-overlay {
+  background-color: $black-09;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity .2s cubic-bezier(.19, 1, .22, 1) 0s;
+  width: 100%;
+  z-index: 2;
+}
+
+.lightbox-thumbnail-container:hover .lightbox-thumbnail-overlay {
+  opacity: 1;
+}
+
+.lo-row {
+  @extend .row;
+  @extend .align-items-center;
+  height: 100%;
+}
+
+.li-row {
+  @extend .row;
+  @extend .align-items-center;
+  height: 100%;
+}
+
+
+.lazy {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.col-4 {
+  margin-bottom: 20px;
+}
+
+.caption-left {
+  font-weight: 500;
+  text-align: left;
+}
+
+.caption-right {
+  text-align: right;
+}
+
+.gallery {
+  padding: 40px;
+}
+
+// Buttons
+
+.lightbox-overlay-close {
+  div {
+    position: relative;
+    right: 0;
+    text-align: right;
+    width: 100px;
+  }
+
+  a {
+    font-size: 22px;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+// thumbnail overlay
+.lto-title {
+  color: $white;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 15px;
+}
+
+.lto-description {
+  color: $alto;
+  font-size: 16px;
+  padding: 15px;
+}

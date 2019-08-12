@@ -5,8 +5,21 @@ const uglify = require('gulp-uglifyjs');
 const copy = require('gulp-copy');
 const imageResize = require('gulp-image-resize');
 const imagemin = require('gulp-imagemin');
+const sass = require('gulp-sass');
 const imgSrc = 'src/img/**/*.{png,jpg}';
 const imgDest = 'dist/img/';
+
+sass.compiler = require('node-sass');
+
+gulp.task('styles', () => {
+    return gulp.src('./src/scss/index.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./dist/css'));
+});
+
+gulp.task('styles:watch', () => {
+    gulp.watch('./src/scss/index.scss', gulp.parallel('styles'));
+});
 
 gulp.task('scripts', () => {
     return gulp.src([
@@ -52,4 +65,5 @@ gulp.task('optimizeImages', done => {
     done();
 });
 
-gulp.task('default', gulp.parallel('scripts', 'optimizeImages'));
+gulp.task('default', gulp.parallel('scripts', 'styles', 'optimizeImages'));
+

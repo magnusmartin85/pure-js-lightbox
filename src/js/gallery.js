@@ -1,32 +1,32 @@
 let images = [
-    "../dist/img/01.jpg",
-    "../dist/img/02.jpg",
-    "../dist/img/03.jpg",
-    "../dist/img/04.jpg",
-    "../dist/img/05.jpg",
-    "../dist/img/06.jpg",
-    "../dist/img/07.jpg",
-    "../dist/img/08.jpg",
-    "../dist/img/09.jpg",
+    '../dist/img/01.jpg',
+    '../dist/img/02.jpg',
+    '../dist/img/03.jpg',
+    '../dist/img/04.jpg',
+    '../dist/img/05.jpg',
+    '../dist/img/06.jpg',
+    '../dist/img/07.jpg',
+    '../dist/img/08.jpg',
+    '../dist/img/09.jpg',
 ];
 
 let imgTitles = [
-    "Photo by Ian Turnell from Pexels",
-    "Photo by Jaymantri from Pexels",
-    "Photo by Markus Spiske temporausch.com from Pexels",
-    "Photo by James Wheeler from Pexels",
-    "Photo by Joyston Judah from Pexels",
-    "Photo by Bess Hamiti from Pexels"
+    'Photo by Ian Turnell from Pexels',
+    'Photo by Jaymantri from Pexels',
+    'Photo by Markus Spiske temporausch.com from Pexels',
+    'Photo by James Wheeler from Pexels',
+    'Photo by Joyston Judah from Pexels',
+    'Photo by Bess Hamiti from Pexels'
 
 ];
 
 let imgDescriptions = [
-    "Body of Water Between Green Leaf Trees",
-    "High Angle-photography of Green Forest Trees",
-    "Trees Under Blue Sky during Daytime",
-    "Lake and Mountain",
-    "White and Black Mountain Wallpaper",
-    "Multicolored Hot Air Balloon over Calm Sea"
+    'Body of Water Between Green Leaf Trees',
+    'High Angle-photography of Green Forest Trees',
+    'Trees Under Blue Sky during Daytime',
+    'Lake and Mountain',
+    'White and Black Mountain Wallpaper',
+    'Multicolored Hot Air Balloon over Calm Sea'
 ];
 
 let paths = [];
@@ -35,7 +35,6 @@ let html = '';
 let currentImage = '';
 let currentImagePath = '';
 let currentImageIndex = 0;
-let currentImageNumber = 0;
 
 /* Initial variables */
 let initialImagePath = '';
@@ -120,8 +119,8 @@ appendImageGrid();
 // On load
 $(document).ready(() => {
     $('.lightbox-thumbnail-container').each((index, item) => {
-        initialImagePath = $(item).find('img').attr("data-original");
-        $(item).attr("data-target", initialImagePath);
+        initialImagePath = $(item).find('img').attr('data-original');
+        $(item).attr('data-target', initialImagePath);
         paths.push(initialImagePath);
     });
 });
@@ -220,26 +219,21 @@ function getInitialImagePath(event) {
 
 function getPreviousImageIndex(index) {
     if (index === 0) {
-        previousImageIndex = $imagesLength - 1;
-        return previousImageIndex;
+        return $imagesLength - 1;
     } else {
-        previousImageIndex = index - 1;
-        return previousImageIndex;
+        return index - 1;
     }
 }
 
 function getCurrentImageIndex(imagePath) {
-    currentImageIndex = $.inArray(imagePath, images);
-    return currentImageIndex;
+    return $.inArray(imagePath, images);
 }
 
 function getNextImageIndex(index) {
     if (index === $imagesLength - 1) {
-        nextImageIndex = 0;
-        return nextImageIndex;
+        return 0;
     } else {
-        nextImageIndex = index + 1;
-        return nextImageIndex;
+        return index + 1;
     }
 }
 
@@ -250,8 +244,6 @@ function setImageText(captionText, imageNumber) {
         $captionLeft.text(captionText);
     }
     $captionRight.text((imageNumber) + ' von ' + $imagesLength);
-    currentImageNumber = imageNumber;
-    return currentImageNumber;
 }
 
 function getImagePathFromIndex(index) {
@@ -263,11 +255,11 @@ function getCaptionText(currentImageIndex) {
 }
 
 function showPreviousImage(previousImagePath) {
-    $lightboxImage.attr("src", previousImagePath);
+    $lightboxImage.attr('src', previousImagePath);
 }
 
 function showNextImage(nextImagePath) {
-    $lightboxImage.attr("src", nextImagePath);
+    $lightboxImage.attr('src', nextImagePath);
 }
 
 function getPreviousImagePath(imageIndex) {
@@ -275,8 +267,7 @@ function getPreviousImagePath(imageIndex) {
         previousImagePath = images[$imagesLength - 1];
         return previousImagePath;
     } else {
-        previousImagePath = images[previousImageIndex];
-        return previousImagePath;
+        return images[previousImageIndex];
     }
 }
 

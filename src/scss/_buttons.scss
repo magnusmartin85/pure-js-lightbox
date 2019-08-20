@@ -2,14 +2,14 @@
 @import 'colors';
 @import 'transitions';
 
-.button-prev-row {
+.btn-prev-row {
   @extend .row;
   @extend .align-items-center;
   @extend .justify-content-center;
   height: 100%;
 }
 
-.button-next-row {
+.btn-next-row {
   @extend .row;
   @extend .align-items-center;
   @extend .justify-content-center;
@@ -17,7 +17,7 @@
 }
 
 
-.button-close {
+.btn-close {
   border: 2px solid $white;
   border-radius: 50%;
   cursor: pointer;
@@ -64,8 +64,8 @@
   }
 }
 
-.button-prev,
-.button-next {
+.btn-prev,
+.btn-next {
   border: 2px solid $white;
   border-radius: 50%;
   height: 50px;
@@ -78,7 +78,7 @@
   }
 }
 
-.button-prev {
+.btn-prev {
   div {
     display: block;
     padding: 22px;
@@ -117,7 +117,7 @@
   }
 }
 
-.button-next {
+.btn-next {
   div {
     display: block;
     padding: 25px 7px;
@@ -152,6 +152,23 @@
       left: 8px;
       position: relative;
       transform: rotate(45deg);
+    }
+  }
+}
+
+.lightbox-overlay-close {
+  div {
+    position: relative;
+    right: 0;
+    text-align: right;
+    width: 100px;
+  }
+
+  a {
+    font-size: 22px;
+
+    &:hover {
+      color: $white;
     }
   }
 }

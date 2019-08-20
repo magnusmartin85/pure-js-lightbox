@@ -3,77 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Image Gallery Lightbox Slider</title>
+    <title>Lightbox</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../dist/css/index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-<div class="gallery">
-    <h1>Gallery</h1>
-    <section class="image-gallery"></section>
-</div>
+<h1>Lightbox</h1>
 
-<!-- OVERLAY -->
-<div class="lightbox-overlay">
-    <div class="button-close">
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </div>
+<div class="lightbox"></div>
 
-    <div class="lo-row">
-        <div class="col-2 col-md-2">
-            <div class="button-prev-row">
-                <div class="button-prev">
-                    <div>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-8 col-md-8">
-            <div class="li-row">
-                <div class="col-12">
-                    <img alt=""
-                         class="lightbox-image"
-                         src=""
-                    />
-                </div>
+<div class="lightbox-overlay"></div>
 
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-8">
-                            <p class="caption-left"></p>
-                        </div>
-                        <div class="col-4">
-                            <p class="caption-right"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-2 col-md-2">
-            <div class="button-next-row">
-                <div class="button-next">
-                    <div>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="../dist/js/app.js"></script>
-<script>
-    $(() => {
-        $("img.lazy").lazyload();
-    });
-</script>
+<script src="js/app.js"></script>
 </body>
 </html>
 

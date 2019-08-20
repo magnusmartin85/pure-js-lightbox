@@ -1,13 +1,12 @@
 const babel = require('gulp-babel');
 const concat = require('gulp-concat');
 const gulp = require('gulp');
-const uglify = require('gulp-uglifyjs');
-const copy = require('gulp-copy');
-const imageResize = require('gulp-image-resize');
 const imagemin = require('gulp-imagemin');
-const sass = require('gulp-sass');
-const imgSrc = 'src/img/**/*.{png,jpg}';
+const imageResize = require('gulp-image-resize');
 const imgDest = 'dist/img/';
+const imgSrc = 'src/img/**/*.{png,jpg}';
+const sass = require('gulp-sass');
+const uglify = require('gulp-uglifyjs');
 
 sass.compiler = require('node-sass');
 
@@ -41,9 +40,9 @@ gulp.task('uglify', done => {
     done();
 });
 
-gulp.task('copyFonts', () => {
-    return gulp.src('src/fonts/**/*')
-        .pipe(copy('dist'))
+gulp.task('copyHtml', () => {
+    return gulp.src('src/gallery.html')
+        .pipe(gulp.dest('dist'))
 });
 
 gulp.task('imagemin', done => {
@@ -65,5 +64,11 @@ gulp.task('optimizeImages', done => {
     done();
 });
 
-gulp.task('default', gulp.parallel('scripts', 'styles', 'optimizeImages'));
+gulp.task('default', gulp.parallel(
+    'scripts',
+    'styles',
+    'optimizeImages',
+    'copyHtml'
+    )
+);
 

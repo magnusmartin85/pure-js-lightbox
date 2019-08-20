@@ -1,13 +1,13 @@
-let images = [
-    '../dist/img/01.jpg',
-    '../dist/img/02.jpg',
-    '../dist/img/03.jpg',
-    '../dist/img/04.jpg',
-    '../dist/img/05.jpg',
-    '../dist/img/06.jpg',
-    '../dist/img/07.jpg',
-    '../dist/img/08.jpg',
-    '../dist/img/09.jpg',
+let imgUrls = [
+    '01.jpg',
+    '02.jpg',
+    '03.jpg',
+    '04.jpg',
+    '05.jpg',
+    '06.jpg',
+    '07.jpg',
+    '08.jpg',
+    '09.jpg',
 ];
 
 let imgTitles = [
@@ -17,7 +17,6 @@ let imgTitles = [
     'Photo by James Wheeler from Pexels',
     'Photo by Joyston Judah from Pexels',
     'Photo by Bess Hamiti from Pexels'
-
 ];
 
 let imgDescriptions = [
@@ -29,41 +28,31 @@ let imgDescriptions = [
     'Multicolored Hot Air Balloon over Calm Sea'
 ];
 
+// initial variables
+let html = '';
+let initialImgUrl = '';
 let paths = [];
 
-let html = '';
-let currentImage = '';
-let currentImagePath = '';
-let currentImageIndex = 0;
+// variables for current img
+let currentImg = '';
+let currentImgIndex = 0;
+let currentImgUrl = '';
 
-/* Initial variables */
-let initialImagePath = '';
+// variables for previous img
+let previousImgIndex = 0;
+let previousImgUrl = '';
 
-/* Previous variables */
-let previousImagePath = '';
-let previousImageIndex = 0;
-let previousImageNumber = 0;
+// variables for next img
+let nextImgIndex = 0;
+let nextImgUrl = '';
 
-/* Next variables */
-let nextImagePath = '';
-let nextImageIndex = 0;
-let nextImageNumber = 0;
-
-/* Caption variables */
+// variables for caption
 let currentCaptionText = '';
 let nextCaptionText = '';
 let previousCaptionText = '';
+let imgCount = imgUrls.length;
 
-let $buttonClose = $('.button-close');
-let $buttonNext = $('.button-next');
-let $buttonPrevious = $('.button-prev');
-let $captionLeft = $('.caption-left');
-let $captionRight = $('.caption-right');
-let $lightboxOverlay = $('.lightbox-overlay');
-let $lightboxImage = $('.lightbox-image');
-let $imagesLength = images.length;
-
-for (let i = 0; i < $imagesLength; i++) {
+for (let i = 0; i < imgCount; i++) {
     html = html +
         `<div class="row my-3">
         <div class="col-12 col-md-4">
@@ -71,8 +60,7 @@ for (let i = 0; i < $imagesLength; i++) {
         <img 
         alt="${imgDescriptions[i]}" 
         class="lazy" 
-        data-original="${images[i]}" 
-        src=""
+        src="img/${imgUrls[i]}"
         width="400" 
         />
         <div class="lightbox-thumbnail-overlay">
@@ -86,8 +74,7 @@ for (let i = 0; i < $imagesLength; i++) {
         <img 
         alt="${imgDescriptions[i + 1]}" 
         class="lazy" 
-        data-original="${images[i + 1]}" 
-        src=""
+        src="img/${imgUrls[i + 1]}" 
         width="400" 
         />
         <div class="lightbox-thumbnail-overlay"> 
@@ -101,8 +88,7 @@ for (let i = 0; i < $imagesLength; i++) {
         <img 
             alt="${imgDescriptions[i + 2]}"
             class="lazy" 
-            data-original="${images[i + 2]}"
-            src=""
+            src="img/${imgUrls[i + 2]}"
             width="400" 
         />
         <div class="lightbox-thumbnail-overlay"> 
@@ -114,172 +100,220 @@ for (let i = 0; i < $imagesLength; i++) {
         </div>`;
     i = i + 2;
 }
-appendImageGrid();
+appendLightboxImgs();
 
 // On load
 $(document).ready(() => {
+    appendLightboxOverlay();
     $('.lightbox-thumbnail-container').each((index, item) => {
-        initialImagePath = $(item).find('img').attr('data-original');
-        $(item).attr('data-target', initialImagePath);
-        paths.push(initialImagePath);
+        initialImgUrl = $(item).find('img').attr('src');
+        $(item).attr('src', initialImgUrl);
+        paths.push(initialImgUrl);
     });
 });
 
 // Trigger Lightbox on click
-$('.lightbox-thumbnail-overlay, .lto-description, .lto-title').on('click', event => {
-    openOverlay(event);
+$('.lightbox-thumbnail-overlay, .lto-description, .lto-title')
+    .on('click', event => {
+        openOverlay(event);
+    });
+
+// Handle click on previous img button
+$('.btn-prev').on('click', () => {
+    previousCaptionText = getCaptionText(previousImgIndex);
+    previousImgIndex = getPreviousImgIndex(currentImgIndex);
+    previousImgUrl = getPreviousImgUrl(currentImgIndex);
+    currentImgIndex = previousImgIndex;
+    setImgText(previousCaptionText, previousImgIndex - 1);
+    showLightboxImg(previousImgUrl);
 });
 
-
-$buttonPrevious.on('click', () => {
-    previousImageIndex = getPreviousImageIndex(currentImageIndex);
-    previousImagePath = getPreviousImagePath(currentImageIndex);
-    previousCaptionText = getCaptionText(previousImageIndex);
-    previousImageNumber = previousImageIndex + 1;
-    setImageText(previousCaptionText, previousImageNumber);
-    showPreviousImage(previousImagePath);
-    currentImageIndex = previousImageIndex;
+// Handle click on next img button
+$('.btn-next').on('click', () => {
+    nextCaptionText = getCaptionText(nextImgIndex);
+    nextImgIndex = getNextImgIndex(currentImgIndex);
+    nextImgUrl = getNextImgPath(nextImgIndex);
+    currentImgIndex = nextImgIndex;
+    setImgText(nextCaptionText, nextImgIndex + 1);
+    showLightboxImg(nextImgUrl);
 });
 
-$buttonNext.on('click', () => {
-    nextImageIndex = getNextImageIndex(currentImageIndex);
-    nextImagePath = getNextImagePath(nextImageIndex);
-    nextCaptionText = getCaptionText(nextImageIndex);
-    nextImageNumber = nextImageIndex + 1;
-    setImageText(nextCaptionText, nextImageNumber);
-    showNextImage(nextImagePath);
-    currentImageIndex = nextImageIndex;
-});
-
-
-// Close lightboxOverlay
-$buttonClose.on('click', () => {
-    $lightboxOverlay.hide();
+// Close Lightbox
+$('.btn-close').on('click', () => {
+    $('.lightbox-overlay').hide();
     clearPathAndIndex();
 });
 
-// Key events
-$(document).keyup(event => {
+// Keyboard events
+$(document).on('keyup', event => {
     switch (event.keyCode) {
-        case 27: // esc
-            return $('.button-close').click();
+        case 27: // esc-key
+            return $('.btn-close').click();
 
-        case 37: // left
-            return $('.button-prev').click();
+        case 37: // left-key
+            return $('.btn-prev').click();
 
-        case 39: // right
-            return $('.button-next').click();
+        case 39: // right-key
+            return $('.btn-next').click();
 
         default:
             return;
     }
 });
 
+
 // ----------------------------------------------------------
-//FUNCTIONS
+// FUNCTIONS
 // ----------------------------------------------------------
 
-function appendImageGrid() {
-    $('.image-gallery').append(html);
+function appendLightboxImgs() {
+    $('.lightbox').append(html);
 }
 
-function openOverlay(event) {
-    event.preventDefault();
-    prepareImageData(event);
-    showLightboxImage(currentImagePath);
-    $lightboxOverlay.fadeIn();
+function appendLightboxOverlay() {
+    let html = `<div class="btn-close">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        </div>
+
+        <div class="lightbox-overlay-row">
+        <div class="col-2 col-md-2">
+        <div class="btn-prev-row">
+        <div class="btn-prev">
+        <div>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="col-8 col-md-8">
+        <div class="lightbox-item-row">
+        <div class="col-12">
+        <img alt=""
+class="lightbox-img"
+    src=""
+        />
+        </div>
+
+        <div class="col-12">
+        <div class="row">
+        <div class="col-8">
+        <p class="caption-left"></p>
+        </div>
+        <div class="col-4">
+        <p class="caption-right"></p>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+        <div class="col-2 col-md-2">
+        <div class="btn-next-row">
+        <div class="btn-next">
+        <div>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+    `;
+    $('.lightbox-overlay').append(html);
 }
 
-function prepareImageData(event) {
-    currentImagePath = getInitialImagePath(event);
-    currentImageIndex = getCurrentImageIndex(currentImagePath);
-    nextImageIndex = getNextImageIndex(currentImageIndex);
-    previousImageIndex = getPreviousImageIndex(currentImageIndex);
-    nextImagePath = getImagePathFromIndex(nextImageIndex);
-    previousImagePath = getImagePathFromIndex(previousImageIndex);
-    nextCaptionText = getCaptionText(nextImageIndex);
-    currentCaptionText = getCaptionText(currentImageIndex);
-    previousCaptionText = getCaptionText(previousImageIndex);
-    setImageText(currentCaptionText, currentImageIndex + 1)
+function clearPathAndIndex() {
+    currentImgIndex = 0;
+    currentImg = '';
+    currentImgUrl = '';
 }
 
-function showLightboxImage(initialImagePath) {
-    $lightboxImage.attr('src', initialImagePath);
-}
-
-function getInitialImagePath(event) {
+function getInitialImgUrl(event) {
     let target = $(event.target);
     if (target.is('div.lto-description') || target.is('div.lto-title')) {
-        initialImagePath = $(event.target).closest('.lightbox-thumbnail-container').attr('data-target');
+        initialImgUrl = $(event.target)
+            .closest('.lightbox-thumbnail-container')
+            .attr('src');
     } else {
-        initialImagePath = $(event.target).parent().attr('data-target');
+        initialImgUrl = $(event.target).parent().attr('src');
     }
-    return initialImagePath;
+    return initialImgUrl;
 }
 
-function getPreviousImageIndex(index) {
+function getPreviousImgIndex(index) {
     if (index === 0) {
-        return $imagesLength - 1;
+        return imgCount - 1;
     } else {
         return index - 1;
     }
 }
 
-function getCurrentImageIndex(imagePath) {
-    return $.inArray(imagePath, images);
+function getCurrentImgIndex(imgUrl) {
+    return $.inArray(imgUrl, imgUrls);
 }
 
-function getNextImageIndex(index) {
-    if (index === $imagesLength - 1) {
+function getNextImgIndex(index) {
+    if (index === imgCount - 1) {
         return 0;
     } else {
         return index + 1;
     }
 }
 
-function setImageText(captionText, imageNumber) {
+function getImgUrlFromIndex(index) {
+    return imgUrls[index];
+}
+
+function getCaptionText(currentImgIndex) {
+    return imgDescriptions[currentImgIndex];
+}
+
+function getPreviousImgUrl(imgIndex) {
+    if (imgIndex === 0) {
+        return imgUrls[imgCount - 1];
+    } else {
+        return imgUrls[previousImgIndex];
+    }
+}
+
+function getNextImgPath(imgIndex) {
+    if (imgIndex === imgCount) {
+        return imgUrls[0];
+    }
+    return imgUrls[imgIndex];
+}
+
+function openOverlay(event) {
+    event.preventDefault();
+    prepareImgData(event);
+    showLightboxImg(currentImgUrl);
+    $('.lightbox-overlay').fadeIn();
+}
+
+function prepareImgData(event) {
+    currentCaptionText = getCaptionText(currentImgIndex);
+    currentImgIndex = getCurrentImgIndex(currentImgUrl);
+    currentImgUrl = getInitialImgUrl(event);
+    nextCaptionText = getCaptionText(nextImgIndex);
+    nextImgIndex = getNextImgIndex(currentImgIndex);
+    nextImgUrl = getImgUrlFromIndex(nextImgIndex);
+    previousCaptionText = getCaptionText(previousImgIndex);
+    previousImgIndex = getPreviousImgIndex(currentImgIndex);
+    previousImgUrl = getImgUrlFromIndex(previousImgIndex);
+    setImgText(currentCaptionText, currentImgIndex + 1)
+}
+
+function setImgText(captionText, imgNumber) {
     if (typeof captionText === 'undefined') {
-        $captionLeft.text('');
+        $('.caption-left').text('');
     } else {
-        $captionLeft.text(captionText);
+        $('.caption-left').text(captionText);
     }
-    $captionRight.text((imageNumber) + ' von ' + $imagesLength);
+    $('.caption-right').text(imgNumber + ' / ' + imgCount);
 }
 
-function getImagePathFromIndex(index) {
-    return images[index];
-}
-
-function getCaptionText(currentImageIndex) {
-    return imgDescriptions[currentImageIndex];
-}
-
-function showPreviousImage(previousImagePath) {
-    $lightboxImage.attr('src', previousImagePath);
-}
-
-function showNextImage(nextImagePath) {
-    $lightboxImage.attr('src', nextImagePath);
-}
-
-function getPreviousImagePath(imageIndex) {
-    if (imageIndex === 0) {
-        previousImagePath = images[$imagesLength - 1];
-        return previousImagePath;
-    } else {
-        return images[previousImageIndex];
-    }
-}
-
-function getNextImagePath(imageIndex) {
-    if (imageIndex === $imagesLength) {
-        return images[0];
-    }
-    return images[imageIndex];
-}
-
-function clearPathAndIndex() {
-    currentImageIndex = 0;
-    currentImage = '';
-    currentImagePath = '';
+function showLightboxImg(imgUrl) {
+    $('.lightbox-img').attr('src', imgUrl);
 }

@@ -1,0 +1,21 @@
+@import 'colors';
+@import 'transitions';
+
+.lightbox-thumbnail-overlay {
+  background-color: $black-09;
+  bottom: 0;
+  height: 98%;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: $trans-opacity-1;
+  width: 100%;
+  z-index: 2;
+}
+
+.lightbox-thumbnail-container:hover .lightbox-thumbnail-overlay {
+  opacity: 1;
+}

@@ -2,6 +2,10 @@
 @import 'colors';
 @import 'transitions';
 
+.lightbox-container {
+  @extend .container;
+}
+
 .lightbox-overlay-row {
   @extend .row;
   @extend .align-items-center;

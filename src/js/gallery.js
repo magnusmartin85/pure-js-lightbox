@@ -16,7 +16,10 @@ let imgTitles = [
     'Photo by Markus Spiske temporausch.com from Pexels',
     'Photo by James Wheeler from Pexels',
     'Photo by Joyston Judah from Pexels',
-    'Photo by Bess Hamiti from Pexels'
+    'Photo by Bess Hamiti from Pexels',
+    'Photo by Lisa Fotios from Pexels',
+    'Photo by KML from Pexels',
+    'Photo by Steven Hylands from Pexels'
 ];
 
 let imgDescriptions = [
@@ -25,7 +28,10 @@ let imgDescriptions = [
     'Trees Under Blue Sky during Daytime',
     'Lake and Mountain',
     'White and Black Mountain Wallpaper',
-    'Multicolored Hot Air Balloon over Calm Sea'
+    'Multicolored Hot Air Balloon over Calm Sea',
+    'Green Trees Under Blue and Orange Sky during Sunset',
+    'Aerial Photography of Rock Next to water body',
+    'Buildings With Waterfront View'
 ];
 
 // initial variables
@@ -40,8 +46,8 @@ let currentImgIndex = 0;
 let currentImgUrl = '';
 
 // variables for previous img
-let previousImgIndex = 0;
-let previousImgUrl = '';
+let prevImgIndex = 0;
+let prevImgUrl = '';
 
 // variables for next img
 let nextImgIndex = 0;
@@ -50,7 +56,7 @@ let nextImgUrl = '';
 // variables for caption
 let currentCaptionText = '';
 let nextCaptionText = '';
-let previousCaptionText = '';
+let prevCaptionText = '';
 let imgCount = imgUrls.length;
 
 for (let i = 0; i < imgCount; i++) {
@@ -121,12 +127,12 @@ $('.lightbox-thumbnail-overlay, .lto-description, .lto-title')
 
 // Handle click on previous img button
 $(lightboxContainer).on('click', '.btn-prev', () => {
-    previousImgIndex = getPreviousImgIndex(currentImgIndex);
-    previousCaptionText = getCaptionText(previousImgIndex);
-    previousImgUrl = getPreviousImgUrl(currentImgIndex);
-    currentImgIndex = previousImgIndex;
-    setImgText(previousCaptionText, previousImgIndex - 1);
-    showLightboxImg(previousImgUrl);
+    prevImgIndex = getPrevImgIndex(currentImgIndex);
+    prevCaptionText = getCaptionText(prevImgIndex);
+    prevImgUrl = getPrevImgUrl(currentImgIndex);
+    currentImgIndex = prevImgIndex;
+    setImgText(prevCaptionText, prevImgIndex + 1);
+    showLightboxImg(prevImgUrl);
 });
 
 // Handle click on next img button
@@ -243,7 +249,7 @@ function getInitialImgUrl(event) {
     return initialImgUrl;
 }
 
-function getPreviousImgIndex(index) {
+function getPrevImgIndex(index) {
     if (index === 0) {
         return imgCount - 1;
     } else {
@@ -256,7 +262,7 @@ function getCurrentImgIndex(imgUrl) {
 }
 
 function getNextImgIndex(index) {
-    if (index === imgCount - 1) {
+    if (index === (imgCount - 1)) {
         return 0;
     } else {
         return index + 1;
@@ -271,11 +277,11 @@ function getCaptionText(currentImgIndex) {
     return imgDescriptions[currentImgIndex];
 }
 
-function getPreviousImgUrl(imgIndex) {
+function getPrevImgUrl(imgIndex) {
     if (imgIndex === 0) {
         return imgUrls[imgCount - 1];
     } else {
-        return imgUrls[previousImgIndex];
+        return imgUrls[prevImgIndex];
     }
 }
 
@@ -300,9 +306,9 @@ function prepareImgData(event) {
     nextImgIndex = getNextImgIndex(currentImgIndex);
     nextCaptionText = getCaptionText(nextImgIndex);
     nextImgUrl = getImgUrlFromIndex(nextImgIndex);
-    previousImgIndex = getPreviousImgIndex(currentImgIndex);
-    previousCaptionText = getCaptionText(previousImgIndex);
-    previousImgUrl = getImgUrlFromIndex(previousImgIndex);
+    prevImgIndex = getPrevImgIndex(currentImgIndex);
+    prevCaptionText = getCaptionText(prevImgIndex);
+    prevImgUrl = getImgUrlFromIndex(prevImgIndex);
     setImgText(currentCaptionText, currentImgIndex + 1)
 }
 

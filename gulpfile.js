@@ -23,7 +23,6 @@ gulp.task('styles:watch', () => {
 gulp.task('scripts', () => {
     return gulp.src([
         'src/js/jquery-3.4.1.min.js',
-        'src/js/jquery.lazyload.min.js',
         'src/js/gallery.js'
     ])
         .pipe(babel({

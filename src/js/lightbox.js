@@ -1,3 +1,5 @@
+let imgFolderUrl = 'img';
+
 let imgUrls = [
     '01.jpg',
     '02.jpg',
@@ -37,7 +39,7 @@ let imgDescriptions = [
 // initial variables
 let html = '';
 let initialImgUrl = '';
-let paths = [];
+let urls = [];
 let lightboxContainer = $('.lightbox-container');
 
 // variables for current img
@@ -67,7 +69,7 @@ for (let i = 0; i < imgCount; i++) {
         <img 
         alt="${imgDescriptions[i]}" 
         class="lazy" 
-        src="img/${imgUrls[i]}"
+        src="${imgFolderUrl}/${imgUrls[i]}"
         width="400" 
         />
         <div class="lightbox-thumbnail-overlay">
@@ -81,7 +83,7 @@ for (let i = 0; i < imgCount; i++) {
         <img 
         alt="${imgDescriptions[i + 1]}" 
         class="lazy" 
-        src="img/${imgUrls[i + 1]}" 
+        src="${imgFolderUrl}/${imgUrls[i + 1]}" 
         width="400" 
         />
         <div class="lightbox-thumbnail-overlay"> 
@@ -95,7 +97,7 @@ for (let i = 0; i < imgCount; i++) {
         <img 
             alt="${imgDescriptions[i + 2]}"
             class="lazy" 
-            src="img/${imgUrls[i + 2]}"
+            src="${imgFolderUrl}/${imgUrls[i + 2]}"
             width="400" 
         />
         <div class="lightbox-thumbnail-overlay"> 
@@ -115,7 +117,7 @@ $(document).ready(() => {
     $('.lightbox-thumbnail-container').each((index, item) => {
         initialImgUrl = $(item).find('img').attr('src');
         $(item).attr('src', initialImgUrl);
-        paths.push(initialImgUrl);
+        urls.push(initialImgUrl);
     });
 });
 
@@ -139,7 +141,7 @@ $(lightboxContainer).on('click', '.btn-prev', () => {
 $(lightboxContainer).on('click', '.btn-next', () => {
     nextImgIndex = getNextImgIndex(currentImgIndex);
     nextCaptionText = getCaptionText(nextImgIndex);
-    nextImgUrl = getNextImgPath(nextImgIndex);
+    nextImgUrl = getNextImgUrl(nextImgIndex);
     currentImgIndex = nextImgIndex;
     setImgText(nextCaptionText, nextImgIndex + 1);
     showLightboxImg(nextImgUrl);
@@ -285,7 +287,7 @@ function getPrevImgUrl(imgIndex) {
     }
 }
 
-function getNextImgPath(imgIndex) {
+function getNextImgUrl(imgIndex) {
     if (imgIndex === imgCount) {
         return imgUrls[0];
     }

@@ -23,7 +23,7 @@ gulp.task('styles:watch', () => {
 gulp.task('scripts', () => {
     return gulp.src([
         'src/js/jquery-3.4.1.min.js',
-        'src/js/gallery.js'
+        'src/js/lightbox.js'
     ])
         .pipe(babel({
             presets: ['@babel/env']
@@ -40,7 +40,7 @@ gulp.task('uglify', done => {
 });
 
 gulp.task('copyHtml', () => {
-    return gulp.src('src/gallery.html')
+    return gulp.src('src/lightbox.html')
         .pipe(gulp.dest('dist'))
 });
 

@@ -1,0 +1,49 @@
+@import 'colors';
+
+.lo {
+  background: $black-09;
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow-x: hidden;
+  padding: 0 10px;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 9990;
+}
+
+.lo-row {
+  @extend .row;
+  @extend .align-items-center;
+  height: 100%;
+}
+
+.lo-img {
+  border: 2px solid $white;
+  box-shadow: 0 0 8px $black-06;
+  width: 100%;
+}
+
+.lo-description {
+  color: $icon-color;
+  font-weight: 500;
+  text-align: left;
+}
+
+.lo-img-number {
+  color: $icon-color;
+  text-align: right;
+}
+
+// lightbox overlay item (loi)
+.loi-container {
+  position: relative;
+}
+
+.loi-row {
+  @extend .row;
+  @extend .align-items-center;
+  height: 100%;
+}

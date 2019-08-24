@@ -1,0 +1,34 @@
+@import 'colors';
+
+.lt {
+  display: block;
+  position: relative;
+}
+
+// lightbox thumbnail container (ltc)
+.ltc {
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+// lightbox thumbnail overlay (lto)
+.lto-title {
+  color: $white;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 15px;
+}
+
+.lto-description {
+  color: $alto;
+  font-size: 16px;
+  padding: 15px;
+}
+
+.lto-img {
+  margin-bottom: 0;
+  width: 100%;
+}

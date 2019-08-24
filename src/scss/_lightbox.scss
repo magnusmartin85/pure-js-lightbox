@@ -2,77 +2,9 @@
 @import 'colors';
 @import 'transitions';
 
-.lightbox-container {
+// lightbox container
+.lc {
   @extend .container;
-}
-
-.lightbox-overlay-row {
-  @extend .row;
-  @extend .align-items-center;
-  height: 100%;
-}
-
-.lightbox-overlay {
-  background: $black-09;
-  display: none;
-  height: 100%;
-  left: 0;
-  overflow-x: hidden;
-  padding: 0 10px;
-  position: fixed;
-  text-align: center;
-  top: 0;
-  width: 100%;
-  z-index: 9990;
-}
-
-.lightbox-img {
-  border: 2px solid $white;
-  box-shadow: 0 0 8px $black-06;
-  width: 100%;
-}
-
-.lightbox-item-container {
-  position: relative;
-}
-
-.lightbox-item-row {
-  @extend .row;
-  @extend .align-items-center;
-  height: 100%;
-}
-
-.lightbox-thumbnail-container {
-  position: relative;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.lightbox-thumbnail {
-  display: block;
-  position: relative;
-}
-
-// lightbox thumbnail overlay (lto)
-.lto-title {
-  color: $white;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 15px;
-}
-
-.lto-description {
-  color: $alto;
-  font-size: 16px;
-  padding: 15px;
-}
-
-// Misc
-.lo-img {
-  margin-bottom: 0;
-  width: 100%;
 }
 
 .col-4 {

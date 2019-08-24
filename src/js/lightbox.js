@@ -1,6 +1,6 @@
 let imgFolderUrl = 'img';
 
-let imgUrls = [
+let imgNames = [
     '01.jpg',
     '02.jpg',
     '03.jpg',
@@ -38,8 +38,7 @@ let imgDescriptions = [
 
 // initial variables
 let html = '';
-let initialImgUrl = '';
-let urls = [];
+let imgName = '';
 let lightboxContainer = $('.lightbox-container');
 
 // variables for current img
@@ -59,7 +58,8 @@ let nextImgUrl = '';
 let currentCaptionText = '';
 let nextCaptionText = '';
 let prevCaptionText = '';
-let imgCount = imgUrls.length;
+let imgCount = imgNames.length;
+
 
 for (let i = 0; i < imgCount; i++) {
     html = html +
@@ -68,8 +68,8 @@ for (let i = 0; i < imgCount; i++) {
         <div class="lightbox-thumbnail-container">
         <img 
         alt="${imgDescriptions[i]}" 
-        class="lazy" 
-        src="${imgFolderUrl}/${imgUrls[i]}"
+        class="lo-img" 
+        src="${imgFolderUrl}/${imgNames[i]}"
         width="400" 
         />
         <div class="lightbox-thumbnail-overlay">
@@ -82,8 +82,8 @@ for (let i = 0; i < imgCount; i++) {
         <div class="lightbox-thumbnail-container"> 
         <img 
         alt="${imgDescriptions[i + 1]}" 
-        class="lazy" 
-        src="${imgFolderUrl}/${imgUrls[i + 1]}" 
+        class="lo-img" 
+        src="${imgFolderUrl}/${imgNames[i + 1]}" 
         width="400" 
         />
         <div class="lightbox-thumbnail-overlay"> 
@@ -96,8 +96,8 @@ for (let i = 0; i < imgCount; i++) {
         <div class="lightbox-thumbnail-container"> 
         <img 
             alt="${imgDescriptions[i + 2]}"
-            class="lazy" 
-            src="${imgFolderUrl}/${imgUrls[i + 2]}"
+            class="lo-img" 
+            src="${imgFolderUrl}/${imgNames[i + 2]}"
             width="400" 
         />
         <div class="lightbox-thumbnail-overlay"> 
@@ -115,9 +115,12 @@ appendLightboxImgs();
 $(document).ready(() => {
     appendLightboxOverlay();
     $('.lightbox-thumbnail-container').each((index, item) => {
-        initialImgUrl = $(item).find('img').attr('src');
-        $(item).attr('src', initialImgUrl);
-        urls.push(initialImgUrl);
+        const src = $(item)
+            .find('img')
+            .attr('src');
+
+        imgName = src.substring(src.lastIndexOf('/') + 1);
+        imgNames.push(imgName);
     });
 });
 
@@ -239,16 +242,23 @@ function clearPathAndIndex() {
     currentImgUrl = '';
 }
 
-function getInitialImgUrl(event) {
+function getImgName(event) {
     let target = $(event.target);
     if (target.is('div.lto-description') || target.is('div.lto-title')) {
-        initialImgUrl = $(event.target)
+        let imgUrl = $(event.target)
             .closest('.lightbox-thumbnail-container')
-            .attr('src').replace('img/', '');
+            .find('img')
+            .attr('src');
+        imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1);
     } else {
-        initialImgUrl = $(event.target).parent().attr('src').replace('img/', '');
+        let imgUrl = $(event.target)
+            .parent()
+            .find('img')
+            .attr('src');
+        imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1);
+
     }
-    return initialImgUrl;
+    return imgName;
 }
 
 function getPrevImgIndex(index) {
@@ -260,7 +270,7 @@ function getPrevImgIndex(index) {
 }
 
 function getCurrentImgIndex(imgUrl) {
-    return $.inArray(imgUrl.replace('img/', ''), imgUrls);
+    return $.inArray(imgUrl.replace('img/', ''), imgNames);
 }
 
 function getNextImgIndex(index) {
@@ -272,7 +282,7 @@ function getNextImgIndex(index) {
 }
 
 function getImgUrlFromIndex(index) {
-    return imgUrls[index];
+    return imgNames[index];
 }
 
 function getCaptionText(currentImgIndex) {
@@ -281,17 +291,17 @@ function getCaptionText(currentImgIndex) {
 
 function getPrevImgUrl(imgIndex) {
     if (imgIndex === 0) {
-        return imgUrls[imgCount - 1];
+        return imgNames[imgCount - 1];
     } else {
-        return imgUrls[prevImgIndex];
+        return imgNames[prevImgIndex];
     }
 }
 
 function getNextImgUrl(imgIndex) {
     if (imgIndex === imgCount) {
-        return imgUrls[0];
+        return imgNames[0];
     }
-    return imgUrls[imgIndex];
+    return imgNames[imgIndex];
 }
 
 function openOverlay(event) {
@@ -303,7 +313,7 @@ function openOverlay(event) {
 
 function prepareImgData(event) {
     currentCaptionText = getCaptionText(currentImgIndex);
-    currentImgUrl = getInitialImgUrl(event);
+    currentImgUrl = getImgName(event);
     currentImgIndex = getCurrentImgIndex(currentImgUrl);
     nextImgIndex = getNextImgIndex(currentImgIndex);
     nextCaptionText = getCaptionText(nextImgIndex);
@@ -324,5 +334,5 @@ function setImgText(captionText, imgNumber) {
 }
 
 function showLightboxImg(imgUrl) {
-    $('.lightbox-img').attr('src', 'img/' + imgUrl);
+    $('.lightbox-img').attr('src', imgFolderUrl + '/' + imgUrl);
 }

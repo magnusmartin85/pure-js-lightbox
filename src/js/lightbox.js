@@ -1,6 +1,6 @@
-let imgFolderUrl = 'img';
+const imgFolderUrl = 'img';
 
-let imgNames = [
+const imgNames = [
     '01.jpg',
     '02.jpg',
     '03.jpg',
@@ -12,7 +12,7 @@ let imgNames = [
     '09.jpg',
 ];
 
-let imgTitles = [
+const imgSource = [
     'Photo by Ian Turnell from Pexels',
     'Photo by Jaymantri from Pexels',
     'Photo by Markus Spiske temporausch.com from Pexels',
@@ -24,7 +24,7 @@ let imgTitles = [
     'Photo by Steven Hylands from Pexels'
 ];
 
-let imgDescriptions = [
+const imgDescriptions = [
     'Body of Water Between Green Leaf Trees',
     'High Angle-photography of Green Forest Trees',
     'Trees Under Blue Sky during Daytime',
@@ -36,10 +36,22 @@ let imgDescriptions = [
     'Buildings With Waterfront View'
 ];
 
+const imgTitles = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+];
+
 // initial variables
 let html = '';
 let imgName = '';
-let lightboxContainer = $('.lightbox-container');
+const lightboxContainer = $('.lc');
 
 // variables for current img
 let currentImg = '';
@@ -56,8 +68,8 @@ let nextImgUrl = '';
 
 // variables for caption
 let currentCaptionText = '';
-let nextCaptionText = '';
-let prevCaptionText = '';
+let nextDescriptionText = '';
+let prevDescriptionText = '';
 let imgCount = imgNames.length;
 
 
@@ -65,42 +77,42 @@ for (let i = 0; i < imgCount; i++) {
     html = html +
         `<div class="row my-3">
         <div class="col-12 col-md-4">
-        <div class="lightbox-thumbnail-container">
+        <div class="ltc">
         <img 
         alt="${imgDescriptions[i]}" 
-        class="lo-img" 
+        class="lto-img" 
         src="${imgFolderUrl}/${imgNames[i]}"
         width="400" 
         />
-        <div class="lightbox-thumbnail-overlay">
+        <div class="lto">
         <div class="lto-title">${imgTitles[i]}</div>
         <div class="lto-description">${imgDescriptions[i]}</div> 
         </div> 
         </div> 
         </div> 
         <div class="col-12 col-md-4"> 
-        <div class="lightbox-thumbnail-container"> 
+        <div class="ltc"> 
         <img 
         alt="${imgDescriptions[i + 1]}" 
-        class="lo-img" 
+        class="lto-img" 
         src="${imgFolderUrl}/${imgNames[i + 1]}" 
         width="400" 
         />
-        <div class="lightbox-thumbnail-overlay"> 
+        <div class="lto"> 
         <div class="lto-title">${imgTitles[i + 1]}</div> 
         <div class="lto-description">${imgDescriptions[i + 1]}</div> 
         </div> 
         </div> 
         </div>
         <div class="col-12 col-md-4"> 
-        <div class="lightbox-thumbnail-container"> 
+        <div class="ltc"> 
         <img 
             alt="${imgDescriptions[i + 2]}"
-            class="lo-img" 
+            class="lto-img" 
             src="${imgFolderUrl}/${imgNames[i + 2]}"
             width="400" 
         />
-        <div class="lightbox-thumbnail-overlay"> 
+        <div class="lto"> 
         <div class="lto-title">${imgTitles[i + 2]}</div> 
         <div class="lto-description">${imgDescriptions[i + 2]}</div> 
         </div> 
@@ -114,7 +126,7 @@ appendLightboxImgs();
 // On load
 $(document).ready(() => {
     appendLightboxOverlay();
-    $('.lightbox-thumbnail-container').each((index, item) => {
+    $('.ltc').each((index, item) => {
         const src = $(item)
             .find('img')
             .attr('src');
@@ -125,7 +137,7 @@ $(document).ready(() => {
 });
 
 // Trigger Lightbox on click
-$('.lightbox-thumbnail-overlay, .lto-description, .lto-title')
+$('.lto, .lto-description, .lto-title')
     .on('click', event => {
         openOverlay(event);
     });
@@ -133,26 +145,28 @@ $('.lightbox-thumbnail-overlay, .lto-description, .lto-title')
 // Handle click on previous img button
 $(lightboxContainer).on('click', '.btn-prev', () => {
     prevImgIndex = getPrevImgIndex(currentImgIndex);
-    prevCaptionText = getCaptionText(prevImgIndex);
+    prevDescriptionText = getDescriptionText(prevImgIndex);
     prevImgUrl = getPrevImgUrl(currentImgIndex);
     currentImgIndex = prevImgIndex;
-    setImgText(prevCaptionText, prevImgIndex + 1);
+    setImgDescription(prevDescriptionText);
+    setImgNumber(prevImgIndex + 1);
     showLightboxImg(prevImgUrl);
 });
 
 // Handle click on next img button
 $(lightboxContainer).on('click', '.btn-next', () => {
     nextImgIndex = getNextImgIndex(currentImgIndex);
-    nextCaptionText = getCaptionText(nextImgIndex);
+    nextDescriptionText = getDescriptionText(nextImgIndex);
     nextImgUrl = getNextImgUrl(nextImgIndex);
     currentImgIndex = nextImgIndex;
-    setImgText(nextCaptionText, nextImgIndex + 1);
+    setImgDescription(nextDescriptionText);
+    setImgNumber(nextImgIndex + 1);
     showLightboxImg(nextImgUrl);
 });
 
 // Close Lightbox
 $(lightboxContainer).on('click', '.btn-close', () => {
-    $('.lightbox-overlay').hide();
+    $('.lo').hide();
     clearPathAndIndex();
 });
 
@@ -188,7 +202,7 @@ function appendLightboxOverlay() {
         <span class="bar"></span>
         </div>
 
-        <div class="lightbox-overlay-row">
+        <div class="lo-row">
         <div class="col-2 col-md-2">
         <div class="btn-prev-row">
         <div class="btn-prev">
@@ -200,21 +214,21 @@ function appendLightboxOverlay() {
         </div>
         </div>
         <div class="col-8 col-md-8">
-        <div class="lightbox-item-row">
+        <div class="loi-row">
         <div class="col-12">
         <img alt=""
-class="lightbox-img"
-    src=""
+        class="lo-img"
+        src=""
         />
         </div>
 
         <div class="col-12">
         <div class="row">
         <div class="col-8">
-        <p class="caption-left"></p>
+        <p class="lo-description"></p>
         </div>
         <div class="col-4">
-        <p class="caption-right"></p>
+        <p class="lo-img-number"></p>
         </div>
         </div>
         </div>
@@ -233,7 +247,7 @@ class="lightbox-img"
         </div>
         </div>
     `;
-    $('.lightbox-overlay').append(html);
+    $('.lo').append(html);
 }
 
 function clearPathAndIndex() {
@@ -244,9 +258,9 @@ function clearPathAndIndex() {
 
 function getImgName(event) {
     let target = $(event.target);
-    if (target.is('div.lto-description') || target.is('div.lto-title')) {
+    if (target.is('.lto-description') || target.is('.lto-title')) {
         let imgUrl = $(event.target)
-            .closest('.lightbox-thumbnail-container')
+            .closest('.ltc')
             .find('img')
             .attr('src');
         imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1);
@@ -285,7 +299,7 @@ function getImgUrlFromIndex(index) {
     return imgNames[index];
 }
 
-function getCaptionText(currentImgIndex) {
+function getDescriptionText(currentImgIndex) {
     return imgDescriptions[currentImgIndex];
 }
 
@@ -308,31 +322,33 @@ function openOverlay(event) {
     event.preventDefault();
     prepareImgData(event);
     showLightboxImg(currentImgUrl);
-    $('.lightbox-overlay').fadeIn();
+    $('.lo').fadeIn();
 }
 
 function prepareImgData(event) {
-    currentCaptionText = getCaptionText(currentImgIndex);
+    currentCaptionText = getDescriptionText(currentImgIndex);
     currentImgUrl = getImgName(event);
     currentImgIndex = getCurrentImgIndex(currentImgUrl);
     nextImgIndex = getNextImgIndex(currentImgIndex);
-    nextCaptionText = getCaptionText(nextImgIndex);
+    nextDescriptionText = getDescriptionText(nextImgIndex);
     nextImgUrl = getImgUrlFromIndex(nextImgIndex);
     prevImgIndex = getPrevImgIndex(currentImgIndex);
-    prevCaptionText = getCaptionText(prevImgIndex);
+    prevDescriptionText = getDescriptionText(prevImgIndex);
     prevImgUrl = getImgUrlFromIndex(prevImgIndex);
-    setImgText(currentCaptionText, currentImgIndex + 1)
+    setImgDescription(currentCaptionText, currentImgIndex + 1)
 }
 
-function setImgText(captionText, imgNumber) {
-    if (typeof captionText === 'undefined') {
-        $('.caption-left').text('');
-    } else {
-        $('.caption-left').text(captionText);
+function setImgDescription(descriptionText) {
+    if (typeof descriptionText !== 'undefined') {
+        $('.lo-description').text(descriptionText);
     }
-    $('.caption-right').text(imgNumber + ' / ' + imgCount);
+}
+
+function setImgNumber(imgNumber) {
+    $('.lo-img-text').text(imgNumber + ' / ' + imgCount);
+
 }
 
 function showLightboxImg(imgUrl) {
-    $('.lightbox-img').attr('src', imgFolderUrl + '/' + imgUrl);
+    $('.lo-img').attr('src', imgFolderUrl + '/' + imgUrl);
 }

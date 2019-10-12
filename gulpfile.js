@@ -70,4 +70,3 @@ gulp.task('default', gulp.parallel(
     'copyHtml'
     )
 );
-

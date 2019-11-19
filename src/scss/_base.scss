@@ -1,7 +1,13 @@
+@import 'vendor/reflex/reflex';
+
 body {
   font-family: Arial, sans-serif;
 }
 
 .noscroll {
   overflow: hidden;
+}
+
+.row {
+  @extend .grid;
 }

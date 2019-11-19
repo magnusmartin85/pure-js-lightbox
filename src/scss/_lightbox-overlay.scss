@@ -15,9 +15,8 @@
 }
 
 .lo-row {
-  @extend .row;
-  @extend .align-items-center;
-  height: 100%;
+  @extend .grid;
+  @extend .align-center;
 }
 
 .lo-img {
@@ -28,7 +27,9 @@
 
 .lo-description {
   color: $icon-color;
+  font-size: .9rem;
   font-weight: 500;
+  margin: 0;
   text-align: left;
 }
 
@@ -43,7 +44,6 @@
 }
 
 .loi-row {
-  @extend .row;
-  @extend .align-items-center;
-  height: 100%;
+  @extend .grid;
+  @extend .align-center;
 }

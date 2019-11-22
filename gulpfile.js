@@ -40,7 +40,7 @@ gulp.task('uglify', done => {
 });
 
 gulp.task('copyHtml', () => {
-    return gulp.src('src/lightbox.html')
+    return gulp.src('src/index.html')
         .pipe(gulp.dest('dist'))
 });
 

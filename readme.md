@@ -7,4 +7,4 @@ Run `npm install` in root directory.
 Run `gulp` to build to dist /directory.
 
 ## Demo
-<a href="lightbox.mgnmrt.com">Demo</a>
+<a href="http://lightbox.mgnmrt.com/">Demo</a>

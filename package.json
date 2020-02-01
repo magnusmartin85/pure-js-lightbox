@@ -1,7 +1,7 @@
 {
   "name": "lightbox",
   "version": "1.0.0",
-  "description": "",
+  "description": "jQuery lightbox",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,6 +29,7 @@
     "gulp-imagemin": "^6.1.1",
     "gulp-sass": "^4.0.2",
     "gulp-uglifyjs": "^0.6.2",
-    "lodash.template": ">=4.5.0"
+    "lodash.template": ">=4.5.0",
+    "node-sass": "^4.13.1"
   }
 }

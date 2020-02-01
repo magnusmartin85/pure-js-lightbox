@@ -1,7 +1,7 @@
 {
   "name": "lightbox",
   "version": "1.0.0",
-  "description": "jQuery lightbox",
+  "description": "Simple jQuery Lightbox for showing images.",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

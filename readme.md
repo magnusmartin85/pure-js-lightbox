@@ -4,7 +4,12 @@
 Run `npm install` in root directory.
 
 ## Build
-Run `gulp` to build to dist /directory.
+Run `npm run start` to start webpack server.
+Run `npm run build` for a production build to dist /directory. This will also run gulp and optimize the images.
+
+## Configuration
+You'll find image data in src/data/imageData.js.
+Copy your images to src/images and adapt the imageData file. 
 
 ## Demo
 <a href="http://lightbox.mgnmrt.com/">Demo</a>

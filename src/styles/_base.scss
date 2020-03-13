@@ -1,13 +1,15 @@
 @import 'vendor/reflex/reflex';
 @import 'colors';
+@import 'fonts';
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: $font-family-primary;
   margin: 0;
 }
 
 h1 {
   color: $trout;
+  font-family: $font-family-secondary;
 }
 
 .noscroll {

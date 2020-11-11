@@ -17,6 +17,8 @@
 .lo-row {
   @extend .grid;
   @extend .align-center;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .lo-img {

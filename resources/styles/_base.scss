@@ -3,6 +3,7 @@
 @import 'fonts';
 
 body {
+  background-color: $gallery;
   font-family: $font-family-primary;
   margin: 0;
 }
@@ -10,6 +11,8 @@ body {
 h1 {
   color: $trout;
   font-family: $font-family-secondary;
+  letter-spacing: .1rem;
+  text-align: center;
 }
 
 .noscroll {

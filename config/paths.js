@@ -1,7 +1,8 @@
 const path = require('path');
 
 module.exports = {
-    src: path.resolve(__dirname, '../src'), // source files
-    build: path.resolve(__dirname, '../dist'), // production build files
-    static: path.resolve(__dirname, '../public'), // static files to copy to build folder
+  resources: path.resolve(__dirname, '../resources'), // source files
+  public: path.resolve(__dirname, '../public'), // production build files
+  imageDest: path.resolve(__dirname, '../public/images'), // image src files
+  imageSrc: path.resolve(__dirname, '../resources/images/**/*.{png,jpg}'), // image files optimized by gulp
 };

@@ -1,32 +1,26 @@
-const gulp = require('gulp');
-const del = require('del');
-const sourcemaps = require('gulp-sourcemaps');
-const plumber = require('gulp-plumber');
-const sass = require('gulp-sass');
-const less = require('gulp-less');
-const stylus = require('gulp-stylus');
 const autoprefixer = require('gulp-autoprefixer');
-const minifyCss = require('gulp-clean-css');
 const babel = require('gulp-babel');
-const webpack = require('webpack-stream');
-const uglify = require('gulp-uglify');
-const concat = require('gulp-concat');
-const imagemin = require('gulp-imagemin');
 const browserSync = require('browser-sync').create();
-const pug = require('gulp-pug');
+const concat = require('gulp-concat');
+const del = require('del');
 const dependents = require('gulp-dependents');
-const src_folder = './src/';
-const src_assets_folder = src_folder + 'assets/';
+const gulp = require('gulp');
+const minifyCss = require('gulp-clean-css');
+const plumber = require('gulp-plumber');
+const sass = require('gulp-sass')(require('sass'));
+const sourcemaps = require('gulp-sourcemaps');
+const webpack = require('webpack-stream');
+const src_folder = './resources/';
+const src_assets_folder = src_folder + '';
 const dist_folder = './dist/';
-const dist_assets_folder = dist_folder + 'assets/';
 const node_modules_folder = './node_modules/';
 const dist_node_modules_folder = dist_folder + 'node_modules/';
 const node_dependencies = Object.keys(require('./package.json').dependencies || {});
 
-gulp.task('clear', () => del([ dist_folder ]));
+gulp.task('clear', () => del([dist_folder]));
 
 gulp.task('html', () => {
-  return gulp.src([ src_folder + '**/*.html' ], {
+  return gulp.src([src_folder + '**/*.html'], {
     base: src_folder,
     since: gulp.lastRun('html')
   })
@@ -34,86 +28,49 @@ gulp.task('html', () => {
     .pipe(browserSync.stream());
 });
 
-gulp.task('pug', () => {
-  return gulp.src([ src_folder + 'pug/**/!(_)*.pug' ], {
-    base: src_folder + 'pug',
-    since: gulp.lastRun('pug')
-  })
-    .pipe(plumber())
-    .pipe(pug())
-    .pipe(gulp.dest(dist_folder))
+gulp.task('img', () => {
+  return gulp.src([src_folder + 'images/*'])
+    .pipe(gulp.dest(dist_folder + 'images'))
     .pipe(browserSync.stream());
 });
 
 gulp.task('sass', () => {
   return gulp.src([
-    src_assets_folder + 'sass/**/*.sass',
-    src_assets_folder + 'scss/**/*.scss'
-  ], { since: gulp.lastRun('sass') })
+    src_assets_folder + 'styles/lightbox.scss'
+  ])
     .pipe(sourcemaps.init())
     .pipe(plumber())
     .pipe(dependents())
-    .pipe(sass())
+    .pipe(sass({
+      includePaths: ['./node_modules/normalize.css']
+    }))
     .pipe(autoprefixer())
     .pipe(minifyCss())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dist_assets_folder + 'css'))
-    .pipe(browserSync.stream());
-});
-
-gulp.task('less', () => {
-  return gulp.src([ src_assets_folder + 'less/**/!(_)*.less'], { since: gulp.lastRun('less') })
-    .pipe(sourcemaps.init())
-    .pipe(plumber())
-    .pipe(less())
-    .pipe(autoprefixer())
-    .pipe(minifyCss())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dist_assets_folder + 'css'))
-    .pipe(browserSync.stream());
-});
-
-gulp.task('stylus', () => {
-  return gulp.src([ src_assets_folder + 'stylus/**/!(_)*.styl'], { since: gulp.lastRun('stylus') })
-    .pipe(sourcemaps.init())
-    .pipe(plumber())
-    .pipe(stylus())
-    .pipe(autoprefixer())
-    .pipe(minifyCss())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dist_assets_folder + 'css'))
+    .pipe(gulp.dest(dist_folder + 'css'))
     .pipe(browserSync.stream());
 });
 
 gulp.task('js', () => {
-  return gulp.src([ src_assets_folder + 'js/**/*.js' ], { since: gulp.lastRun('js') })
+  return gulp.src([src_assets_folder + 'scripts/index.js'])
     .pipe(plumber())
     .pipe(webpack({
       mode: 'production'
     }))
     .pipe(sourcemaps.init())
     .pipe(babel({
-      presets: [ '@babel/env' ]
+      presets: ['@babel/env']
     }))
     .pipe(concat('all.js'))
-    .pipe(uglify())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dist_assets_folder + 'js'))
-    .pipe(browserSync.stream());
-});
-
-gulp.task('images', () => {
-  return gulp.src([ src_assets_folder + 'images/**/*.+(png|jpg|jpeg|gif|svg|ico)' ], { since: gulp.lastRun('images') })
-    .pipe(plumber())
-    .pipe(imagemin())
-    .pipe(gulp.dest(dist_assets_folder + 'images'))
+    .pipe(gulp.dest(dist_folder + 'js'))
     .pipe(browserSync.stream());
 });
 
 gulp.task('vendor', () => {
   if (node_dependencies.length === 0) {
     return new Promise((resolve) => {
-      console.log("No dependencies specified");
+      console.log('No dependencies specified');
       resolve();
     });
   }
@@ -126,14 +83,14 @@ gulp.task('vendor', () => {
     .pipe(browserSync.stream());
 });
 
-gulp.task('build', gulp.series('clear', 'html', 'pug', 'sass', 'less', 'stylus', 'js', 'images', 'vendor'));
+gulp.task('build', gulp.series('clear', 'html', 'sass', 'js', 'vendor', 'img'));
 
-gulp.task('dev', gulp.series('html', 'pug', 'sass', 'less', 'stylus', 'js'));
+gulp.task('dev', gulp.series('html', 'sass', 'js', 'img'));
 
 gulp.task('serve', () => {
   return browserSync.init({
     server: {
-      baseDir: [ 'dist' ]
+      baseDir: ['dist']
     },
     port: 3000,
     open: false
@@ -141,10 +98,6 @@ gulp.task('serve', () => {
 });
 
 gulp.task('watch', () => {
-  const watchImages = [
-    src_assets_folder + 'images/**/*.+(png|jpg|jpeg|gif|svg|ico)'
-  ];
-
   const watchVendor = [];
 
   node_dependencies.forEach(dependency => {
@@ -153,16 +106,11 @@ gulp.task('watch', () => {
 
   const watch = [
     src_folder + '**/*.html',
-    src_folder + 'pug/**/*.pug',
-    src_assets_folder + 'sass/**/*.sass',
-    src_assets_folder + 'scss/**/*.scss',
-    src_assets_folder + 'less/**/*.less',
-    src_assets_folder + 'stylus/**/*.styl',
-    src_assets_folder + 'js/**/*.js'
+    src_assets_folder + 'styles/**/*.scss',
+    src_assets_folder + 'scripts/**/*.js'
   ];
 
   gulp.watch(watch, gulp.series('dev')).on('change', browserSync.reload);
-  gulp.watch(watchImages, gulp.series('images')).on('change', browserSync.reload);
   gulp.watch(watchVendor, gulp.series('vendor')).on('change', browserSync.reload);
 });
 

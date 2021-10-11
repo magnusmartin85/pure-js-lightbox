@@ -1,2 +1,2 @@
-import './styles/index.scss';
-import './scripts/lightbox';
+import './styles/lightbox.scss';
+import './scripts';

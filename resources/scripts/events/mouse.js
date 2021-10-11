@@ -29,7 +29,7 @@ $(lightboxContainer).on('click', '.btn-next', () => {
 
 // Close Lightbox
 $(lightboxContainer).on('click', '.btn-close', () => {
-  $('.lo').hide();
+  $('.lightbox-overlay').hide();
   $('body').removeClass('no-scroll');
   clearPathAndIndex();
 });

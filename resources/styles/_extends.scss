@@ -1,22 +1,11 @@
-@import 'colors';
+%row {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
 
-@mixin links($link, $visited, $hover, $active) {
-  color: $link;
-  text-decoration: none;
-
-  &:visited {
-    color: $visited;
-  }
-
-  &:hover {
-    color: $hover;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  &:active,
-  &:focus {
-    color: $hover;
-    text-decoration: none;
-  }
+%footer-text {
+  color: $icon-color;
+  font-weight: 500;
+  margin: 0;
 }

@@ -1,0 +1,22 @@
+%btn-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+%btn-1 {
+  background-color: $black-06;
+  color: $icon-color;
+  font-size: 50px;
+  height: 50px;
+  line-height: 1;
+  width: 50px;
+
+  &:hover {
+    color: $white;
+    cursor: pointer;
+  }
+}

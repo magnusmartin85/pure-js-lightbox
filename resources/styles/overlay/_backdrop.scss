@@ -1,0 +1,11 @@
+.lightbox-backdrop {
+  background-color: $black;
+  height: 100vh;
+  left: 0;
+  opacity: .9;
+  position: fixed;
+  top: 0;
+  transition: opacity .15s linear;
+  width: 100vw;
+  z-index: 1040;
+}

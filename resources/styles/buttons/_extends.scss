@@ -8,12 +8,15 @@
 }
 
 %btn-1 {
+  align-items: center;
   background-color: $black-06;
+  border-radius: 50%;
+  border: 1px solid $icon-color;
   color: $icon-color;
+  display: flex;
   font-size: 50px;
-  height: 50px;
-  line-height: 1;
-  width: 50px;
+  justify-content: center;
+  padding: 0 25px 4px;
 
   &:hover {
     color: $white;

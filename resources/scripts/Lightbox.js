@@ -35,7 +35,7 @@ class Lightbox {
    */
   addLightboxOverlayHtmlToDom(html) {
     // remove old dom elements
-    const lightboxOverlay = document.querySelector('.lightbox-overlay');
+    const lightboxOverlay = document.querySelector('.lightbox-backdrop');
     lightboxOverlay.innerHTML = '';
     document.querySelector('.lightbox-overlay').insertAdjacentHTML('beforeend', html);
   }
@@ -175,7 +175,7 @@ class Lightbox {
         <div class="lightbox-overlay-body-col-3">
         <div class="btn-next-row">
         <div class="btn-next">
-            ›
+           ›
         </div>
         </div>
         </div>
@@ -203,7 +203,7 @@ class Lightbox {
    * @returns {*}
    */
   getPreviewImageHtml() {
-    let html;
+    let html = ``;
     for (let i = 0; i < images.length; i++) {
       html +=
         `<div class="preview-image-row">
@@ -312,17 +312,18 @@ class Lightbox {
   openLightboxOverlay(event) {
     event.preventDefault();
 
-    const overlayHtml = this.getLightboxOverlayHtml(event);
+    const overlayHtml = this.getLightboxOverlayHtml();
     const currentImageIndex = this.getCurrentImageIndex(event);
     const currentImagePath = images[currentImageIndex].imagePath;
     const overlay = document.querySelector('.lightbox-overlay');
 
+    this.addOverlayToDom();
     this.addLightboxOverlayHtmlToDom(overlayHtml);
     this.showLightboxImage(currentImagePath);
     this.showLightboxOverlay(overlay);
     this.updateFooterData(currentImageIndex);
     this.setBodyOverflow(this.body);
-    this.addBackdropToDom();
+
 
     this.addClickListenerToCloseButton();
     this.addClickListenerToNextButton();
@@ -381,10 +382,10 @@ class Lightbox {
     this.currentImageIndex = newIndex;
   }
 
-  addBackdropToDom() {
-      const backdropDiv = document.createElement('div');
-      backdropDiv.className = 'lightbox-backdrop';
-      document.body.appendChild(backdropDiv);
+  addOverlayToDom() {
+    const overlayDiv = document.createElement('div');
+    overlayDiv.className = 'lightbox-overlay';
+    document.body.appendChild(overlayDiv);
   }
 
 }

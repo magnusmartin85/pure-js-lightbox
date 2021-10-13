@@ -1,7 +1,7 @@
 import Lightbox from './Lightbox';
+import images from '../data/images';
 
-
-const lightbox = new Lightbox();
+const lightbox = new Lightbox(images);
 
 lightbox.displayPreviewImages();
 

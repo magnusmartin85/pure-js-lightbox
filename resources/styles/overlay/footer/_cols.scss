@@ -1,11 +1,29 @@
 .lightbox-overlay-footer-col-1 {
-  flex-basis: 35%;
+  flex-basis: 100%;
+  order: 2;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    flex-basis: 35%;
+    order: 1;
+  }
 }
 
 .lightbox-overlay-footer-col-2 {
-  flex-basis: 55%;
+  flex-basis: 100%;
+  order: 1;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    flex-basis: 55%;
+    order: 2;
+  }
 }
 
 .lightbox-overlay-footer-col-3 {
-  flex-basis: 10%;
+  flex-basis: 100%;
+  order: 3;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    flex-basis: 10%;
+    order: 3;
+  }
 }

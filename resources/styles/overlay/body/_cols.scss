@@ -1,11 +1,28 @@
 .lightbox-overlay-body-col-1 {
   flex-basis: 10%;
+  order: 2;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    flex-basis: 10%;
+    order: 1;
+  }
 }
 
 .lightbox-overlay-body-col-2 {
-  flex-basis: 80%;
+  flex-basis: 98%;
+  order: 1;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    flex-basis: 80%;
+    order: 2;
+  }
 }
 
 .lightbox-overlay-body-col-3 {
   flex-basis: 10%;
+  order: 3;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    flex-basis: 10%;
+  }
 }

@@ -1,3 +1,5 @@
 .lightbox-overlay-body-row {
   @extend %row;
+  flex-wrap: wrap;
+  justify-content: center;
 }

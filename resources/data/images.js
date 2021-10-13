@@ -18,7 +18,7 @@ export default [
     source: 'Photo by Markus Spiske temporausch.com from Pexels',
   },
   {
-    description: 'Multicolored Hot Air Balloon over Calm Sea',
+    description: 'Moraine Lake Sunrise',
     imagePath: './images/04.jpg',
     id: 3,
     source: 'Photo by James Wheeler from Pexels',

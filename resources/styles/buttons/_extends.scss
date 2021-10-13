@@ -4,14 +4,12 @@
   flex-wrap: nowrap;
   height: 100%;
   justify-content: center;
+  padding: 4px;
   width: 100%;
 }
 
 %btn-1 {
   align-items: center;
-  background-color: $black-06;
-  border-radius: 50%;
-  border: 1px solid $icon-color;
   color: $icon-color;
   display: flex;
   font-size: 50px;

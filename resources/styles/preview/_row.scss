@@ -1,3 +1,5 @@
-.preview-image-row {
+.image-preview-grid-row {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

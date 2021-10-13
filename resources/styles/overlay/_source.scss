@@ -1,5 +1,9 @@
 .lightbox-overlay-image-source {
   @extend %footer-text;
   font-size: 10px;
-  text-align: left;
+  text-align: center;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    text-align: left;
+  }
 }

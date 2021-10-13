@@ -1,45 +1,38 @@
-import images from '../data/images';
-
 class Lightbox {
-  constructor() {
+  constructor(images) {
+    this.images = images;
+    this.imageCount = images.length;
   }
 
   body = document.querySelector('body');
-  html = '';
-
-  currentCaptionText = '';
   currentImageIndex = 0;
 
-  previousDescriptionText = '';
-  previousImage = '';
-  previousImageIndex = 0;
-
-  nextDescriptionText = '';
-  nextImage = '';
-  nextImageIndex = 0;
-
-  imageCount = images.length;
-
 
   /**
    *
-   * @param html
+   * @param {string} html
    */
   addPreviewImagesHtmlToDom(html) {
-    document.querySelector('.preview-image-grid').insertAdjacentHTML('beforeend', html);
+    console.warn('addPreviewImagesHtmlToDom html', typeof html);
+    document.querySelector('.image-preview-grid').insertAdjacentHTML('beforeend', html);
   }
 
   /**
    *
-   * @param html
+   * @param {string} html
    */
-  addLightboxOverlayHtmlToDom(html) {
+  addImageSliderHtmlToDom(html) {
+    const imageSlider = document.querySelector('.image-slider');
     // remove old dom elements
-    const lightboxOverlay = document.querySelector('.lightbox-backdrop');
-    lightboxOverlay.innerHTML = '';
-    document.querySelector('.lightbox-overlay').insertAdjacentHTML('beforeend', html);
+    imageSlider.innerHTML = '';
+    imageSlider.innerHTML = html;
+    imageSlider.classList.add('show');
+    imageSlider.classList.remove('hide');
   }
 
+  /**
+   *
+   */
   addClickListenersToPreviewImages() {
     const triggerCollection = document.getElementsByClassName('preview-image-overlay');
 
@@ -53,9 +46,11 @@ class Lightbox {
 
   addClickListenerToCloseButton() {
     const closeButton = document.querySelector('.btn-close');
-    const overlay = document.querySelector('.lightbox-overlay');
-    closeButton.addEventListener('click', event => {
-      this.hideLightboxOverlay(overlay);
+    const backdrop = document.querySelector('.lightbox-backdrop');
+    const slider = document.querySelector('.image-slider');
+    closeButton.addEventListener('click', () => {
+      this.hideBackdrop(backdrop);
+      this.hideSlider(slider);
     });
   }
 
@@ -81,13 +76,6 @@ class Lightbox {
     });
   }
 
-  /**
-   *
-   */
-  clearPathAndIndex() {
-    this.currentImageIndex = 0;
-  }
-
   displayPreviewImages() {
     const html = this.getPreviewImageHtml();
 
@@ -96,7 +84,7 @@ class Lightbox {
 
   /**
    *
-   * @param index
+   * @param {number} index
    * @returns {number}
    */
   getPreviousImageIndex(index) {
@@ -109,7 +97,7 @@ class Lightbox {
 
   /**
    *
-   * @param event
+   * @param {object} event
    * @returns {number}
    */
   getCurrentImageIndex(event) {
@@ -126,7 +114,7 @@ class Lightbox {
 
   /**
    *
-   * @param index
+   * @param {number} index
    * @returns {number|*}
    */
   getNextImageIndex(index) {
@@ -139,7 +127,7 @@ class Lightbox {
 
   /**
    *
-   * @param index
+   * @param {number} index
    * @returns {*}
    */
   getImageFromIndex(index) {
@@ -150,7 +138,7 @@ class Lightbox {
    *
    * @returns {string}
    */
-  getLightboxOverlayHtml() {
+  getSliderHtml() {
     return `<div class="lightbox-overlay-header-row">
         <div class="btn-close">
             ✕
@@ -200,55 +188,55 @@ class Lightbox {
 
   /**
    *
-   * @returns {*}
+   * @returns {string}
    */
   getPreviewImageHtml() {
     let html = ``;
-    for (let i = 0; i < images.length; i++) {
+    for (let i = 0; i < this.imageCount; i++) {
       html +=
-        `<div class="preview-image-row">
-        <div class="preview-image-col">
+        `<div class="image-preview-grid-row">
+        <div class="image-preview-grid-col">
         <div class="preview-image-container">
         <img
-        alt="${images[i].description}"
+        alt="${this.images[i].description}"
         class="preview-image"
-        data-id="${images[i].id}"
-        src="${images[i].imagePath}"
+        data-id="${this.images[i].id}"
+        src="${this.images[i].imagePath}"
         width="400"
         />
         <div class="preview-image-overlay">
-        <div class="preview-image-overlay-title">${images[i].description}</div>
-        <div class="preview-image-overlay-description">${images[i].source}</div>
+        <div class="preview-image-overlay-title">${this.images[i].description}</div>
+        <div class="preview-image-overlay-description">${this.images[i].source}</div>
         </div>
         </div>
         </div>
-        <div class="preview-image-col">
+        <div class="image-preview-grid-col">
         <div class="preview-image-container">
         <img
-        alt="${images[i + 1].description}"
+        alt="${this.images[i + 1].description}"
         class="preview-image"
-        data-id="${images[i + 1].id}"
-        src="${images[i + 1].imagePath}"
+        data-id="${this.images[i + 1].id}"
+        src="${this.images[i + 1].imagePath}"
         width="400"
         />
         <div class="preview-image-overlay">
-        <div class="preview-image-overlay-title">${images[i + 1].description}</div>
-        <div class="preview-image-overlay-description">${images[i + 1].source}</div>
+        <div class="preview-image-overlay-title">${this.images[i + 1].description}</div>
+        <div class="preview-image-overlay-description">${this.images[i + 1].source}</div>
         </div>
         </div>
         </div>
-        <div class="preview-image-col">
+        <div class="image-preview-grid-col">
         <div class="preview-image-container">
         <img
-        alt="${images[i + 2].description}"
+        alt="${this.images[i + 2].description}"
         class="preview-image"
-        data-id="${images[i + 2].id}"
-        src="${images[i + 2].imagePath}"
+        data-id="${this.images[i + 2].id}"
+        src="${this.images[i + 2].imagePath}"
         width="400"
         />
         <div class="preview-image-overlay">
-        <div class="preview-image-overlay-title">${images[i + 2].description}</div>
-        <div class="preview-image-overlay-description">${images[i + 2].source}</div>
+        <div class="preview-image-overlay-title">${this.images[i + 2].description}</div>
+        <div class="preview-image-overlay-description">${this.images[i + 2].source}</div>
         </div>
         </div>
         </div>
@@ -260,77 +248,88 @@ class Lightbox {
 
   /**
    *
-   * @param currentImageIndex
+   * @param {number} currentImageIndex
    * @returns {string|*}
    */
   getDescriptionText(currentImageIndex) {
-    return images[currentImageIndex].description;
+    return this.images[currentImageIndex].description;
   }
 
   /**
    *
-   * @param currentImageIndex
+   * @param {number} currentImageIndex
    * @returns {string|*}
    */
   getSourceText(currentImageIndex) {
-    return images[currentImageIndex].source;
+    return this.images[currentImageIndex].source;
   }
 
   /**
    *
-   * @param imageIndex
-   * @param imageCount
+   * @param {number} imageIndex
+   * @param {number} imageCount
    * @returns {string|*}
    */
   getPreviousImagePath(imageIndex, imageCount) {
-    if (imageIndex === 0) {
-      return images[imageCount - 1].imagePath;
-    } else {
-      return images[imageIndex].imagePath;
-    }
+      return this.images[imageIndex].imagePath;
   }
 
   /**
    *
-   * @param imageIndex
-   * @param imageCount
+   * @param {number} imageIndex
+   * @param {number} imageCount
    * @returns {string|string|*}
    */
   getNextImagePath(imageIndex, imageCount) {
     if (imageIndex === imageCount) {
-      return images[0].imagePath;
+      return this.images[0].imagePath;
     }
-    return images[imageIndex].imagePath;
+    return this.images[imageIndex].imagePath;
   }
 
-  hideLightboxOverlay(overlay) {
-    overlay.classList.add('hide');
-    overlay.classList.remove('show');
-    this.removeBackdropFromDom();
+  /**
+   *
+   * @param {object} backdrop
+   */
+  hideBackdrop(backdrop) {
+    backdrop.classList.add('hide');
+    backdrop.classList.remove('show');
+    this.removeBackdropHtmlFromDom();
   }
 
+  /**
+   *
+   * @param {object} slider
+   */
+  hideSlider(slider) {
+    slider.classList.add('hide');
+    slider.classList.remove('show');
+  }
+
+  /**
+   *
+   * @param {object} event
+   */
   openLightboxOverlay(event) {
     event.preventDefault();
 
-    const overlayHtml = this.getLightboxOverlayHtml();
+    const sliderHtml = this.getSliderHtml();
     const currentImageIndex = this.getCurrentImageIndex(event);
-    const currentImagePath = images[currentImageIndex].imagePath;
-    const overlay = document.querySelector('.lightbox-overlay');
+    const currentImagePath = this.images[currentImageIndex].imagePath;
 
-    this.addOverlayToDom();
-    this.addLightboxOverlayHtmlToDom(overlayHtml);
+    this.setCurrentImageIndex(currentImageIndex);
+    this.addBackdropHtmlToDom();
+    this.addImageSliderHtmlToDom(sliderHtml);
     this.showLightboxImage(currentImagePath);
-    this.showLightboxOverlay(overlay);
     this.updateFooterData(currentImageIndex);
     this.setBodyOverflow(this.body);
-
 
     this.addClickListenerToCloseButton();
     this.addClickListenerToNextButton();
     this.addClickListenerToPreviousButton();
   }
 
-  removeBackdropFromDom() {
+  removeBackdropHtmlFromDom() {
     const backdropDiv = document.querySelector('.lightbox-backdrop');
     backdropDiv && backdropDiv.remove();
   }
@@ -339,6 +338,19 @@ class Lightbox {
     body.classList.add('no-scroll');
   }
 
+  /**
+   *
+   * @param {number} index
+   * @returns {number}
+   */
+  setCurrentImageIndex(index) {
+    this.currentImageIndex = index;
+  }
+
+  /**
+   *
+   * @param {number} currentImageIndex
+   */
   setImageDescription(currentImageIndex) {
     const descriptionText = this.getDescriptionText(currentImageIndex);
 
@@ -347,6 +359,10 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   * @param {number} currentImageIndex
+   */
   setImageSource(currentImageIndex) {
     const text = this.getSourceText(currentImageIndex);
 
@@ -355,37 +371,52 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   * @param {number} imageNumber
+   */
   setImageNumber(imageNumber) {
     document.querySelector('.lightbox-overlay-image-number').textContent = imageNumber + ' / ' + this.imageCount;
   }
 
-  showLightboxOverlay(overlay) {
-    overlay.classList.add('show');
-    overlay.classList.remove('hide');
-  }
-
+  /**
+   *
+   * @param {number} imagePath
+   */
   showLightboxImage(imagePath) {
     document.querySelector('.lightbox-overlay-image').setAttribute('src', imagePath);
   }
 
+  /**
+   *
+   * @param {number} imagePath
+   */
   showImage(imagePath) {
     document.querySelector('.lightbox-overlay-image').setAttribute('src', imagePath);
   }
 
+  /**
+   *
+   * @param {number} currentImageIndex
+   */
   updateFooterData(currentImageIndex) {
     this.setImageDescription(currentImageIndex);
     this.setImageSource(currentImageIndex);
     this.setImageNumber(currentImageIndex + 1);
   }
 
+  /**
+   *
+   * @param {number} newIndex
+   */
   updateImageIndex(newIndex) {
     this.currentImageIndex = newIndex;
   }
 
-  addOverlayToDom() {
-    const overlayDiv = document.createElement('div');
-    overlayDiv.className = 'lightbox-overlay';
-    document.body.appendChild(overlayDiv);
+  addBackdropHtmlToDom() {
+    const backdropDiv = document.createElement('div');
+    backdropDiv.className = 'lightbox-backdrop';
+    document.body.appendChild(backdropDiv);
   }
 
 }

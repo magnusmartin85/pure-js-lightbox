@@ -1,4 +1,5 @@
 // import dependencies
+@import 'breakpoints';
 @import 'colors';
 @import 'fonts';
 @import 'variables';
@@ -8,6 +9,8 @@
 
 
 @import 'base';
+@import 'container';
 @import 'buttons/index';
 @import 'overlay/index';
 @import 'preview/index';
+@import 'slider/index';

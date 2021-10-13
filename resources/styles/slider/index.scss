@@ -1,0 +1,22 @@
+.image-slider {
+  display: none;
+  flex-wrap: wrap;
+  height: 100vh;
+  left: 0;
+  overflow-x: hidden;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100vw;
+  z-index: 9990;
+
+  &.show {
+    align-items: baseline;
+    display: flex;
+    transition: opacity 400ms;
+  }
+
+  &.hide {
+    opacity: 0;
+  }
+}

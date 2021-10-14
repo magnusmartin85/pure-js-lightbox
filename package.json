@@ -10,9 +10,12 @@
     "url": "https://github.com/magnusmartin85/lightbox.git"
   },
   "keywords": [
+    "vanilla",
+    "javascript",
     "gallery",
-    "images",
     "lightbox",
+    "slider",
+    "images",
     "gulp"
   ],
   "author": "Magnus Martin <hello@mgnmrt.com>",
@@ -22,6 +25,7 @@
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "browser-sync": "^2.27.5",
+    "chai": "^4.3.4",
     "del": "^6.0.0",
     "eslint": "^8.0.0",
     "gulp": "^4.0.2",
@@ -32,6 +36,7 @@
     "gulp-dependents": "^1.2.5",
     "gulp-imagemin": "^8.0.0",
     "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",

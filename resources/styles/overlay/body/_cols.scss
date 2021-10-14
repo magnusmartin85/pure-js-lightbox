@@ -16,6 +16,11 @@
     flex-basis: 80%;
     order: 2;
   }
+  @media only screen and (min-width: $breakpoint-lg) {
+    flex-basis: 64%;
+    order: 2;
+  }
+
 }
 
 .lightbox-overlay-body-col-3 {

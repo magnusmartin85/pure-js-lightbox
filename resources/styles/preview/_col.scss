@@ -4,7 +4,7 @@
   padding: 10px;
   flex-basis: 100%;
 
-  @media only screen and (min-width: $breakpoint-md) {
+  @media only screen and (min-width: $breakpoint-sm) {
     flex-basis: math.div(100%, 3) - 5;
   }
 }

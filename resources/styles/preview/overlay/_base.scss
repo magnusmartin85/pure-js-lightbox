@@ -3,35 +3,18 @@
   background-color: $black-08;
   border-radius: 5px;
   bottom: 0;
-  display: flex;
+  display: block;
   flex-wrap: wrap;
-  height: 98%;
   left: 0;
   opacity: 0;
   overflow: hidden;
+  padding: 20px 0;
   position: absolute;
   right: 0;
   top: 0;
   transition: $trans-opacity-1;
   width: 100%;
   z-index: 2;
-}
-
-.preview-image-overlay-title {
-  color: $white;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: .04rem;
-  line-height: 1.5;
-  padding: 15px;
-}
-
-.preview-image-overlay-description {
-  color: $alto;
-  font-size: 12px;
-  letter-spacing: .02rem;
-  line-height: 1.5;
-  padding: 15px;
 }
 
 .preview-image-container:hover .preview-image-overlay {

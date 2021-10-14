@@ -6,16 +6,20 @@ const del = require('del');
 const dependents = require('gulp-dependents');
 const gulp = require('gulp');
 const minifyCss = require('gulp-clean-css');
+const node_dependencies = Object.keys(require('./package.json').dependencies || {});
+const node_modules_folder = './node_modules/';
 const plumber = require('gulp-plumber');
+const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
 const webpack = require('webpack-stream');
+
+// directories
+const dist_folder = './dist/';
+const dist_node_modules_folder = dist_folder + 'node_modules/';
 const src_folder = './resources/';
 const src_assets_folder = src_folder + '';
-const dist_folder = './dist/';
-const node_modules_folder = './node_modules/';
-const dist_node_modules_folder = dist_folder + 'node_modules/';
-const node_dependencies = Object.keys(require('./package.json').dependencies || {});
 
 gulp.task('clear', () => del([dist_folder]));
 
@@ -45,7 +49,9 @@ gulp.task('sass', () => {
       includePaths: ['./node_modules/normalize.css']
     }))
     .pipe(autoprefixer())
+    .pipe(gulp.dest(dist_folder + 'css'))
     .pipe(minifyCss())
+    .pipe(rename({extname: '.min.css'}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(dist_folder + 'css'))
     .pipe(browserSync.stream());
@@ -61,7 +67,15 @@ gulp.task('js', () => {
     .pipe(babel({
       presets: ['@babel/env']
     }))
-    .pipe(concat('all.js'))
+    .pipe(concat('lightbox.js'))
+    .pipe(gulp.dest(dist_folder + 'js'))
+    .pipe(uglify({
+      output: {
+        comments: /^!/
+      }
+    }))
+    .pipe(rename({extname: '.min.js'}))
+    .pipe(gulp.dest(dist_folder + 'js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(dist_folder + 'js'))
     .pipe(browserSync.stream());

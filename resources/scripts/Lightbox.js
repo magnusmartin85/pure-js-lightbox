@@ -1,7 +1,7 @@
 class Lightbox {
-  constructor(images) {
-    this.images = images;
-    this.imageCount = images.length;
+  constructor(config) {
+    this.images = config.images;
+    this.imageCount = config.images.length;
   }
 
   body = document.querySelector('body');
@@ -13,7 +13,6 @@ class Lightbox {
    * @param {string} html
    */
   addPreviewImagesHtmlToDom(html) {
-    console.warn('addPreviewImagesHtmlToDom html', typeof html);
     document.querySelector('.image-preview-grid').insertAdjacentHTML('beforeend', html);
   }
 
@@ -76,9 +75,29 @@ class Lightbox {
     });
   }
 
+  addEventListenerForKeyboard() {
+    const btnClose = document.querySelector('.btn-close');
+
+    document.addEventListener('keydown', (evt) => {
+      switch (evt.key) {
+        case 'Escape': // esc-key
+          return btnClose.click();
+
+        case 'ArrowLeft': // left-key
+          const btnPrevious = document.querySelector('.btn-previous');
+          return btnPrevious.click();
+
+        case 'ArrowRight': // right-key
+          const btnNext = document.querySelector('.btn-next');
+          return btnNext.click();
+        default:
+          return;
+      }
+    })
+  }
+
   displayPreviewImages() {
     const html = this.getPreviewImageHtml();
-
     this.addPreviewImagesHtmlToDom(html);
   }
 
@@ -271,7 +290,7 @@ class Lightbox {
    * @returns {string|*}
    */
   getPreviousImagePath(imageIndex, imageCount) {
-      return this.images[imageIndex].imagePath;
+    return this.images[imageIndex].imagePath;
   }
 
   /**
@@ -308,6 +327,14 @@ class Lightbox {
 
   /**
    *
+   * @param {object} lightbox - A lightbox instance.
+   */
+  initializeLightbox(lightbox) {
+    lightbox.displayPreviewImages();
+    lightbox.addClickListenersToPreviewImages();
+  }
+  /**
+   *
    * @param {object} event
    */
   openLightboxOverlay(event) {
@@ -327,6 +354,7 @@ class Lightbox {
     this.addClickListenerToCloseButton();
     this.addClickListenerToNextButton();
     this.addClickListenerToPreviousButton();
+    this.addEventListenerForKeyboard();
   }
 
   removeBackdropHtmlFromDom() {

@@ -1,8 +1,8 @@
+import config from './config';
 import Lightbox from './Lightbox';
-import images from '../data/images';
 
-const lightbox = new Lightbox(images);
+// create a new lightbox instance
+const lightbox = new Lightbox(config);
 
-lightbox.displayPreviewImages();
-
-lightbox.addClickListenersToPreviewImages();
+// initialize lightbox
+lightbox.initializeLightbox(lightbox);

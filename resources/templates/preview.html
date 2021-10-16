@@ -1,0 +1,77 @@
+<div class="image-preview-grid-row">
+  <div class="image-preview-grid-col">
+    <div class="preview-image-container">
+      <img
+        alt="{{image1.description}}"
+        class="preview-image"
+        data-id="{{image1.id}}"
+        src="{{image1.imagePath}}"
+        width="400"
+      />
+      <div class="preview-image-overlay">
+        {{#previewImage.overlay.showImageDescription}}
+        <div class="preview-image-overlay-description">
+          {{image1.description}}
+        </div>
+        {{/previewImage.overlay.showImageDescription}}
+
+        {{#previewImage.overlay.showImageSource}}
+        <div class="preview-image-overlay-source">
+          {{image1.source}}
+        </div>
+        {{/previewImage.overlay.showImageSource}}
+      </div>
+    </div>
+  </div>
+
+  <div class="image-preview-grid-col">
+    <div class="preview-image-container">
+      <img
+        alt="{{image2.description}}"
+        class="preview-image"
+        data-id="{{image2.id}}"
+        src="{{image2.imagePath}}"
+        width="400"
+      />
+      <div class="preview-image-overlay">
+        {{#previewImage.overlay.showImageDescription}}
+        <div class="preview-image-overlay-description">
+          {{image2.description}}
+        </div>
+        {{/previewImage.overlay.showImageDescription}}
+
+        {{#previewImage.overlay.showImageSource}}
+        <div class="preview-image-overlay-source">
+          {{image2.source}}
+        </div>
+        {{/previewImage.overlay.showImageSource}}
+      </div>
+    </div>
+  </div>
+
+  <div class="image-preview-grid-col">
+    <div class="preview-image-container">
+      <img
+        alt="{{image3.description}}"
+        class="preview-image"
+        data-id="{{image3.id}}"
+        src="{{image3.imagePath}}"
+        width="400"
+      />
+
+      <div class="preview-image-overlay">
+        {{#previewImage.overlay.showImageDescription}}
+        <div class="preview-image-overlay-description">
+          {{image3.description}}
+        </div>
+        {{/previewImage.overlay.showImageDescription}}
+
+        {{#previewImage.overlay.showImageSource}}
+        <div class="preview-image-overlay-source">
+          {{image3.source}}
+        </div>
+        {{/previewImage.overlay.showImageSource}}
+      </div>
+    </div>
+  </div>
+</div>

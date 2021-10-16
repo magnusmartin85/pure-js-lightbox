@@ -40,6 +40,7 @@
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
+    "mustache": "^4.2.0",
     "sass": "^1.42.1",
     "webpack-stream": "^7.0.0"
   },

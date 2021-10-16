@@ -21,6 +21,7 @@ const dist_node_modules_folder = dist_folder + 'node_modules/';
 const src_folder = './resources/';
 const src_assets_folder = src_folder + '';
 
+
 gulp.task('clear', () => del([dist_folder]));
 
 gulp.task('html', () => {
@@ -58,10 +59,10 @@ gulp.task('sass', () => {
 });
 
 gulp.task('js', () => {
-  return gulp.src([src_assets_folder + 'scripts/index.js'])
+  return gulp.src([src_assets_folder + 'scripts/**/*'])
     .pipe(plumber())
     .pipe(webpack({
-      mode: 'production'
+      mode: 'production',
     }))
     .pipe(sourcemaps.init())
     .pipe(babel({

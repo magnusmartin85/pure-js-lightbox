@@ -15,6 +15,10 @@
   transition: $trans-opacity-1;
   width: 100%;
   z-index: 2;
+
+  @media only screen and (min-width: $breakpoint-sm) {
+    height: 77%;
+  }
 }
 
 .preview-image-container:hover .preview-image-overlay {

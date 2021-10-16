@@ -4,12 +4,12 @@ export default {
   images,
   imageSlider: {
     showImageSource: true,
-    showImageTitle: true,
+    showImageDescription: true,
     showImageNumbers: true
   },
   previewImage: {
     overlay: {
-      showImageTitle: true,
+      showImageDescription: true,
       showImageSource: true
     }
   }

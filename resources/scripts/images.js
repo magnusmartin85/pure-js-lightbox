@@ -24,10 +24,10 @@ export default [
     source: 'Photo by James Wheeler from Pexels',
   },
   {
-    description: 'Green Trees Under Blue and Orange Sky during Sunset',
+    description: 'Brown Wooden House on Green Grass Field Near Green Trees and Mountains',
     imagePath: './images/05.jpg',
     id: 4,
-    source: 'Photo by Joyston Judah from Pexels',
+    source: 'Photo by Mateusz Sałaciak from Pexels',
   },
   {
     description: 'Multicolored Hot Air Balloon over Calm Sea',

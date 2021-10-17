@@ -9,13 +9,6 @@ class Lightbox {
   body = document.querySelector('body');
   currentImageIndex = 0;
 
-  addEventListener() {
-    this.addClickListenerToCloseButton();
-    this.addClickListenerToNextButton();
-    this.addClickListenerToPreviousButton();
-    this.addEventListenerForKeyboard();
-  }
-
   /**
    *
    */
@@ -42,6 +35,7 @@ class Lightbox {
 
   addClickListenerToNextButton() {
     const nextButton = document.querySelector('.btn-next');
+
     nextButton.addEventListener('click', () => {
       const nextImageIndex = this.getNextImageIndex(this.currentImageIndex);
       const nextImagePath = this.getNextImagePath(nextImageIndex, this.imageCount);
@@ -63,24 +57,11 @@ class Lightbox {
   }
 
   addEventListenerForKeyboard() {
-    const btnClose = document.querySelector('.btn-close');
+    document.addEventListener('keydown', this.keyboardListener);
+  }
 
-    document.addEventListener('keydown', (evt) => {
-      switch (evt.key) {
-        case 'Escape': // esc-key
-          return btnClose.click();
-
-        case 'ArrowLeft': // left-key
-          const btnPrevious = document.querySelector('.btn-previous');
-          return btnPrevious.click();
-
-        case 'ArrowRight': // right-key
-          const btnNext = document.querySelector('.btn-next');
-          return btnNext.click();
-        default:
-          return;
-      }
-    })
+  removeEventListenerForKeyboard() {
+    document.removeEventListener('keydown', this.keyboardListener);
   }
 
   /**
@@ -128,15 +109,6 @@ class Lightbox {
 
   /**
    *
-   * @param {number} index
-   * @returns {*}
-   */
-  getImageFromIndex(index) {
-    return this.images[index].imagePath;
-  }
-
-  /**
-   *
    * @returns {string}
    */
   addSliderHtmlToDom(event) {
@@ -156,7 +128,9 @@ class Lightbox {
         imageSlider.classList.remove('hide');
         this.showLightboxImage(currentImagePath);
         this.updateFooterData(currentImageIndex);
-        this.addEventListener();
+        this.addClickListenerToCloseButton();
+        this.addClickListenerToNextButton();
+        this.addClickListenerToPreviousButton();
       });
   }
 
@@ -283,6 +257,7 @@ class Lightbox {
   hideSlider(slider) {
     slider.classList.add('hide');
     slider.classList.remove('show');
+    this.removeEventListenerForKeyboard();
   }
 
   /**
@@ -291,6 +266,29 @@ class Lightbox {
    */
   initializeLightbox(lightbox) {
     lightbox.addPreviewImageHtmlToDom();
+  }
+
+  /**
+   *
+   * @param {object} evt
+   * @returns {*}
+   */
+  keyboardListener(evt) {
+    switch (evt.key) {
+      case 'Escape': // esc-key
+        const btnClose = document.querySelector('.btn-close');
+        return btnClose.click();
+
+      case 'ArrowLeft': // left-key
+        const btnPrevious = document.querySelector('.btn-previous');
+        return btnPrevious.click();
+
+      case 'ArrowRight': // right-key
+        const btnNext = document.querySelector('.btn-next');
+        return btnNext.click();
+      default:
+        return;
+    }
   }
 
   /**
@@ -305,6 +303,7 @@ class Lightbox {
     this.setCurrentImageIndex(currentImageIndex);
     this.addBackdropHtmlToDom();
     this.setBodyOverflow(this.body);
+    this.addEventListenerForKeyboard();
   }
 
   removeBackdropHtmlFromDom() {

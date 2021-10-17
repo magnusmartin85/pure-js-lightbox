@@ -19,7 +19,6 @@ const webpack = require('webpack-stream');
 const dist_folder = './dist/';
 const dist_node_modules_folder = dist_folder + 'node_modules/';
 const src_folder = './resources/';
-const src_assets_folder = src_folder + '';
 
 
 gulp.task('clear', () => del([dist_folder]));
@@ -33,15 +32,9 @@ gulp.task('html', () => {
     .pipe(browserSync.stream());
 });
 
-gulp.task('img', () => {
-  return gulp.src([src_folder + 'images/*'])
-    .pipe(gulp.dest(dist_folder + 'images'))
-    .pipe(browserSync.stream());
-});
-
 gulp.task('sass', () => {
   return gulp.src([
-    src_assets_folder + 'styles/lightbox.scss'
+    src_folder + 'styles/lightbox.scss'
   ])
     .pipe(sourcemaps.init())
     .pipe(plumber())
@@ -59,7 +52,7 @@ gulp.task('sass', () => {
 });
 
 gulp.task('js', () => {
-  return gulp.src([src_assets_folder + 'scripts/**/*'])
+  return gulp.src([src_folder + 'scripts/**/*'])
     .pipe(plumber())
     .pipe(webpack({
       mode: 'production',
@@ -121,8 +114,8 @@ gulp.task('watch', () => {
 
   const watch = [
     src_folder + '**/*.html',
-    src_assets_folder + 'styles/**/*.scss',
-    src_assets_folder + 'scripts/**/*.js'
+    src_folder + 'styles/**/*.scss',
+    src_folder + 'scripts/**/*.js'
   ];
 
   gulp.watch(watch, gulp.series('dev')).on('change', browserSync.reload);

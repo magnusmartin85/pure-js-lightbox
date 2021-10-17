@@ -170,7 +170,7 @@ class Lightbox {
     fetch('../templates/preview.html')
       .then((response) => response.text())
       .then((template) => {
-        let html;
+        let html = '';
         for (let i = 0; i < this.imageCount; i++) {
           const config = this.getPreviewImageConfig(i);
           const renderedHtml = Mustache.render(template, config);
@@ -210,13 +210,13 @@ class Lightbox {
     return {
       imageSlider: {
         showImageSource: this.imageSlider.showImageSource,
-        showImageTitle: this.imageSlider.showImageTitle,
+        showImageTitle: this.imageSlider.showImageDescription,
         showImageNumbers: this.imageSlider.showImageNumbers
       },
       previewImage: {
         overlay: {
-          showImageDescription: this.previewImage.showImageDescription,
-          showImageSource: this.previewImage.showImageSource,
+          showImageDescription: this.previewImage.overlay.showImageDescription,
+          showImageSource: this.previewImage.overlay.showImageSource,
         }
       },
       image1:

@@ -1,14 +1,21 @@
 # Lightbox
+This is a simple Vanilla JS lightbox.
+
+## Dependencies
+The only dependency is [normalize.css](https://necolas.github.io/normalize.css).
 
 ## Installation
-Run `npm install` in root directory.
+For installation cd into the project root and run `npm install`.
+
+## Development
+To serve on localhost run `gulp` on the command line.
 
 ## Build
-Run `gulp` to start a development server.
+For a production build run `gulp build` on the command line.
 
 ## Configuration
-You'll find image data in `resources/scripts/images.js`.
-Copy your images to `resources/images` and adapt the `images.js` file. 
+You will find image data in `resources/data/images.js`.
+Copy your images to `resources/images` and adapt the `resources/data/images.js` file.
 
 ## Demo
-<a href="http://lightbox.mgnmrt.com/">Demo</a>
+[Demo](http://lightbox.mgnmrt.com)

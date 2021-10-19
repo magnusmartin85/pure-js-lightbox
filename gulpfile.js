@@ -7,7 +7,6 @@ const dependents = require('gulp-dependents');
 const gulp = require('gulp');
 const minifyCss = require('gulp-clean-css');
 const node_dependencies = Object.keys(require('./package.json').dependencies || {});
-const node_modules_folder = './node_modules/';
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
@@ -17,6 +16,7 @@ const webpack = require('webpack-stream');
 
 // directories
 const dist_folder = './dist/';
+const node_modules_folder = './node_modules/';
 const dist_node_modules_folder = dist_folder + 'node_modules/';
 const src_folder = './resources/';
 
@@ -55,7 +55,7 @@ gulp.task('js', () => {
   return gulp.src([src_folder + 'scripts/**/*'])
     .pipe(plumber())
     .pipe(webpack({
-      mode: 'production',
+      mode: 'development',    // change to 'production' for minified build
     }))
     .pipe(sourcemaps.init())
     .pipe(babel({
@@ -63,11 +63,7 @@ gulp.task('js', () => {
     }))
     .pipe(concat('lightbox.js'))
     .pipe(gulp.dest(dist_folder + 'js'))
-    .pipe(uglify({
-      output: {
-        comments: /^!/
-      }
-    }))
+    .pipe(uglify())
     .pipe(rename({extname: '.min.js'}))
     .pipe(gulp.dest(dist_folder + 'js'))
     .pipe(sourcemaps.write('.'))
@@ -91,9 +87,9 @@ gulp.task('vendor', () => {
     .pipe(browserSync.stream());
 });
 
-gulp.task('build', gulp.series('clear', 'html', 'sass', 'js', 'vendor', 'img'));
+gulp.task('build', gulp.series('clear', 'html', 'sass', 'js', 'vendor'));
 
-gulp.task('dev', gulp.series('html', 'sass', 'js', 'img'));
+gulp.task('dev', gulp.series('html', 'sass', 'js'));
 
 gulp.task('serve', () => {
   return browserSync.init({

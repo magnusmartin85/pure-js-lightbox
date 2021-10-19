@@ -6,3 +6,7 @@ const lightbox = new Lightbox(config);
 
 // initialize lightbox
 lightbox.initializeLightbox(lightbox);
+
+
+
+

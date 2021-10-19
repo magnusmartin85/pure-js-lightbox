@@ -30,6 +30,7 @@ class Lightbox {
     closeButton.addEventListener('click', () => {
       this.hideBackdrop(backdrop);
       this.hideSlider(slider);
+      this.removeBodyOverflow();
     });
   }
 
@@ -56,12 +57,54 @@ class Lightbox {
     });
   }
 
-  addEventListenerForKeyboard() {
-    document.addEventListener('keydown', this.keyboardListener);
+  addEventListenersForTouch() {
+    document.addEventListener('touchstart', this.handleTouchStart);
+    document.addEventListener('touchmove', this.handleTouchMove);
   }
 
-  removeEventListenerForKeyboard() {
-    document.removeEventListener('keydown', this.keyboardListener);
+  removeEventListenersForTouch() {
+    document.removeEventListener('touchstart', this.handleTouchStart);
+    document.removeEventListener('touchmove', this.handleTouchMove);
+  }
+
+  /**
+   *
+   * @param {object} evt
+   */
+  handleTouchStart(evt) {
+    const firstTouch = evt.touches[0];
+    this.downX = firstTouch.clientX;
+  }
+
+  /**
+   *
+   * @param {object} evt
+   */
+  handleTouchMove(evt) {
+    if (!this.downX) {
+      return;
+    }
+
+    this.upX = evt.touches[0].clientX;
+
+    this.diffX = this.downX - this.upX;
+
+    if (this.diffX > 0) {
+      document.querySelector('.btn-next').click();
+    } else {
+      document.querySelector('.btn-previous').click();
+    }
+
+    /* reset values */
+    this.downX = null;
+  }
+
+  addEventListenersForKeyboard() {
+    document.addEventListener('keydown', this.addKeyboardListeners);
+  }
+
+  removeEventListenersForKeyboard() {
+    document.removeEventListener('keydown', this.addKeyboardListeners);
   }
 
   /**
@@ -257,7 +300,8 @@ class Lightbox {
   hideSlider(slider) {
     slider.classList.add('hide');
     slider.classList.remove('show');
-    this.removeEventListenerForKeyboard();
+    this.removeEventListenersForKeyboard();
+    this.removeEventListenersForTouch();
   }
 
   /**
@@ -273,7 +317,7 @@ class Lightbox {
    * @param {object} evt
    * @returns {*}
    */
-  keyboardListener(evt) {
+  addKeyboardListeners(evt) {
     switch (evt.key) {
       case 'Escape': // esc-key
         const btnClose = document.querySelector('.btn-close');
@@ -302,8 +346,10 @@ class Lightbox {
     this.addSliderHtmlToDom(event);
     this.setCurrentImageIndex(currentImageIndex);
     this.addBackdropHtmlToDom();
-    this.setBodyOverflow(this.body);
-    this.addEventListenerForKeyboard();
+    this.setBodyOverflow();
+    this.addEventListenersForKeyboard();
+
+    this.addEventListenersForTouch();
   }
 
   removeBackdropHtmlFromDom() {
@@ -311,9 +357,14 @@ class Lightbox {
     backdropDiv && backdropDiv.remove();
   }
 
-  setBodyOverflow(body) {
-    body.classList.add('no-scroll');
+  setBodyOverflow() {
+    this.body.classList.add('no-scroll');
   }
+
+  removeBodyOverflow() {
+    this.body.classList.remove('no-scroll');
+  }
+
 
   /**
    *

@@ -240,6 +240,7 @@ class Lightbox {
         {
           description: this.images[index].description,
           imagePath: this.images[index].imagePath,
+          imagePreviewPath: this.images[index].imagePreviewPath,
           source: this.images[index].source,
           id: this.images[index].id,
         },
@@ -247,6 +248,7 @@ class Lightbox {
         {
           description: this.images[index + 1].description,
           imagePath: this.images[index + 1].imagePath,
+          imagePreviewPath: this.images[index + 1].imagePreviewPath,
           source: this.images[index + 1].source,
           id: this.images[index + 1].id,
         },
@@ -254,6 +256,7 @@ class Lightbox {
         {
           description: this.images[index + 2].description,
           imagePath: this.images[index + 2].imagePath,
+          imagePreviewPath: this.images[index + 2].imagePreviewPath,
           source: this.images[index + 2].source,
           id: this.images[index + 2].id,
         },
@@ -357,14 +360,13 @@ class Lightbox {
     backdropDiv && backdropDiv.remove();
   }
 
-  setBodyOverflow() {
-    this.body.classList.add('no-scroll');
-  }
-
   removeBodyOverflow() {
     this.body.classList.remove('no-scroll');
   }
 
+  setBodyOverflow() {
+    this.body.classList.add('no-scroll');
+  }
 
   /**
    *

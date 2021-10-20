@@ -1,18 +1,25 @@
-const autoprefixer = require('gulp-autoprefixer');
-const babel = require('gulp-babel');
-const browserSync = require('browser-sync').create();
-const concat = require('gulp-concat');
-const del = require('del');
-const dependents = require('gulp-dependents');
-const gulp = require('gulp');
-const minifyCss = require('gulp-clean-css');
-const node_dependencies = Object.keys(require('./package.json').dependencies || {});
-const plumber = require('gulp-plumber');
-const rename = require('gulp-rename');
+// Gulp
+import gulp from 'gulp';
+
+// Plugins
+import autoprefixer from 'gulp-autoprefixer';
+import babel from 'gulp-babel';
+import browserSync from 'browser-sync';
+import concat from 'gulp-concat';
+import del from 'del';
+import dependents from 'gulp-dependents';
+import imagemin from 'gulp-imagemin';
+import imageResize from 'gulp-image-resize';
+import minifyCss from 'gulp-clean-css';
+import plumber from 'gulp-plumber';
+import rename from 'gulp-rename';
+import sourcemaps from 'gulp-sourcemaps';
+import uglify from 'gulp-uglify';
+import webpack from 'webpack-stream';
+
+
 const sass = require('gulp-sass')(require('sass'));
-const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
-const webpack = require('webpack-stream');
+const node_dependencies = Object.keys(require('./package.json').dependencies || {});
 
 // directories
 const dist_folder = './dist/';
@@ -48,6 +55,28 @@ gulp.task('sass', () => {
     .pipe(rename({extname: '.min.css'}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(dist_folder + 'css'))
+    .pipe(browserSync.stream());
+});
+
+gulp.task('images', () => {
+  return gulp.src([src_folder + 'images/**/*.jpg'], {since: gulp.lastRun('images')})
+    .pipe(plumber())
+    .pipe(imageResize({
+      width: 1000,
+      height: 1000,
+      crop: false,
+      upscale: false
+    }))
+    .pipe(imagemin())
+    .pipe(gulp.dest(dist_folder + 'images'))
+    .pipe(imageResize({
+      width: 300,
+      height: 300,
+      crop: false,
+      upscale: false
+    }))
+    .pipe(imagemin())
+    .pipe(gulp.dest(dist_folder + 'images/preview'))
     .pipe(browserSync.stream());
 });
 
@@ -87,9 +116,9 @@ gulp.task('vendor', () => {
     .pipe(browserSync.stream());
 });
 
-gulp.task('build', gulp.series('clear', 'html', 'sass', 'js', 'vendor'));
+gulp.task('build', gulp.series('clear', 'html', 'sass', 'js', 'vendor', 'images'));
 
-gulp.task('dev', gulp.series('html', 'sass', 'js'));
+gulp.task('dev', gulp.series('html', 'sass', 'js', 'images'));
 
 gulp.task('serve', () => {
   return browserSync.init({
@@ -111,7 +140,8 @@ gulp.task('watch', () => {
   const watch = [
     src_folder + '**/*.html',
     src_folder + 'styles/**/*.scss',
-    src_folder + 'scripts/**/*.js'
+    src_folder + 'scripts/**/*.js',
+    src_folder + 'images/**/*.jpg'
   ];
 
   gulp.watch(watch, gulp.series('dev')).on('change', browserSync.reload);

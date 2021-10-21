@@ -39,3 +39,8 @@ Copy your images to `resources/images` and adapt the `resources/data/images.js` 
 
 ## Demo
 [Demo](http://lightbox.mgnmrt.com)
+
+## Thanks to
+* [mustache](https://github.com/janl/mustache.js/)
+* [jr-cologne](https://github.com/jr-cologne/gulp-starter-kit)
+* michael zuber

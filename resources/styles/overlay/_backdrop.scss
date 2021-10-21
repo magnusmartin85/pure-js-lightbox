@@ -1,11 +1,11 @@
 .lightbox-backdrop {
-  background-color: $black;
+  background-color: $overlay-background;
   height: 100vh;
   left: 0;
-  opacity: .9;
+  opacity: $overlay-opacity;
   position: fixed;
   top: 0;
-  transition: opacity .15s linear;
+  transition: $overlay-transition;
   width: 100vw;
   z-index: 1040;
 }

@@ -13,7 +13,7 @@ class Lightbox {
    *
    */
   addClickListenersToPreviewImages() {
-    const triggerCollection = document.getElementsByClassName('preview-image-overlay');
+    const triggerCollection = document.getElementsByClassName('preview-image');
 
     for (let i = 0; i < triggerCollection.length; i++) {
       const currentTrigger = triggerCollection[i];
@@ -126,15 +126,7 @@ class Lightbox {
    * @returns {number}
    */
   getCurrentImageIndex(event) {
-    const target = event.target;
-    let elem;
-    if (target.getAttribute('class') !== 'preview-image-overlay') {
-      elem = target.parentNode;
-    } else {
-      elem = target;
-    }
-
-    return Number(elem.previousElementSibling.getAttribute('data-id'));
+    return Number(event.target.getAttribute('data-id'));
   }
 
   /**
@@ -406,7 +398,7 @@ class Lightbox {
    * @param {number} imageNumber
    */
   setImageNumber(imageNumber) {
-    document.querySelector('.lightbox-overlay-image-number').textContent = imageNumber + ' / ' + this.imageCount;
+    document.querySelector('.lightbox-overlay-image-counter').textContent = imageNumber + ' / ' + this.imageCount;
   }
 
   /**

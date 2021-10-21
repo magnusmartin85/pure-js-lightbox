@@ -31,9 +31,8 @@ const src_folder = './resources/';
 gulp.task('clear', () => del([dist_folder]));
 
 gulp.task('html', () => {
-  return gulp.src([src_folder + '**/*.html'], {
-    base: src_folder,
-    since: gulp.lastRun('html')
+  return gulp.src([src_folder + 'templates/**/*.html', src_folder + '**/*.html'], {
+    base: src_folder
   })
     .pipe(gulp.dest(dist_folder))
     .pipe(browserSync.stream());

@@ -2,9 +2,5 @@
 
 .image-preview-grid-col {
   flex-basis: math.div(100%, 3) - 5;
-  padding: 2px;
-
-  @media only screen and (min-width: $breakpoint-md) {
-    padding: 2px;
-  }
+  padding: 6px;
 }

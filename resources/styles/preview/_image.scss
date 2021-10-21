@@ -1,13 +1,10 @@
 .preview-image {
-  margin-bottom: 0;
-  opacity: .9;
-  transform: scale(1);
+  transform: scale(1.4);
   transition: .3s ease-in-out;
   width: 100%;
 
   &:hover {
-    opacity: 1;
-    transform: scale(1.2);
+    transform: scale(1);
   }
 }
 

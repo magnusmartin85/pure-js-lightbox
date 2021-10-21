@@ -5,12 +5,6 @@ export default {
   imageSlider: {
     showImageSource: true,
     showImageDescription: true,
-    showImageNumbers: true
+    showImageCounter: true
   },
-  previewImage: {
-    overlay: {
-      showImageDescription: true,
-      showImageSource: true
-    }
-  }
 }

@@ -212,21 +212,15 @@ class Lightbox {
 
   /**
    *
-   * @param index
-   * @returns {{image3: {imagePath: (string|*), description, source, id}, imageSlider: {showImageSource: (boolean|*), showImageNumbers: (boolean|*), showImageTitle}, image1: {imagePath: (string|*), description, source, id}, image2: {imagePath: (string|*), description, source, id}, previewImage: {overlay: {showImageDescription: (boolean|*), showImageSource: (boolean|*)}}}}
+   * @param {number} index
+   * @returns {{image3: {imagePath: (string|*), description, imagePreviewPath: (string|*), source, id}, imageSlider: {showImageSource: (boolean|*), showImageCounter: (boolean|*), showImageTitle: boolean}, image1: {imagePath: (string|*), description, imagePreviewPath: (string|*), source, id}, image2: {imagePath: (string|*), description, imagePreviewPath: (string|*), source, id}}}
    */
   getPreviewImageConfig(index) {
     return {
       imageSlider: {
+        showImageCounter: this.imageSlider.showImageCounter,
         showImageSource: this.imageSlider.showImageSource,
-        showImageTitle: this.imageSlider.showImageDescription,
-        showImageNumbers: this.imageSlider.showImageNumbers
-      },
-      previewImage: {
-        overlay: {
-          showImageDescription: this.previewImage.overlay.showImageDescription,
-          showImageSource: this.previewImage.overlay.showImageSource,
-        }
+        showImageTitle: this.imageSlider.showImageDescription
       },
       image1:
         {

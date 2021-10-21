@@ -1,10 +1,10 @@
 @use "sass:math";
 
 .image-preview-grid-col {
-  padding: 10px;
-  flex-basis: 100%;
+  flex-basis: math.div(100%, 3) - 5;
+  padding: 2px;
 
-  @media only screen and (min-width: $breakpoint-sm) {
-    flex-basis: math.div(100%, 3) - 5;
+  @media only screen and (min-width: $breakpoint-md) {
+    padding: 2px;
   }
 }

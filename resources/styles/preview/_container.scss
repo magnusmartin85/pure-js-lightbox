@@ -1,5 +1,6 @@
 .preview-image-container {
-  position: relative;
+  display: flex;
+  overflow: hidden;
 
   &:hover {
     cursor: pointer;

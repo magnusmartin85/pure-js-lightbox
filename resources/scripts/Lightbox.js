@@ -25,11 +25,9 @@ class Lightbox {
 
   addClickListenerToCloseButton() {
     const closeButton = document.querySelector('.btn-close');
-    const backdrop = document.querySelector('.lightbox-backdrop');
-    const slider = document.querySelector('.image-slider');
     closeButton.addEventListener('click', () => {
-      this.hideBackdrop(backdrop);
-      this.hideSlider(slider);
+      this.hideBackdrop();
+      this.hideSlider();
       this.removeBodyOverflow();
     });
   }
@@ -39,7 +37,7 @@ class Lightbox {
 
     nextButton.addEventListener('click', () => {
       const nextImageIndex = this.getNextImageIndex(this.currentImageIndex);
-      const nextPath = this.getNextPath(nextImageIndex, this.imageCount);
+      const nextPath = this.getNextPath(nextImageIndex);
       const nextAltText = this.images[nextImageIndex].description;
 
       this.updateImageIndex(nextImageIndex);
@@ -52,7 +50,7 @@ class Lightbox {
     const previousButton = document.querySelector('.btn-previous');
     previousButton.addEventListener('click', () => {
       const previousImageIndex = this.getPreviousImageIndex(this.currentImageIndex);
-      const previousPath = this.getPreviousPath(previousImageIndex, this.imageCount);
+      const previousPath = this.getPreviousPath(previousImageIndex);
       const previousAltText = this.images[previousImageIndex].description;
       this.updateImageIndex(previousImageIndex);
       this.showLightboxImage(previousPath, previousAltText);
@@ -256,43 +254,35 @@ class Lightbox {
   /**
    *
    * @param {number} imageIndex
-   * @param {number} imageCount
    * @returns {string|*}
    */
-  getPreviousPath(imageIndex, imageCount) {
+  getPreviousPath(imageIndex) {
     return this.images[imageIndex].path;
   }
 
   /**
    *
    * @param {number} imageIndex
-   * @param {number} imageCount
    * @returns {string|string|*}
    */
-  getNextPath(imageIndex, imageCount) {
-    if (imageIndex === imageCount) {
+  getNextPath(imageIndex) {
+    if (imageIndex === this.imageCount) {
       return this.images[0].path;
     }
     return this.images[imageIndex].path;
   }
 
-  /**
-   *
-   * @param {object} backdrop
-   */
-  hideBackdrop(backdrop) {
-    backdrop.classList.add('hide');
-    backdrop.classList.remove('show');
+  hideBackdrop() {
+    document.querySelector('.lightbox-backdrop')
+      .classList
+      .replace('show', 'hide');
     this.removeBackdropHtmlFromDom();
   }
 
-  /**
-   *
-   * @param {object} slider
-   */
-  hideSlider(slider) {
-    slider.classList.add('hide');
-    slider.classList.remove('show');
+  hideSlider() {
+    document.querySelector('.image-slider')
+      .classList
+      .replace('show', 'hide');
     this.removeEventListenersForKeyboard();
     this.removeEventListenersForTouch();
   }
@@ -334,14 +324,12 @@ class Lightbox {
    */
   openLightboxOverlay(event) {
     event.preventDefault();
-    const currentImageIndex = this.getCurrentImageIndex(event);
+    this.currentImageIndex = this.getCurrentImageIndex(event);
 
     this.addSliderHtmlToDom(event);
-    this.setCurrentImageIndex(currentImageIndex);
     this.addBackdropHtmlToDom();
     this.setBodyOverflow();
     this.addEventListenersForKeyboard();
-
     this.addEventListenersForTouch();
   }
 
@@ -356,15 +344,6 @@ class Lightbox {
 
   setBodyOverflow() {
     this.body.classList.add('no-scroll');
-  }
-
-  /**
-   *
-   * @param {number} index
-   * @returns {number}
-   */
-  setCurrentImageIndex(index) {
-    this.currentImageIndex = index;
   }
 
   /**
@@ -384,10 +363,10 @@ class Lightbox {
    * @param {number} currentImageIndex
    */
   setImageSource(currentImageIndex) {
-    const text = this.getSourceText(currentImageIndex);
+    const sourceText = this.getSourceText(currentImageIndex);
 
-    if (typeof text !== 'undefined') {
-      document.querySelector('.lightbox-overlay-image-source').textContent = text;
+    if (typeof sourceText !== 'undefined') {
+      document.querySelector('.lightbox-overlay-image-source').textContent = sourceText;
     }
   }
 
@@ -395,7 +374,7 @@ class Lightbox {
    *
    * @param {number} imageNumber
    */
-  setImageNumber(imageNumber) {
+  setImageCounter(imageNumber) {
     document.querySelector('.lightbox-overlay-image-counter').textContent = imageNumber + ' / ' + this.imageCount;
   }
 
@@ -405,8 +384,9 @@ class Lightbox {
    * @param {string} text
    */
   showLightboxImage(path, text) {
-    document.querySelector('.lightbox-overlay-image').setAttribute('src', path);
-    document.querySelector('.lightbox-overlay-image').setAttribute('alt', text);
+    const overlayImage = document.querySelector('.lightbox-overlay-image');
+    overlayImage.setAttribute('src', path);
+    overlayImage.setAttribute('alt', text);
   }
 
   /**
@@ -414,9 +394,9 @@ class Lightbox {
    * @param {number} currentImageIndex
    */
   updateFooterData(currentImageIndex) {
-    this.setImageDescription(currentImageIndex);
-    this.setImageSource(currentImageIndex);
-    this.setImageNumber(currentImageIndex + 1);
+    this.imageSlider.showImageDescription && this.setImageDescription(currentImageIndex);
+    this.imageSlider.showImageSource && this.setImageSource(currentImageIndex);
+    this.imageSlider.showImageCounter && this.setImageCounter(currentImageIndex + 1);
   }
 
   /**
@@ -430,7 +410,7 @@ class Lightbox {
   addBackdropHtmlToDom() {
     const backdropDiv = document.createElement('div');
     backdropDiv.className = 'lightbox-backdrop';
-    document.body.appendChild(backdropDiv);
+    this.body.appendChild(backdropDiv);
   }
 
 }

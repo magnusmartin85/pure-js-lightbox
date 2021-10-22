@@ -39,9 +39,11 @@ class Lightbox {
 
     nextButton.addEventListener('click', () => {
       const nextImageIndex = this.getNextImageIndex(this.currentImageIndex);
-      const nextImagePath = this.getNextImagePath(nextImageIndex, this.imageCount);
+      const nextPath = this.getNextPath(nextImageIndex, this.imageCount);
+      const nextAltText = this.images[nextImageIndex].description;
+
       this.updateImageIndex(nextImageIndex);
-      this.showLightboxImage(nextImagePath);
+      this.showLightboxImage(nextPath, nextAltText);
       this.updateFooterData(nextImageIndex);
     });
   }
@@ -50,9 +52,10 @@ class Lightbox {
     const previousButton = document.querySelector('.btn-previous');
     previousButton.addEventListener('click', () => {
       const previousImageIndex = this.getPreviousImageIndex(this.currentImageIndex);
-      const previousImagePath = this.getPreviousImagePath(previousImageIndex, this.imageCount);
+      const previousPath = this.getPreviousPath(previousImageIndex, this.imageCount);
+      const previousAltText = this.images[previousImageIndex].description;
       this.updateImageIndex(previousImageIndex);
-      this.showLightboxImage(previousImagePath);
+      this.showLightboxImage(previousPath, previousAltText);
       this.updateFooterData(previousImageIndex);
     });
   }
@@ -149,7 +152,8 @@ class Lightbox {
   addSliderHtmlToDom(event) {
     const Mustache = require('mustache');
     const currentImageIndex = this.getCurrentImageIndex(event);
-    const currentImagePath = this.images[currentImageIndex].imagePath;
+    const currentPath = this.images[currentImageIndex].path;
+    const currentAltText = this.images[currentImageIndex].description;
 
     fetch('../templates/slider.html')
       .then((response) => response.text())
@@ -161,7 +165,7 @@ class Lightbox {
         imageSlider.innerHTML = renderedHtml;
         imageSlider.classList.add('show');
         imageSlider.classList.remove('hide');
-        this.showLightboxImage(currentImagePath);
+        this.showLightboxImage(currentPath, currentAltText);
         this.updateFooterData(currentImageIndex);
         this.addClickListenerToCloseButton();
         this.addClickListenerToNextButton();
@@ -213,7 +217,7 @@ class Lightbox {
   /**
    *
    * @param {number} index
-   * @returns {{image3: {imagePath: (string|*), description, imagePreviewPath: (string|*), source, id}, imageSlider: {showImageSource: (boolean|*), showImageCounter: (boolean|*), showImageTitle: boolean}, image1: {imagePath: (string|*), description, imagePreviewPath: (string|*), source, id}, image2: {imagePath: (string|*), description, imagePreviewPath: (string|*), source, id}}}
+   * @returns {{image3: {path: (string|*), description, previewPath: (string|*), source, id}, imageSlider: {showImageSource: (boolean|*), showImageCounter: (boolean|*), showImageTitle: boolean}, image1: {path: (string|*), description, previewPath: (string|*), source, id}, image2: {path: (string|*), description, previewPath: (string|*), source, id}}}
    */
   getPreviewImageConfig(index) {
     return {
@@ -225,24 +229,24 @@ class Lightbox {
       image1:
         {
           description: this.images[index].description,
-          imagePath: this.images[index].imagePath,
-          imagePreviewPath: this.images[index].imagePreviewPath,
+          path: this.images[index].path,
+          previewPath: this.images[index].previewPath,
           source: this.images[index].source,
           id: this.images[index].id,
         },
       image2:
         {
           description: this.images[index + 1].description,
-          imagePath: this.images[index + 1].imagePath,
-          imagePreviewPath: this.images[index + 1].imagePreviewPath,
+          path: this.images[index + 1].path,
+          previewPath: this.images[index + 1].previewPath,
           source: this.images[index + 1].source,
           id: this.images[index + 1].id,
         },
       image3:
         {
           description: this.images[index + 2].description,
-          imagePath: this.images[index + 2].imagePath,
-          imagePreviewPath: this.images[index + 2].imagePreviewPath,
+          path: this.images[index + 2].path,
+          previewPath: this.images[index + 2].previewPath,
           source: this.images[index + 2].source,
           id: this.images[index + 2].id,
         },
@@ -255,8 +259,8 @@ class Lightbox {
    * @param {number} imageCount
    * @returns {string|*}
    */
-  getPreviousImagePath(imageIndex, imageCount) {
-    return this.images[imageIndex].imagePath;
+  getPreviousPath(imageIndex, imageCount) {
+    return this.images[imageIndex].path;
   }
 
   /**
@@ -265,11 +269,11 @@ class Lightbox {
    * @param {number} imageCount
    * @returns {string|string|*}
    */
-  getNextImagePath(imageIndex, imageCount) {
+  getNextPath(imageIndex, imageCount) {
     if (imageIndex === imageCount) {
-      return this.images[0].imagePath;
+      return this.images[0].path;
     }
-    return this.images[imageIndex].imagePath;
+    return this.images[imageIndex].path;
   }
 
   /**
@@ -397,10 +401,12 @@ class Lightbox {
 
   /**
    *
-   * @param {string} imagePath
+   * @param {string} path
+   * @param {string} text
    */
-  showLightboxImage(imagePath) {
-    document.querySelector('.lightbox-overlay-image').setAttribute('src', imagePath);
+  showLightboxImage(path, text) {
+    document.querySelector('.lightbox-overlay-image').setAttribute('src', path);
+    document.querySelector('.lightbox-overlay-image').setAttribute('alt', text);
   }
 
   /**

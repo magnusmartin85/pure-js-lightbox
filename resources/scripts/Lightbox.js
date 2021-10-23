@@ -9,9 +9,6 @@ class Lightbox {
   body = document.querySelector('body');
   currentImageIndex = 0;
 
-  /**
-   *
-   */
   addClickListenersToPreviewImages() {
     const triggerCollection = document.getElementsByClassName('preview-image');
 
@@ -133,7 +130,7 @@ class Lightbox {
   /**
    *
    * @param {number} index
-   * @returns {number|*}
+   * @returns {number}
    */
   getNextImageIndex(index) {
     if (index === (this.imageCount - 1)) {
@@ -145,7 +142,7 @@ class Lightbox {
 
   /**
    *
-   * @returns {string}
+   * @param {object} event
    */
   addSliderHtmlToDom(event) {
     const Mustache = require('mustache');
@@ -171,10 +168,6 @@ class Lightbox {
       });
   }
 
-  /**
-   *
-   * @returns {string}
-   */
   addPreviewImageHtmlToDom() {
     const Mustache = require('mustache');
 
@@ -197,7 +190,7 @@ class Lightbox {
   /**
    *
    * @param {number} currentImageIndex
-   * @returns {string|*}
+   * @returns {string}
    */
   getDescriptionText(currentImageIndex) {
     return this.images[currentImageIndex].description;
@@ -206,7 +199,7 @@ class Lightbox {
   /**
    *
    * @param {number} currentImageIndex
-   * @returns {string|*}
+   * @returns {string}
    */
   getSourceText(currentImageIndex) {
     return this.images[currentImageIndex].source;
@@ -263,7 +256,7 @@ class Lightbox {
   /**
    *
    * @param {number} imageIndex
-   * @returns {string|string|*}
+   * @returns {string}
    */
   getNextPath(imageIndex) {
     if (imageIndex === this.imageCount) {

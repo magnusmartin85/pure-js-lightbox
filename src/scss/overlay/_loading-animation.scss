@@ -1,0 +1,21 @@
+.loading-animation {
+  align-items: center;
+  color: $white;
+  display: flex;
+  height: 70vh;
+  justify-content: center;
+
+  img {
+    width: 100px;
+  }
+
+  &.show {
+    opacity: .7;
+  }
+
+  &.hide {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+}

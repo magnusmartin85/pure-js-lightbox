@@ -1,22 +1,25 @@
 $font-family-1: Roboto, Arial, Verdana, sans-serif;
 $font-family-2: 'Roboto Slab', serif;
 
+// backdrop
+$backdrop-opacity: .9;
+$backdrop-background: $black;
+$backdrop-transition: opacity .5s linear;
+
 // overlay
 $overlay-background: $black;
 $overlay-opacity: .9;
-$overlay-transition: opacity .15s linear;
+$overlay-transition: opacity .6s;
 $navigation-color: $icon-color;
 $caption-color: $icon-color;
 
 // text
 $counter-font-size: 10px;
 $source-font-size: 10px;
-$title-font-size: 1rem;
+$description-font-size: 16px;
 
 // buttons
-$close-font-size: 30px;
+$close-btn-font-size: 30px;
 
-// arrows
-$arrow-font-size-small:  2rem;
-$arrow-fontsize-medium: 3rem;
-$arrow-fontsize-large:  3rem;
+// next, previous arrows
+$arrow-btn-font-size: 48px;

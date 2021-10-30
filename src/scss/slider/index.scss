@@ -1,5 +1,5 @@
 .image-slider {
-  display: none;
+  align-items: baseline;
   flex-wrap: wrap;
   height: 100vh;
   left: 0;
@@ -11,12 +11,12 @@
   z-index: 9990;
 
   &.show {
-    align-items: baseline;
-    display: flex;
-    transition: opacity 400ms;
+    opacity: $overlay-opacity;
+    transition: $overlay-transition;
   }
 
   &.hide {
+    height: 0;
     opacity: 0;
   }
 }

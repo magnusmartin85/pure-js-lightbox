@@ -1,9 +1,10 @@
+import mustache from 'mustache';
+
 class Lightbox {
   constructor(config) {
     this.images = config.images;
     this.imageCount = config.images.length;
     this.imageSlider = config.imageSlider;
-    this.previewImage = config.previewImage;
   }
 
   body = document.querySelector('body');
@@ -16,6 +17,7 @@ class Lightbox {
       const currentTrigger = triggerCollection[i];
       currentTrigger.addEventListener('click', (event) => {
         this.openLightboxOverlay(event);
+        this.showBackdrop();
       })
     }
   }
@@ -145,7 +147,6 @@ class Lightbox {
    * @param {object} event
    */
   addSliderHtmlToDom(event) {
-    const Mustache = require('mustache');
     const currentImageIndex = this.getCurrentImageIndex(event);
     const currentPath = this.images[currentImageIndex].path;
     const currentAltText = this.images[currentImageIndex].description;
@@ -153,7 +154,7 @@ class Lightbox {
     fetch('../templates/slider.html')
       .then((response) => response.text())
       .then((template) => {
-        const renderedHtml = Mustache.render(template, {});
+        const renderedHtml = mustache.render(template, {});
         const imageSlider = document.querySelector('.image-slider');
         // remove old dom elements
         imageSlider.innerHTML = '';
@@ -169,15 +170,13 @@ class Lightbox {
   }
 
   addPreviewImageHtmlToDom() {
-    const Mustache = require('mustache');
-
     fetch('../templates/preview.html')
       .then((response) => response.text())
       .then((template) => {
         let html = '';
         for (let i = 0; i < this.imageCount; i++) {
           const config = this.getPreviewImageConfig(i);
-          const renderedHtml = Mustache.render(template, config);
+          const renderedHtml = mustache.render(template, config);
 
           html += renderedHtml;
           i = i + 2;
@@ -269,7 +268,12 @@ class Lightbox {
     document.querySelector('.lightbox-backdrop')
       .classList
       .replace('show', 'hide');
-    this.removeBackdropHtmlFromDom();
+  }
+
+  showBackdrop() {
+    document.querySelector('.lightbox-backdrop')
+      .classList
+      .replace('hide', 'show');
   }
 
   hideSlider() {
@@ -278,14 +282,6 @@ class Lightbox {
       .replace('show', 'hide');
     this.removeEventListenersForKeyboard();
     this.removeEventListenersForTouch();
-  }
-
-  /**
-   *
-   * @param {object} lightbox - A lightbox instance.
-   */
-  initializeLightbox(lightbox) {
-    lightbox.addPreviewImageHtmlToDom();
   }
 
   /**
@@ -320,15 +316,9 @@ class Lightbox {
     this.currentImageIndex = this.getCurrentImageIndex(event);
 
     this.addSliderHtmlToDom(event);
-    this.addBackdropHtmlToDom();
     this.setBodyOverflow();
     this.addEventListenersForKeyboard();
     this.addEventListenersForTouch();
-  }
-
-  removeBackdropHtmlFromDom() {
-    const backdropDiv = document.querySelector('.lightbox-backdrop');
-    backdropDiv && backdropDiv.remove();
   }
 
   removeBodyOverflow() {
@@ -377,9 +367,13 @@ class Lightbox {
    * @param {string} text
    */
   showLightboxImage(path, text) {
+    this.showLoadingAnimation();
+
     const overlayImage = document.querySelector('.lightbox-overlay-image');
-    overlayImage.setAttribute('src', path);
-    overlayImage.setAttribute('alt', text);
+
+    overlayImage.remove();
+
+    this.addNewImageToHtml(path, text);
   }
 
   /**
@@ -400,12 +394,34 @@ class Lightbox {
     this.currentImageIndex = newIndex;
   }
 
-  addBackdropHtmlToDom() {
-    const backdropDiv = document.createElement('div');
-    backdropDiv.className = 'lightbox-backdrop';
-    this.body.appendChild(backdropDiv);
+  showLoadingAnimation() {
+    const loadingDiv = document.querySelector('.loading-animation');
+    loadingDiv.classList.add('show')
+    loadingDiv.classList.remove('hide');
   }
 
+  /**
+   *
+   * @param {string} path
+   * @param {string} text
+   */
+  addNewImageToHtml(path, text) {
+    const imageContainer = document.querySelector('.lightbox-overlay-body-col-2');
+    const newImage = document.createElement('img');
+
+    newImage.src = path;
+    newImage.className = 'lightbox-overlay-image';
+    newImage.setAttribute('alt', text);
+    newImage.onload = () => {
+      this.hideLoadingAnimation();
+      imageContainer.appendChild(newImage);
+    };
+  }
+
+  hideLoadingAnimation() {
+    const loadingDiv = document.querySelector('.loading-animation');
+    loadingDiv.classList.add('hide');
+  }
 }
 
 export default Lightbox;

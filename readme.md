@@ -1,29 +1,34 @@
 # Vanilla JavaScript Lightbox
+
 > Simple, lightweight and pure JavaScript lightbox.
 
 ## Simple
-1. Add script tag in the end of the body:  
-`<script async src="js/lightbox.js"></script>`
 
-2. Add css tag in head of file:  
-`<link rel="stylesheet" href="css/lightbox.css">`
+1. Add script tag right before closing body tag:  
+   `<script async src="js/lightbox.js"></script>`
+
+2. Add css tag in head:  
+   `<link rel="stylesheet" href="css/lightbox.css">`
 
 3. Add class `preview-image` to your images.
 
 ## Lightweight
-Minified js-file is about 16kb.  
-Minified css-file is about 7kb.
+
+JavaScript: ~16kb.  
+CSS: ~7kb.
 
 ## Installation
+
 For installation cd into the project root and run `npm install`.
 
 ## Development
+
 To serve on localhost run `gulp` on the command line.
 
 ## Build
-For a production build run `gulp build` on the command line. 
-This will generate a `dist` directory with minified and unminified css and js files.
-Images are being optimized and resized
+
+For a production build run `gulp build` on the command line. This will generate a `dist` directory with minified and
+unminified css and js files. Images are being optimized and resized
 
 ```
 dist
@@ -59,27 +64,34 @@ dist
 ```
 
 ## Configuration
-You will find image data in `src/js/images.js`.
-Copy your images to `src/img` and adapt the `src/js/images.js` file.
+
+You will find image data in `src/js/images.js`. Copy your images to `src/img` and adapt the `src/js/images.js` file.
 
 ## Demo
+
 [Demo](http://lightbox.mgnmrt.com)
 
 ## Built with
 
 ### normalize.css
+
 [normalize.css](https://github.com/necolas/normalize.css).
 > A modern alternative to CSS resets
 
 ### mustache.js
+
 > mustache.js - Logic-less {{mustache}} templates with JavaScript
 
-[mustache](https://github.com/janl/mustache.js/) enables me, to organize my templates in separate files and load them when needed.
+[mustache](https://github.com/janl/mustache.js/) enables me, to organize my templates in separate files and load them
+when needed.
 
 ### Gulp Starter Kit
+
 > A simple Gulp 4 Starter Kit for modern web development.
 
-On basis of Gulp Starter Kit by [jr-cologne](https://github.com/jr-cologne/gulp-starter-kit) I setup my development process.
+On basis of Gulp Starter Kit by [jr-cologne](https://github.com/jr-cologne/gulp-starter-kit) I setup my development
+process.
 
 ### light.tales.photography
+
 Demo images provided by [light.tales.photography](https://www.instagram.com/light.tales.photography/).

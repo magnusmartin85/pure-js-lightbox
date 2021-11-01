@@ -1,4 +1,15 @@
 import mustache from 'mustache';
+import {
+  CLASSNAME_BACKDROP,
+  CLASSNAME_HIDE,
+  CLASSNAME_IMAGE_CONTAINER,
+  CLASSNAME_LOADING_ANIMATION,
+  CLASSNAME_NO_SCROLL,
+  CLASSNAME_PREVIEW_IMAGE,
+  CLASSNAME_SHOW,
+  PATH_PREVIEW_TEMPLATE,
+  PATH_SLIDER_TEMPLATE
+} from './constants';
 
 class Lightbox {
   constructor(config) {
@@ -11,7 +22,7 @@ class Lightbox {
   currentImageIndex = 0;
 
   addClickListenersToPreviewImages() {
-    const triggerCollection = document.getElementsByClassName('preview-image');
+    const triggerCollection = document.getElementsByClassName(CLASSNAME_PREVIEW_IMAGE);
 
     for (let i = 0; i < triggerCollection.length; i++) {
       const currentTrigger = triggerCollection[i];
@@ -151,7 +162,7 @@ class Lightbox {
     const currentPath = this.images[currentImageIndex].path;
     const currentAltText = this.images[currentImageIndex].description;
 
-    fetch('../templates/slider.html')
+    fetch(PATH_SLIDER_TEMPLATE)
       .then((response) => response.text())
       .then((template) => {
         const renderedHtml = mustache.render(template, {});
@@ -170,7 +181,7 @@ class Lightbox {
   }
 
   addPreviewImageHtmlToDom() {
-    fetch('../templates/preview.html')
+    fetch(PATH_PREVIEW_TEMPLATE)
       .then((response) => response.text())
       .then((template) => {
         let html = '';
@@ -265,21 +276,21 @@ class Lightbox {
   }
 
   hideBackdrop() {
-    document.querySelector('.lightbox-backdrop')
+    document.querySelector('.' + CLASSNAME_BACKDROP)
       .classList
-      .replace('show', 'hide');
+      .replace(CLASSNAME_SHOW, CLASSNAME_HIDE);
   }
 
   showBackdrop() {
-    document.querySelector('.lightbox-backdrop')
+    document.querySelector('.' + CLASSNAME_BACKDROP)
       .classList
-      .replace('hide', 'show');
+      .replace(CLASSNAME_HIDE, CLASSNAME_SHOW);
   }
 
   hideSlider() {
     document.querySelector('.image-slider')
       .classList
-      .replace('show', 'hide');
+      .replace(CLASSNAME_SHOW, CLASSNAME_HIDE);
     this.removeEventListenersForKeyboard();
     this.removeEventListenersForTouch();
   }
@@ -322,11 +333,11 @@ class Lightbox {
   }
 
   removeBodyOverflow() {
-    this.body.classList.remove('no-scroll');
+    this.body.classList.remove(CLASSNAME_NO_SCROLL);
   }
 
   setBodyOverflow() {
-    this.body.classList.add('no-scroll');
+    this.body.classList.add(CLASSNAME_NO_SCROLL);
   }
 
   /**
@@ -358,7 +369,8 @@ class Lightbox {
    * @param {number} imageNumber
    */
   setImageCounter(imageNumber) {
-    document.querySelector('.lightbox-overlay-image-counter').textContent = imageNumber + ' / ' + this.imageCount;
+    const imageCounter = document.querySelector('.lightbox-overlay-image-counter');
+    imageCounter.textContent = imageNumber + ' / ' + this.imageCount;
   }
 
   /**
@@ -395,9 +407,9 @@ class Lightbox {
   }
 
   showLoadingAnimation() {
-    const loadingDiv = document.querySelector('.loading-animation');
-    loadingDiv.classList.add('show')
-    loadingDiv.classList.remove('hide');
+    const loadingDiv = document.querySelector('.' + CLASSNAME_LOADING_ANIMATION);
+    loadingDiv.classList.add(CLASSNAME_SHOW)
+    loadingDiv.classList.remove(CLASSNAME_HIDE);
   }
 
   /**
@@ -406,7 +418,7 @@ class Lightbox {
    * @param {string} text
    */
   addNewImageToHtml(path, text) {
-    const imageContainer = document.querySelector('.lightbox-overlay-body-col-2');
+    const imageContainer = document.querySelector('.' + CLASSNAME_IMAGE_CONTAINER);
     const newImage = document.createElement('img');
 
     newImage.src = path;
@@ -419,8 +431,8 @@ class Lightbox {
   }
 
   hideLoadingAnimation() {
-    const loadingDiv = document.querySelector('.loading-animation');
-    loadingDiv.classList.add('hide');
+    const loadingDiv = document.querySelector('.' + CLASSNAME_LOADING_ANIMATION);
+    loadingDiv.classList.add(CLASSNAME_HIDE);
   }
 }
 

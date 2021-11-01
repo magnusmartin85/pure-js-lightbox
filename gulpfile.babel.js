@@ -94,7 +94,7 @@ gulp.task('js', () => {
   return gulp.src([src_folder + 'js/**/*'])
     .pipe(plumber())
     .pipe(webpack({
-      mode: 'production',    // change to 'production' for minified build
+      mode: 'production',
     }))
     .pipe(sourcemaps.init())
     .pipe(babel({

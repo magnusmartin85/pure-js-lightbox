@@ -303,16 +303,13 @@ class Lightbox {
   addKeyboardListeners(evt) {
     switch (evt.key) {
       case 'Escape': // esc-key
-        const btnClose = document.querySelector('.btn-close');
-        return btnClose.click();
+        return document.querySelector('.btn-close').click();
 
       case 'ArrowLeft': // left-key
-        const btnPrevious = document.querySelector('.btn-previous');
-        return btnPrevious.click();
+        return document.querySelector('.btn-previous').click();
 
       case 'ArrowRight': // right-key
-        const btnNext = document.querySelector('.btn-next');
-        return btnNext.click();
+        return document.querySelector('.btn-next').click();
       default:
         return;
     }

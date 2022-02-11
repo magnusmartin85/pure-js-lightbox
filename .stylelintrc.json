@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "stylelint-config-prettier-scss",
+    "stylelint-config-standard-scss"
+  ],
+  "rules": {
+    "color-no-invalid-hex": true,
+    "string-quotes": "single",
+    "declaration-empty-line-before": "never",
+    "indentation": 2,
+    "declaration-colon-newline-after": null,
+    "number-leading-zero": "never"
+  }
+}

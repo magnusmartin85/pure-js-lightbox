@@ -1,13 +1,13 @@
-$black: #000;
-$black-06: rgba(0, 0, 0, .6);
-$black-08: rgba(0, 0, 0, .8);
-$black-09: rgba(0, 0, 0, .9);
+@use 'sass:color';
 
+$black: #000;
+$black-06: rgb(0 0 0 / 60%);
+$black-08: rgb(0 0 0 / 80%);
+$black-09: rgb(0 0 0 / 90%);
 $white: #fff;
 $alto: #babab5;
-$icon-color: darken($alto, 10%);
+$icon-color: color.adjust($alto, 10%);
 $icon-color-hover: $white;
-
 $main-font-color: #4e565f;
 $trout: #4e565f;
 $alabaster: #f8f8f8;
@@ -16,8 +16,6 @@ $badge-font-color: #4e565f;
 $grey-color-3: #aaaaaf;
 $oslo-gray: #828a92;
 $gallery: #eee;
-
 $main-accent-color: #056fe2;
 $ui-color-1: #2f8fe9;
-
 $chathams-blue: #153b6a;

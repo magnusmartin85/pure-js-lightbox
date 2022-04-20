@@ -1,2 +1,41 @@
-$font-family-primary: 'Roboto', sans-serif;
-$font-family-secondary: 'Roboto Slab', serif;
+@font-face {
+  font-family: Roboto-light;
+  font-display: swap;
+  src: url("../fonts/roboto/Roboto-Light.ttf") format("Truetype");
+}
+
+@font-face {
+  font-family: Roboto-regular;
+  font-display: swap;
+  src: url("../fonts/roboto/Roboto-Regular.ttf") format("Truetype");
+}
+
+@font-face {
+  font-family: Roboto-medium;
+  font-display: swap;
+  src: url("../fonts/roboto/Roboto-Medium.ttf") format("Truetype");
+}
+
+@font-face {
+  font-family: Roboto-bold;
+  font-display: swap;
+  src: url("../fonts/roboto/Roboto-Bold.ttf") format("Truetype");
+}
+
+@font-face {
+  font-family: Roboto-italic;
+  font-display: swap;
+  src: url("../fonts/roboto/Roboto-Italic.ttf") format("Truetype");
+}
+
+@font-face {
+  font-family: RobotoSlab-regular;
+  font-display: swap;
+  src: url("../fonts/roboto-slab/RobotoSlab-Regular.ttf") format("Truetype");
+}
+
+@font-face {
+  font-family: RobotoSlab-bold;
+  font-display: swap;
+  src: url("../fonts/roboto-slab/RobotoSlab-Bold.ttf") format("Truetype");
+}

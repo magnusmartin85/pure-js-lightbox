@@ -1,15 +1,15 @@
 $font-family-1: roboto, arial, verdana, sans-serif;
-$font-family-2: 'Roboto Slab', serif;
+$font-family-2: "Roboto Slab", serif;
 
 // backdrop
-$backdrop-opacity: .9;
+$backdrop-opacity: 0.9;
 $backdrop-background: $black;
-$backdrop-transition: opacity .5s linear;
+$backdrop-transition: opacity 0.5s linear;
 
 // overlay
 $overlay-background: $black;
-$overlay-opacity: .9;
-$overlay-transition: opacity .6s;
+$overlay-opacity: 0.9;
+$overlay-transition: opacity 0.6s;
 $navigation-color: $icon-color;
 $caption-color: $icon-color;
 

@@ -1,10 +1,10 @@
-import images from './images.js';
+import images from "./images.js";
 
 export default {
-  images,
-  imageSlider: {
-    showImageSource: true,
-    showImageDescription: true,
-    showImageCounter: true
-  },
-}
+    images,
+    imageSlider: {
+        showImageSource: true,
+        showImageDescription: true,
+        showImageCounter: true,
+    },
+};

@@ -65,7 +65,7 @@ dist
 
 ## Configuration
 
-You will find image data in `src/js/images.js`. Copy your images to `src/img` and adapt the `src/js/images.js` file.
+You will find image data in `src/js/images.ts`. Copy your images to `src/img` and adapt the `src/js/images.ts` file.
 
 ## Demo
 

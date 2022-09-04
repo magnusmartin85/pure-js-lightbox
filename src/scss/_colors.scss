@@ -6,7 +6,7 @@ $black-08: rgb(0 0 0 / 80%);
 $black-09: rgb(0 0 0 / 90%);
 $white: #fff;
 $alto: #babab5;
-$icon-color: color.adjust($alto, $hue: 10%);
+$icon-color: color.adjust($alto, $lightness: 10%);
 $icon-color-hover: $white;
 $main-font-color: #4e565f;
 $trout: #4e565f;

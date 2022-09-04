@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Vanilla JS Lightbox",
   "scripts": {
-    "serve": "gulp"
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack serve --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
@@ -16,47 +17,38 @@
     "lightbox",
     "slider",
     "images",
-    "gulp"
+    "webpack"
   ],
   "author": "Magnus Martin <hello@mgnmrt.com>",
   "license": "ISC",
   "homepage": "lightbox.mgnmrt.com",
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/eslint-parser": "^7.16.3",
-    "@babel/preset-env": "^7.15.8",
-    "@babel/preset-react": "^7.14.5",
-    "@babel/register": "^7.15.3",
-    "browser-sync": "^2.27.5",
-    "core-js": "^3.18.3",
-    "del": "^6.0.0",
-    "eslint": "^8.0.1",
-    "esm": "^3.2.25",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-dependents": "^1.2.5",
-    "gulp-image-resize": "^0.13.1",
-    "gulp-imagemin": "^7.1.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-svgmin": "^4.1.0",
-    "gulp-uglify": "^3.0.2",
-    "husky": "^7.0.4",
+    "@squoosh/lib": "^0.4.0",
+    "@types/mustache": "^4.2.1",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "image-minimizer-webpack-plugin": "^3.3.0",
     "imagemin": "^8.0.1",
-    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-svgo": "^10.0.1",
     "mustache": "^4.2.0",
-    "sass": "^1.43.2",
-    "stylelint": "^14.5.0",
-    "stylelint-config-prettier-scss": "^0.0.1",
-    "stylelint-config-standard-scss": "^3.0.0",
-    "webpack-stream": "^7.0.0"
+    "prettier": "^2.7.1",
+    "sass": "^1.54.8",
+    "sass-loader": "^13.0.2",
+    "sharp": "^0.30.7",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.8.2",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.10.1",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "svgo": "^2.8.0"
   }
 }

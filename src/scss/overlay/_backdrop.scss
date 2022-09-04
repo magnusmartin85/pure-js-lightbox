@@ -7,13 +7,13 @@
   width: 100vw;
   z-index: 1040;
 
-  &.show {
+  &.visible {
     height: 100vh;
     opacity: $backdrop-opacity;
     transition: $backdrop-transition;
   }
 
-  &.hide {
+  &.hidden {
     height: 0;
     opacity: 0;
     overflow: hidden;

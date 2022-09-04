@@ -10,12 +10,12 @@
   width: 100vw;
   z-index: 9990;
 
-  &.show {
+  &.visible {
     opacity: $overlay-opacity;
     transition: $overlay-transition;
   }
 
-  &.hide {
+  &.hidden {
     height: 0;
     opacity: 0;
   }

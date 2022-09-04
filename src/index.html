@@ -1,38 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Lightbox</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="dns-prefetch" href="//fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap"
-        rel="stylesheet">
-  <link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
-  <!--
-      Use minified css for production:
-      <link rel="stylesheet" href="css/lightbox.min.css">
-   -->
-  <link rel="stylesheet" href="css/lightbox.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Lightbox</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Lightbox</h1>
 
-<div class="container">
-  <h1>Lightbox</h1>
+      <div class="image-preview-grid"></div>
+    </div>
 
-  <div class="image-preview-grid"></div>
-</div>
+    <div class="image-slider hidden"></div>
 
-<div class="image-slider hide"></div>
+    <div class="lightbox-backdrop hidden"></div>
 
-<div class="lightbox-backdrop hide"></div>
-
-<script async src="js/lightbox.js"></script>
-<!--
-    Use minified script for production:
-    <script async src="js/lightbox.min.js"></script>
--->
-</body>
+    <script async src="pure-js-lightbox.js"></script>
+  </body>
 </html>
-

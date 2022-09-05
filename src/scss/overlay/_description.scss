@@ -4,6 +4,7 @@
   text-align: center;
 
   @media only screen and (min-width: $breakpoint-md) {
+    font-size: $description-font-size-desktop;
     text-align: left;
   }
 }

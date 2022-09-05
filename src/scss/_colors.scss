@@ -2,20 +2,11 @@
 
 $black: #000;
 $black-06: rgb(0 0 0 / 60%);
-$black-08: rgb(0 0 0 / 80%);
-$black-09: rgb(0 0 0 / 90%);
 $white: #fff;
 $alto: #babab5;
+$trout: #4e565f;
+$oslo-gray: #828a92;
+
+// Icons
 $icon-color: color.adjust($alto, $lightness: 10%);
 $icon-color-hover: $white;
-$main-font-color: #4e565f;
-$trout: #4e565f;
-$alabaster: #f8f8f8;
-$athens-gray: #e9ecef;
-$badge-font-color: #4e565f;
-$grey-color-3: #aaaaaf;
-$oslo-gray: #828a92;
-$gallery: #eee;
-$main-accent-color: #056fe2;
-$ui-color-1: #2f8fe9;
-$chathams-blue: #153b6a;

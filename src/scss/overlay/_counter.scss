@@ -1,9 +1,10 @@
 .lightbox-overlay-image-counter {
-  color: $icon-color;
+  color: $oslo-gray;
   font-size: $counter-font-size;
   text-align: center;
 
   @media only screen and (min-width: $breakpoint-md) {
+    font-size: $counter-font-size-desktop;
     text-align: right;
   }
 }

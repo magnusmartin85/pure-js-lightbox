@@ -5,7 +5,7 @@ type ImageProps = {
   imageUrl: string;
   previewImageUrl: string;
 };
- 
+
 export type ConfigProps = {
   images: ImagesProps;
   imageSlider: {

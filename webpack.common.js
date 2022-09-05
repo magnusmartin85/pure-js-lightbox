@@ -11,6 +11,10 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
+          from: paths.src.assets + "/loading-animation.svg",
+          to: "",
+        },
+        {
           from: paths.src.templates,
           to: "templates",
         },
@@ -63,11 +67,6 @@ module.exports = {
             type: "asset",
             implementation: ImageMinimizerPlugin.sharpMinify,
             options: {
-              resize: {
-                enabled: true,
-                width: 1000,
-                height: 667,
-              },
               encodeOptions: {
                 jpg: {
                   quality: 90,

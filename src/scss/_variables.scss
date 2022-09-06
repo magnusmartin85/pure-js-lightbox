@@ -1,3 +1,4 @@
+// Fonts
 $font-family-1: Roboto-regular, Arial, Verdana, sans-serif;
 $font-family-2: RobotoSlab-regular, serif;
 
@@ -13,16 +14,21 @@ $overlay-transition: opacity 0.6s;
 $navigation-color: $icon-color;
 $caption-color: $icon-color;
 
-// Text
-$counter-font-size: 8px;
-$counter-font-size-desktop: 10px;
+// Counter
+$counter-font-size-lg: 16px;
+$counter-font-size: 12px;
+$counter-font-size-desktop: 14px;
+
+// Source
 $source-font-size: 8px;
 $source-font-size-desktop: 10px;
+
+// Description
 $description-font-size: 12px;
 $description-font-size-desktop: 16px;
 
-// buttons
+// Buttons
 $close-btn-font-size: 30px;
 
-// next, previous arrows
+// Next and previous arrows
 $arrow-btn-font-size: 48px;

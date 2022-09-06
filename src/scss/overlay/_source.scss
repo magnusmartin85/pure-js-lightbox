@@ -1,11 +1,10 @@
 .lightbox-overlay-image-source {
-  @extend %footer-text;
+  @extend %text-1;
   color: $oslo-gray;
   font-size: $source-font-size;
   text-align: center;
 
   @media only screen and (min-width: $breakpoint-md) {
     font-size: $source-font-size-desktop;
-    text-align: left;
   }
 }

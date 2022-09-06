@@ -346,7 +346,7 @@ class Lightbox {
     const imageCounter = document.querySelector(
       "." + CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_COUNTER
     ) as HTMLElement;
-    imageCounter.textContent = imageNumber + " / " + this.imageCount;
+    imageCounter.innerHTML = `<span class="first-digit">${imageNumber}</span> / ${this.imageCount}`;
   }
 
   showLightboxImage(imageUrl: string, text: string): void {

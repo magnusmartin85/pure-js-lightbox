@@ -1,5 +1,5 @@
 {
-  "name": "lightbox",
+  "name": "pure-js-lightbox",
   "version": "1.0.0",
   "description": "Vanilla JS Lightbox",
   "scripts": {
@@ -11,12 +11,12 @@
     "url": "https://github.com/magnusmartin85/lightbox.git"
   },
   "keywords": [
-    "vanilla",
-    "javascript",
     "gallery",
+    "images",
+    "javascript",
     "lightbox",
     "slider",
-    "images",
+    "vanilla",
     "webpack"
   ],
   "author": "Magnus Martin <hello@mgnmrt.com>",
@@ -39,6 +39,8 @@
     "sass-loader": "^13.0.2",
     "sharp": "^0.30.7",
     "style-loader": "^3.3.1",
+    "svgo": "^2.8.0",
+    "terser-webpack-plugin": "^5.3.6",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.2",
     "url-loader": "^4.1.1",
@@ -46,9 +48,5 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.10.1",
     "webpack-merge": "^5.8.0"
-  },
-  "dependencies": {
-    "normalize.css": "^8.0.1",
-    "svgo": "^2.8.0"
   }
 }

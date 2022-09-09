@@ -1,6 +1,6 @@
-# Vanilla JavaScript Lightbox
+# Pure JS Lightbox
 
-> Simple, lightweight and pure JavaScript lightbox.
+> Simple and lightweight JavaScript lightbox.
 
 ## Simple
 
@@ -28,7 +28,6 @@ file. Images are being optimized and resized.
 
 ```
 public
-
 │___[Hashed Images]
 │___pure-js-lightbox.js
 │___templates
@@ -36,7 +35,6 @@ public
 │   │   slider.html
 │   index.html
 │   loading-animation.svg
-
 ```
 
 ## Configuration
@@ -50,19 +48,14 @@ file.
 
 ## Built with
 
-### mustache.js
+### [mustache.js](https://github.com/janl/mustache.js/)
 
-> mustache.js - Logic-less {{mustache}} templates with JavaScript
+Logic-less {{mustache}} templates with JavaScript.
 
-[mustache](https://github.com/janl/mustache.js/) enables me, to organize my templates in separate files and load them
-when needed.
+### [webpack](https://webpack.js.org/)
 
-### webpack
+Module Bundler for JavaScript.
 
-> Module Bundler for JavaScript
+### [light.tales.photography](https://www.instagram.com/light.tales.photography/).
 
-[webpack](https://webpack.js.org/)
-
-### light.tales.photography
-
-Demo images provided by [light.tales.photography](https://www.instagram.com/light.tales.photography/).
+Beautiful Demo images.

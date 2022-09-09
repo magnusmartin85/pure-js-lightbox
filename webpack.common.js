@@ -67,6 +67,10 @@ module.exports = {
             type: "asset",
             implementation: ImageMinimizerPlugin.sharpMinify,
             options: {
+              resize: {
+                enabled: true,
+                width: 1024,
+              },
               encodeOptions: {
                 jpg: {
                   quality: 90,
@@ -101,6 +105,7 @@ module.exports = {
   },
   output: {
     filename: "pure-js-lightbox.js",
+    clean: true,
     path: paths.dest.root,
   },
 };

@@ -7,3 +7,4 @@ const lightbox = new Lightbox(config);
 
 // Add image grid to DOM
 lightbox.addPreviewImageHtmlToDom();
+

@@ -18,43 +18,43 @@ const images: ImagesProps = [
     description: "Goettingen/Diemarden: Hay Bales After Mowing",
     imageUrl: image0,
     previewImageUrl: previewImage0,
-    source: "© light.tales.photography by Micha Z.",
+    source: "© light.tales.photography by Micha Z."
   },
   {
     id: 1,
     description: "Kiel/Schwentine: Evening on Schwentinen Bridge",
     imageUrl: image1,
     previewImageUrl: previewImage1,
-    source: "© light.tales.photography by Micha Z.",
+    source: "© light.tales.photography by Micha Z."
   },
   {
     description: "Sunset at Baltic Sea",
     imageUrl: image2,
     previewImageUrl: previewImage2,
     id: 2,
-    source: "© light.tales.photography by Micha Z.",
+    source: "© light.tales.photography by Micha Z."
   },
   {
     description: "Kiel: Christmas Market At Night",
     imageUrl: image3,
     previewImageUrl: previewImage3,
     id: 3,
-    source: "© light.tales.photography by Micha Z.",
+    source: "© light.tales.photography by Micha Z."
   },
   {
     description: "Goettingen/Schillerwiesen: Ice Age on Schillerwiesen",
     imageUrl: image4,
     previewImageUrl: previewImage4,
     id: 4,
-    source: "© light.tales.photography by Micha Z.",
+    source: "© light.tales.photography by Micha Z."
   },
   {
     description: "Goettingen/Kiessee: Gravel Lake In Winter Dress",
     imageUrl: image5,
     previewImageUrl: previewImage5,
     id: 5,
-    source: "© light.tales.photography by Micha Z.",
-  },
+    source: "© light.tales.photography by Micha Z."
+  }
 ];
 
 export { images };

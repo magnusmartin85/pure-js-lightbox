@@ -1,11 +1,11 @@
-import mustache from "mustache";
+import loadingAnimation from "../assets/loading-animation.svg";
+import { ConfigProps, ImagesProps } from "./types";
+import Mustache from "mustache";
 import {
   CSS_CLASSES,
   PREVIEW_TEMPLATE_URL,
-  SLIDER_TEMPLATE_URL,
+  SLIDER_TEMPLATE_URL
 } from "./constants";
-import { ConfigProps, ImagesProps } from "./types";
-import loadingAnimation from "../assets/loading-animation.svg";
 
 class Lightbox {
   private images: ImagesProps;
@@ -166,7 +166,7 @@ class Lightbox {
     fetch(SLIDER_TEMPLATE_URL)
       .then((response) => response.text())
       .then((template) => {
-        const renderedHtml = mustache.render(template, { loadingAnimation });
+        const renderedHtml = Mustache.render(template, { loadingAnimation });
         const imageSlider = document.querySelector(
           "." + CSS_CLASSES.IMAGE_SLIDER
         ) as HTMLElement;
@@ -192,7 +192,7 @@ class Lightbox {
         for (let i = 0; i < this.imageCount; i++) {
           const config = this.getPreviewImageConfig(i);
 
-          const renderedHtml = mustache.render(template, config);
+          const renderedHtml = Mustache.render(template, config);
 
           html += renderedHtml;
           i = i + 2;
@@ -219,29 +219,29 @@ class Lightbox {
       imageSlider: {
         showImageCounter: this.imageSlider.showImageCounter,
         showImageSource: this.imageSlider.showImageSource,
-        showImageTitle: this.imageSlider.showImageDescription,
+        showImageTitle: this.imageSlider.showImageDescription
       },
       image1: {
         description: this.images[index].description,
         imageUrl: this.images[index].imageUrl,
         previewImageUrl: this.images[index].previewImageUrl,
         source: this.images[index].source,
-        id: this.images[index].id,
+        id: this.images[index].id
       },
       image2: {
         description: this.images[index + 1].description,
         imageUrl: this.images[index + 1].imageUrl,
         previewImageUrl: this.images[index + 1].previewImageUrl,
         source: this.images[index + 1].source,
-        id: this.images[index + 1].id,
+        id: this.images[index + 1].id
       },
       image3: {
         description: this.images[index + 2].description,
         imageUrl: this.images[index + 2].imageUrl,
         previewImageUrl: this.images[index + 2].previewImageUrl,
         source: this.images[index + 2].source,
-        id: this.images[index + 2].id,
-      },
+        id: this.images[index + 2].id
+      }
     };
   }
 

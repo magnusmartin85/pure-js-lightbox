@@ -6,8 +6,8 @@ const config = {
     showImageCounter: true,
     showImageDescription: true,
     showImageSource: true,
-    showImageTitle: true,
-  },
+    showImageTitle: true
+  }
 };
 
 export { config };

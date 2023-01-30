@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Vanilla JS Lightbox",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack serve --config webpack.dev.js"
+    "build": "webpack --config webpack.prod.ts",
+    "start": "webpack serve --config webpack.dev.ts"
   },
   "repository": {
     "type": "git",
@@ -14,6 +14,7 @@
     "gallery",
     "images",
     "javascript",
+    "typescript",
     "lightbox",
     "slider",
     "vanilla",
@@ -25,6 +26,8 @@
   "devDependencies": {
     "@squoosh/lib": "^0.4.0",
     "@types/mustache": "^4.2.1",
+    "@types/node": "^18.11.9",
+    "@types/webpack": "^5.28.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "image-minimizer-webpack-plugin": "^3.3.1",
@@ -42,7 +45,8 @@
     "svgo": "^2.8.0",
     "terser-webpack-plugin": "^5.3.6",
     "ts-loader": "^9.3.1",
-    "typescript": "^4.8.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",

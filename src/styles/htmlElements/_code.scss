@@ -1,0 +1,6 @@
+@use "sass:map";
+
+code {
+  color: map.get($code-colors, "text");
+  font-family: map.get($font-family, "code");
+}

@@ -1,0 +1,37 @@
+@use "sass:color";
+
+// Black
+$black: #000;
+$black-06: rgb(0 0 0 / 60%);
+
+// White
+$white: #fff;
+
+// Gray
+$alto: #babab5;
+$trout: #4e565f;
+$oslo-gray: #828a92;
+
+// Icons
+$icon-color: color.adjust($alto, $lightness: 10%);
+
+// Text
+$text-colors: (
+  "copy": $trout,
+  "link": color.adjust($trout, $lightness: -12%)
+);
+
+// Code
+$code-colors: (
+  "background": color.adjust($alto, $lightness: 8%),
+  "text": $trout
+);
+
+// Fonts
+$font-family: (
+  "code": (
+    consolas,
+    "courier new",
+    monospace
+  )
+);

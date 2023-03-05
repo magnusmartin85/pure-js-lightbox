@@ -1,0 +1,22 @@
+.image-slider {
+  align-items: baseline;
+  flex-wrap: wrap;
+  height: 100vh;
+  left: 0;
+  overflow-x: hidden;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100vw;
+  z-index: 9990;
+
+  &.visible {
+    opacity: $overlay-opacity;
+    transition: $overlay-transition;
+  }
+
+  &.hidden {
+    height: 0;
+    opacity: 0;
+  }
+}

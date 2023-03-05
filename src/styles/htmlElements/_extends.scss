@@ -1,0 +1,11 @@
+%row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+%text-1 {
+  color: $icon-color;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0;
+}

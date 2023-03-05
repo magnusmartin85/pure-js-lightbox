@@ -1,0 +1,9 @@
+.lightbox-overlay-image-description {
+  @extend %text-1;
+  font-size: $description-font-size;
+  text-align: center;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    font-size: $description-font-size-desktop;
+  }
+}

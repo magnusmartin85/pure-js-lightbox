@@ -1,0 +1,19 @@
+.lightbox-overlay-body-col-1 {
+  display: none;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    display: flex;
+  }
+}
+
+.lightbox-overlay-body-col-2 {
+  flex-basis: 90%;
+}
+
+.lightbox-overlay-body-col-3 {
+  display: none;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    display: flex;
+  }
+}

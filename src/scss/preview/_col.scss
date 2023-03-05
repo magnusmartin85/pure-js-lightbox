@@ -1,0 +1,6 @@
+@use 'sass:math';
+
+.image-preview-grid-col {
+  flex-basis: math.div(100%, 3) - 5;
+  padding: 6px;
+}

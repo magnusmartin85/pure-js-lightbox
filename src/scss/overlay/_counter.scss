@@ -1,0 +1,17 @@
+.lightbox-overlay-image-counter {
+  color: $oslo-gray;
+  font-size: $counter-font-size;
+  font-weight: bold;
+  text-align: center;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    font-size: $counter-font-size-desktop;
+  }
+
+  .first-digit {
+    @extend %text-1;
+    font-size: $counter-font-size-lg;
+    font-weight: 700;
+    border-bottom: 2px solid $oslo-gray;
+  }
+}

@@ -16,5 +16,5 @@ const config: webpack.Configuration = merge(webpackCommon, {
     port: 9000
   }
 });
- 
+
 export default config;

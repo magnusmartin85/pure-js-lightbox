@@ -15,10 +15,6 @@ const config: webpack.Configuration = {
           to: paths.dest.root
         },
         {
-          from: paths.src.root + "/slider.html",
-          to: paths.dest.root
-        },
-        {
           from: paths.src.root + "/index.html",
           to: paths.dest.root
         },

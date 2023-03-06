@@ -1,6 +1,8 @@
+@use "sass:map";
+
 .loading-animation {
   align-items: center;
-  color: $white;
+  color: map.get($descriptive-colors, "white");
   display: flex;
   height: 70vh;
   justify-content: center;

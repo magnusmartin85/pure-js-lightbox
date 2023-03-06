@@ -1,0 +1,7 @@
+@use "sass:map";
+
+$overlay-background: map.get($descriptive-colors, "black");
+$overlay-opacity: 0.9;
+$overlay-transition: opacity 0.6s;
+$navigation-color: map.get($icon-colors, "regular");
+$caption-color: map.get($icon-colors, "regular");

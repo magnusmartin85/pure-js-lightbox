@@ -1,7 +1,9 @@
+@use "sass:map";
+
 .lightbox-overlay-image-source {
   @extend %text-1;
 
-  color: $oslo-gray;
+  color: map.get($text-colors, "dark");
   font-size: $source-font-size;
   text-align: center;
 

@@ -4,4 +4,28 @@
 
 .btn-next {
   @extend %btn-1;
+
+  .line1 {
+    border-radius: 100px;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    display: block;
+    height: 22px;
+    position: relative;
+    width: 22px;
+  }
+
+  .line2 {
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    height: 10px;
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    transform: rotate(-45deg);
+    width: 10px;
+  }
 }

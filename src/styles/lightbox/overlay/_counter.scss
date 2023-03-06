@@ -1,5 +1,7 @@
+@use "sass:map";
+
 .lightbox-overlay-image-counter {
-  color: $oslo-gray;
+  color: map.get($text-colors, "dark");
   font-size: $counter-font-size;
   font-weight: bold;
   text-align: center;
@@ -11,8 +13,9 @@
   .first-digit {
     @extend %text-1;
 
+    border-bottom: 2px solid map.get($descriptive-colors, "oslo-gray");
+    color: map.get($text-colors, "regular");
     font-size: $counter-font-size-lg;
     font-weight: 700;
-    border-bottom: 2px solid $oslo-gray;
   }
 }

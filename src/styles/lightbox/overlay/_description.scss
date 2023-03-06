@@ -1,6 +1,9 @@
+@use "sass:map";
+
 .lightbox-overlay-image-description {
   @extend %text-1;
 
+  color: map.get($text-colors, "regular");
   font-size: $description-font-size;
   text-align: center;
 

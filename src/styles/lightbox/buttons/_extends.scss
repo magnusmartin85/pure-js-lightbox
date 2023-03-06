@@ -1,3 +1,5 @@
+@use "sass:map";
+
 %btn-row {
   align-items: center;
   display: flex;
@@ -10,14 +12,14 @@
 
 %btn-1 {
   align-items: center;
-  color: $icon-color;
+  color: map.get($icon-colors, "regular");
   display: flex;
   font-size: $arrow-btn-font-size;
   justify-content: center;
-  padding: 0 15px 4px;
+  padding: 5px;
 
   &:hover {
-    color: $white;
+    color: map.get($icon-colors, "light");
     cursor: pointer;
   }
 }

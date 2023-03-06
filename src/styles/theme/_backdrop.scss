@@ -1,0 +1,5 @@
+@use "sass:map";
+
+$backdrop-opacity: 0.9;
+$backdrop-background: map.get($descriptive-colors, "black");
+$backdrop-transition: opacity 0.5s linear;

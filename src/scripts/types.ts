@@ -1,3 +1,12 @@
+export type ConfigProps = {
+  imageSlider: {
+    showImageCounter: boolean;
+    showImageDescription: boolean;
+    showImageSource: boolean;
+  };
+  images?: ImagesProps;
+};
+
 export type ImageProps = {
   description?: string | null;
   id: number;
@@ -13,12 +22,3 @@ export type ImageSetProps = {
 } | null;
 
 export type ImageSetsProps = ImageSetProps[];
-
-export type ConfigProps = {
-  imageSlider: {
-    showImageCounter: boolean;
-    showImageDescription: boolean;
-    showImageSource: boolean;
-  };
-  images?: ImagesProps;
-};

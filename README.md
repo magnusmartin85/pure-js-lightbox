@@ -69,3 +69,7 @@ Module Bundler for JavaScript.
 ### [light.tales.photography](https://www.instagram.com/light.tales.photography/)
 
 Beautiful demo images.
+
+## Author
+
+[Magnus Martin](https://mgnmrt.com/)

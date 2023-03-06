@@ -14,7 +14,8 @@ import {
   ImageSetsProps,
   ImagesProps
 } from "./types";
-import { CSS_CLASSES, SLIDER_TEMPLATE_URL } from "./constants";
+import { CSS_CLASSES } from "./constants";
+import { overlayMarkup } from "./OverlayMarkup";
 
 class Lightbox {
   imageSets: ImageSetsProps;
@@ -234,24 +235,20 @@ class Lightbox {
       ? <string>imageSet[imageIndex].description
       : "";
 
-    fetch(SLIDER_TEMPLATE_URL)
-      .then((response) => response.text())
-      .then((template) => {
-        const imageSlider = document.querySelector(
-          "." + CSS_CLASSES.IMAGE_SLIDER
-        ) as HTMLElement;
+    const lightboxOverlay = document.querySelector(
+      "." + CSS_CLASSES.LIGHTBOX_OVERLAY
+    ) as HTMLElement;
 
-        // Handle DOM Elements
-        imageSlider.innerHTML = "";
-        imageSlider.innerHTML = template;
-        imageSlider?.classList.add("visible");
-        imageSlider?.classList.remove("hidden");
-        this.showLightboxImage(imageUrl, imageDescription);
-        this.updateFooterData(imageIndex);
-        this.addClickListenerToCloseButton();
-        this.addClickListenerToNextButton();
-        this.addClickListenerToPreviousButton();
-      });
+    // Handle DOM Elements
+    lightboxOverlay.innerHTML = "";
+    lightboxOverlay.innerHTML = overlayMarkup;
+    lightboxOverlay?.classList.add("visible");
+    lightboxOverlay?.classList.remove("hidden");
+    this.showLightboxImage(imageUrl, imageDescription);
+    this.updateFooterData(imageIndex);
+    this.addClickListenerToCloseButton();
+    this.addClickListenerToNextButton();
+    this.addClickListenerToPreviousButton();
   }
 
   getDescriptionText(currentImageIndex: number): string {
@@ -308,7 +305,7 @@ class Lightbox {
   }
 
   hideSlider(): void {
-    const slider = document.querySelector(".image-slider") as HTMLElement;
+    const slider = document.querySelector(".lightbox-overlay") as HTMLElement;
     slider.classList.replace(CSS_CLASSES.SHOW, CSS_CLASSES.HIDE);
     this.removeEventListenersForKeyboard();
     this.removeEventListenersForTouch();
@@ -389,7 +386,6 @@ class Lightbox {
   }
 
   setImageCounter(imageNumber: number): void {
-    console.warn("imageNumber", imageNumber);
     const imageCounter = document.querySelector(
       "." + CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_COUNTER
     ) as HTMLElement;

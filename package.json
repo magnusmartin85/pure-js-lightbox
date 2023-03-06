@@ -21,8 +21,8 @@
     "webpack"
   ],
   "author": "Magnus Martin <hello@mgnmrt.com>",
-  "license": "ISC",
-  "homepage": "lightbox.mgnmrt.com",
+  "license": "GPL-3.0",
+  "homepage": "http://lightbox.mgnmrt.com",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
     "@types/node": "^18.14.1",

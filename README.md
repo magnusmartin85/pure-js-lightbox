@@ -76,9 +76,13 @@ TypeScript is JavaScript with syntax for types.
 
 Module Bundler for JavaScript.
 
+### [Lorem Picsum](https://picsum.photos)
+
+Demo images for the repository.
+
 ### [light.tales.photography](https://www.instagram.com/light.tales.photography/)
 
-Beautiful demo images.
+Beautiful demo images (on the demo web page).
 
 ## Author
 

@@ -55,7 +55,7 @@ class Lightbox {
         description: image.getAttribute("alt"),
         url: image.getAttribute("src"),
         photographer: image.getAttribute("data-photographer"),
-        imageSetId: image.getAttribute("data-lightbox") || ""
+        imageSetId: image.getAttribute("data-lightbox-id") || ""
       })
     );
     const imageSets: ImagesProps[] = [];
@@ -280,7 +280,7 @@ class Lightbox {
 
   getImageSetId(event: Event) {
     const element = event.target as HTMLElement;
-    const lightboxId = element.getAttribute("data-lightbox") || "";
+    const lightboxId = element.getAttribute("data-lightbox-id") || "";
     return this.imageSets.findIndex((imageSet) => {
       // Check one image of each image set.
       // Look for the dataLightboxId string

@@ -17,10 +17,6 @@ const config: webpack.Configuration = {
         {
           from: paths.src.root + "/index.html",
           to: paths.dest.root
-        },
-        {
-          from: paths.src.images,
-          to: paths.dest.images
         }
       ]
     })

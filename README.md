@@ -28,6 +28,16 @@
    data-photographer="© light.tales.photography by Micha Z."
    />
    ```
+5. Add markup for overlay:
+
+   ```
+    <div class="lightbox-overlay hidden"></div>
+   ```
+6. Add markup for backdrop:
+
+    ```
+    <div class="lightbox-backdrop hidden"></div>
+    ```
 
 | Attribute         | Required/Optional | Description                                       |
 |:------------------|-------------------|:--------------------------------------------------|

@@ -21,21 +21,21 @@
 
    ```
    <img
-   alt="Goettingen/Diemarden: Hay Bales After Mowing"
    class="preview-image"
-   data-lightbox="nature"
-   data-photographer="© light.tales.photography by Micha Z."
+   data-lightbox-id="nature"
    src="images/1.jpg"
+   alt="Goettingen/Diemarden: Hay Bales After Mowing"
+   data-photographer="© light.tales.photography by Micha Z."
    />
    ```
 
 | Attribute         | Required/Optional | Description                                       |
 |:------------------|-------------------|:--------------------------------------------------|
-| alt               | optional          | Text appears under the image.                     |
-| class             | required          | Class `preview-image` is required.                |
-| data-lightbox     | required          | Distinguish images between multiple image sets.   |
-| data-photographer | optional          | Text appears under the image.                     |     
-| src               | required          | Relative image path. For example: `images/3.jpg`. |     
+| class             | required          | Defaults to `preview-image`.                      |
+| data-lightbox-id  | required          | Distinguish images between multiple image sets.   |
+| src               | required          | Relative image path. For example: `images/3.jpg`. |  
+| alt               | optional          | Text appears under the image.                     | 
+| data-photographer | optional          | Source of the image. Appears under the image.     |  
 
 ## Local development
 

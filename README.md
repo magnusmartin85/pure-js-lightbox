@@ -5,8 +5,9 @@
 ## Features
 
 - Simple
-- Mobile first
-- Multi level
+- Mobile friendly
+- Touch and swipe support
+- Keyboard navigation
 - Lightweight: ~9KB (generated js file)
 
 ## Getting started
@@ -57,10 +58,14 @@ This will generate a `dist` directory with `index.html`, `off-canvas-menu.js` an
 
 ## Built with
 
+### [TypeScript](https://www.typescriptlang.org/)
+
+TypeScript is JavaScript with syntax for types.
+
 ### [webpack](https://webpack.js.org/)
 
 Module Bundler for JavaScript.
 
-### [light.tales.photography](https://www.instagram.com/light.tales.photography/).
+### [light.tales.photography](https://www.instagram.com/light.tales.photography/)
 
-Beautiful Demo images.
+Beautiful demo images.

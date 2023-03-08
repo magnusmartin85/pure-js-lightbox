@@ -64,7 +64,7 @@ This will generate a `dist` directory with `index.html`, `off-canvas-menu.js` an
 
 ## Demo
 
-[Demo](http://lightbox.mgnmrt.com)
+[Demo](https://pure-js-lightbox.com/)
 
 ## Built with
 

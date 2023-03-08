@@ -1,7 +1,6 @@
 @use "sass:map";
 
 .lightbox-overlay-image {
-  box-shadow: 0 0 8px map.get($descriptive-colors, "black-06");
   max-width: 100%;
   max-height: 85vh;
 }

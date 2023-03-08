@@ -11,6 +11,10 @@
   justify-content: center;
   padding: 15px;
 
+  &:hover {
+    color: map.get($icon-colors, "light");
+  }
+
   .line1 {
     background-color: map.get($icon-colors, "regular");
     border-radius: 4px;

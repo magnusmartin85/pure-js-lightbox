@@ -72,6 +72,10 @@ This will generate a `dist` directory with `index.html`, `off-canvas-menu.js` an
 
 TypeScript is JavaScript with syntax for types.
 
+### [Sass](https://sass-lang.com/)
+
+CSS with superpowers.
+
 ### [webpack](https://webpack.js.org/)
 
 Module Bundler for JavaScript.

@@ -12,11 +12,14 @@
 
 %btn-1 {
   align-items: center;
+  background-color: map.get($descriptive-colors, "black-06");
+  border-radius: 10px;
   color: map.get($icon-colors, "regular");
   display: flex;
-  font-size: $arrow-btn-font-size;
   justify-content: center;
   padding: 5px;
+  height: 28px;
+  width: 28px;
 
   &:hover {
     color: map.get($icon-colors, "light");

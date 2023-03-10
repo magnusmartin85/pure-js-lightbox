@@ -1,9 +1,11 @@
-.btn-next-row {
+.button-next-row {
   @extend %btn-row;
 }
 
-.btn-next {
+.button-next {
   @extend %btn-1;
+
+  margin: 0 15px;
 
   .line1 {
     border-radius: 100px;
@@ -16,16 +18,16 @@
   }
 
   .line2 {
-    border-bottom: 2px solid;
-    border-right: 2px solid;
+    border-bottom: 3px solid;
+    border-right: 3px solid;
     box-sizing: border-box;
     content: "";
     display: block;
-    height: 10px;
+    height: 14px;
     position: absolute;
-    right: 6px;
-    top: 4px;
+    right: 4px;
+    top: 2px;
     transform: rotate(-45deg);
-    width: 10px;
+    width: 14px;
   }
 }

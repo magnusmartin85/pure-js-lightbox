@@ -4,7 +4,6 @@ export type ConfigProps = {
     showImageDescription: boolean;
     showImageSource: boolean;
   };
-  images?: ImagesProps;
 };
 
 export type ImageProps = {
@@ -15,10 +14,6 @@ export type ImageProps = {
   url: string | null;
 };
 
-export type ImagesProps = ImageProps[];
-
-export type ImageSetProps = {
-  [imageSetId: number]: ImageProps;
-} | null;
-
 export type ImageSetsProps = ImageSetProps[];
+
+export type ImageSetProps = ImageProps[];

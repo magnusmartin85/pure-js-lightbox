@@ -6,7 +6,7 @@ export const overlayMarkup = `
     <p class="lightbox-overlay-image-counter"></p>
   </div>
   <div class="lightbox-overlay-header-col-3">
-    <div aria-label="Close" class="btn-close">
+    <div aria-label="Close" class="button-close">
       <div class="line1">
         <div class="line2"></div>
       </div>
@@ -16,8 +16,8 @@ export const overlayMarkup = `
 
 <div class="lightbox-overlay-body-row">
   <div class="lightbox-overlay-body-col-1">
-    <div class="btn-previous-row">
-      <div class="btn-previous">
+    <div class="button-previous-row">
+      <div class="button-previous">
         <div class="line1">
             <div class="line2"></div>
         </div>
@@ -33,8 +33,8 @@ export const overlayMarkup = `
   </div>
 
   <div class="lightbox-overlay-body-col-3">
-    <div class="btn-next-row">
-      <div class="btn-next">  
+    <div class="button-next-row">
+      <div class="button-next">  
           <div class="line1">
             <div class="line2"></div>
           </div>

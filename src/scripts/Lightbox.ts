@@ -6,16 +6,15 @@
  * https://mgnmrt.com
  *
  */
-
+import { CSS_CLASSES } from "./constants";
+import { overlayMarkup } from "./OverlayMarkup";
+import { getHtmlElementByClassName, waitForElementToBeVisible } from "./helper";
 import {
   ConfigProps,
   ImageProps,
   ImageSetProps,
-  ImageSetsProps,
-  ImagesProps
+  ImageSetsProps
 } from "./types";
-import { CSS_CLASSES } from "./constants";
-import { overlayMarkup } from "./OverlayMarkup";
 
 class Lightbox {
   imageSets: ImageSetsProps;
@@ -29,17 +28,15 @@ class Lightbox {
   body = document.querySelector("body");
   currentImageIndex = 0;
   currentImageSet: ImageSetProps;
-  private readonly currentImageSetLength;
+  currentImageSetLength: number;
 
   constructor(config: ConfigProps) {
     this.imageSets = this.getImageSets();
     this.imageSlider = config.imageSlider;
     this.swipedLeftOrRight = false;
     this.leftOrRightSwipeAmount = 0;
-    this.currentImageSet = null;
-    this.currentImageSetLength = this.currentImageSet
-      ? Object.values(this.currentImageSet).length
-      : -1;
+    this.currentImageSet = this.imageSets[0];
+    this.currentImageSetLength = this.currentImageSet.length;
   }
 
   // 1. Create image objects
@@ -49,19 +46,16 @@ class Lightbox {
     );
 
     // Create array of objects
-    const images: ImagesProps = Array.from(imageCollection).map(
-      (image, index) => ({
-        id: index,
-        description: image.getAttribute("alt"),
-        url: image.getAttribute("src"),
-        photographer: image.getAttribute("data-photographer"),
-        imageSetId: image.getAttribute("data-lightbox-id") || ""
-      })
-    );
-    const imageSets: ImagesProps[] = [];
+    const images = Array.from(imageCollection).map((image, index) => ({
+      id: index,
+      description: image.getAttribute("alt"),
+      url: image.getAttribute("src"),
+      photographer: image.getAttribute("data-photographer"),
+      imageSetId: image.getAttribute("data-lightbox-id") || ""
+    }));
+    const imageSets: ImageSetsProps = [];
     let currentImageSetId = "";
     let currentImageSetIndex = -1;
-    console.warn("images", images);
 
     images.forEach((image: ImageProps) => {
       if (image.imageSetId !== currentImageSetId) {
@@ -73,6 +67,7 @@ class Lightbox {
         imageSets[currentImageSetIndex].push(image);
       }
     });
+
     return imageSets;
   };
 
@@ -84,7 +79,7 @@ class Lightbox {
     for (let i = 0; i < triggerCollection.length; i++) {
       const currentTrigger = triggerCollection[i];
       currentTrigger.addEventListener("click", (event) => {
-        this.setCurrentImageSet(event);
+        this.setCurrentImageProperties(event);
         this.openLightboxOverlay(event);
         this.showBackdrop();
       });
@@ -92,54 +87,58 @@ class Lightbox {
   }
 
   addClickListenerToCloseButton(): void {
-    const closeButton = document.querySelector(
-      "." + CSS_CLASSES.BTN_CLOSE
-    ) as HTMLElement;
+    const closeButton = getHtmlElementByClassName(CSS_CLASSES.BUTTON_CLOSE);
 
     closeButton.addEventListener("click", () => {
       this.hideBackdrop();
-      this.hideSlider();
+      this.hideOverlay();
       this.removeBodyOverflow();
     });
   }
 
   addClickListenerToNextButton(): void {
-    const nextButton = document.querySelector(
-      "." + CSS_CLASSES.BTN_NEXT
-    ) as HTMLElement;
+    const nextButton = getHtmlElementByClassName(CSS_CLASSES.BUTTON_NEXT);
 
-    nextButton.addEventListener("click", () => {
-      const nextImageIndex: number = this.getNextImageIndex(
-        this.currentImageIndex
-      );
-      const nextImageUrl: string = this.getNextImageUrl(nextImageIndex);
-      const nextAltText: string | null | undefined = this.currentImageSet
-        ? this.currentImageSet[nextImageIndex].description
-        : "";
+    this.currentImageSetLength > 1
+      ? nextButton.addEventListener("click", () => {
+          const nextImageIndex: number = this.getNextImageIndex(
+            this.currentImageIndex
+          );
+          const nextImageUrl: string = this.getNextImageUrl(nextImageIndex);
+          const nextImage: ImageProps = this.currentImageSet[nextImageIndex];
+          const nextAltText: string | null | undefined = nextImage
+            ? nextImage.description
+            : "";
 
-      this.updateImageIndex(nextImageIndex);
-      this.showLightboxImage(nextImageUrl, nextAltText || "");
-      this.updateFooterData(nextImageIndex);
-    });
+          this.updateImageIndex(nextImageIndex);
+          this.showLightboxOverlayImage(nextImageUrl, nextAltText || "");
+          this.updateFooterData(nextImageIndex);
+        })
+      : nextButton.remove();
   }
 
   addClickListenerToPreviousButton(): void {
-    const previousButton = document.querySelector(
-      "." + CSS_CLASSES.BTN_PREVIOUS
-    ) as HTMLElement;
+    const previousButton = getHtmlElementByClassName(
+      CSS_CLASSES.BUTTON_PREVIOUS
+    );
 
-    previousButton.addEventListener("click", () => {
-      const previousImageIndex = this.getPreviousImageIndex(
-        this.currentImageIndex
-      );
-      const previousImageUrl = this.getPreviousImageUrl(previousImageIndex);
-      const previousAltText = this.currentImageSet
-        ? this.currentImageSet[previousImageIndex].description
-        : "";
-      this.updateImageIndex(previousImageIndex);
-      this.showLightboxImage(previousImageUrl, previousAltText || "");
-      this.updateFooterData(previousImageIndex);
-    });
+    this.currentImageSetLength > 1
+      ? previousButton.addEventListener("click", () => {
+          const previousImageIndex = this.getPreviousImageIndex(
+            this.currentImageIndex
+          );
+          const previousImageUrl = this.getPreviousImageUrl(previousImageIndex);
+          const previousAltText = this.currentImageSet
+            ? this.currentImageSet[previousImageIndex].description
+            : "";
+          this.updateImageIndex(previousImageIndex);
+          this.showLightboxOverlayImage(
+            previousImageUrl,
+            previousAltText || ""
+          );
+          this.updateFooterData(previousImageIndex);
+        })
+      : previousButton.remove();
   }
 
   addEventListenersForTouch(): void {
@@ -167,15 +166,13 @@ class Lightbox {
     const diffX = this.leftOrRightSwipeAmount - upX;
 
     if (diffX > 0) {
-      const btnNext = document.querySelector(
-        "." + CSS_CLASSES.BTN_NEXT
-      ) as HTMLElement;
-      btnNext.click();
+      const buttonNext = getHtmlElementByClassName(CSS_CLASSES.BUTTON_NEXT);
+      buttonNext.click();
     } else {
-      const btnPrevious = document.querySelector(
-        "." + CSS_CLASSES.BTN_PREVIOUS
-      ) as HTMLElement;
-      btnPrevious.click();
+      const buttonPrevious = getHtmlElementByClassName(
+        CSS_CLASSES.BUTTON_PREVIOUS
+      );
+      buttonPrevious.click();
     }
 
     // Reset swiped status
@@ -235,16 +232,13 @@ class Lightbox {
       ? <string>imageSet[imageIndex].description
       : "";
 
-    const lightboxOverlay = document.querySelector(
-      "." + CSS_CLASSES.LIGHTBOX_OVERLAY
-    ) as HTMLElement;
+    const lightboxOverlay = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY
+    );
 
     // Handle DOM Elements
-    lightboxOverlay.innerHTML = "";
-    lightboxOverlay.innerHTML = overlayMarkup;
-    lightboxOverlay?.classList.add("visible");
-    lightboxOverlay?.classList.remove("hidden");
-    this.showLightboxImage(imageUrl, imageDescription);
+    this.prepareLightboxOverlay(lightboxOverlay);
+    this.showLightboxOverlayImage(imageUrl, imageDescription);
     this.updateFooterData(imageIndex);
     this.addClickListenerToCloseButton();
     this.addClickListenerToNextButton();
@@ -291,49 +285,39 @@ class Lightbox {
   }
 
   hideBackdrop(): void {
-    const backdrop = document.querySelector(
-      "." + CSS_CLASSES.BACKDROP
-    ) as HTMLElement;
+    const backdrop = getHtmlElementByClassName(CSS_CLASSES.BACKDROP);
     backdrop.classList.replace(CSS_CLASSES.SHOW, CSS_CLASSES.HIDE);
   }
 
   showBackdrop(): void {
-    const backdrop = document.querySelector(
-      "." + CSS_CLASSES.BACKDROP
-    ) as HTMLElement;
+    const backdrop = getHtmlElementByClassName(CSS_CLASSES.BACKDROP);
     backdrop.classList.replace(CSS_CLASSES.HIDE, CSS_CLASSES.SHOW);
   }
 
-  hideSlider(): void {
-    const slider = document.querySelector(".lightbox-overlay") as HTMLElement;
-    slider.classList.replace(CSS_CLASSES.SHOW, CSS_CLASSES.HIDE);
+  hideOverlay(): void {
+    const overlay = getHtmlElementByClassName(CSS_CLASSES.LIGHTBOX_OVERLAY);
+    overlay.classList.replace(CSS_CLASSES.SHOW, CSS_CLASSES.HIDE);
     this.removeEventListenersForKeyboard();
     this.removeEventListenersForTouch();
   }
 
   addKeyboardListeners(event: KeyboardEvent) {
-    let btnClose: HTMLElement;
-    let btnPrevious: HTMLElement;
-    let btnNext: HTMLElement;
+    let buttonClose: HTMLElement;
+    let buttonPrevious: HTMLElement;
+    let buttonNext: HTMLElement;
 
     switch (event.key) {
       case "Escape": // esc-key
-        btnClose = document.querySelector(
-          "." + CSS_CLASSES.BTN_CLOSE
-        ) as HTMLElement;
-        return btnClose.click();
+        buttonClose = getHtmlElementByClassName(CSS_CLASSES.BUTTON_CLOSE);
+        return buttonClose.click();
 
       case "ArrowLeft": // left-key
-        btnPrevious = document.querySelector(
-          "." + CSS_CLASSES.BTN_PREVIOUS
-        ) as HTMLElement;
-        return btnPrevious.click();
+        buttonPrevious = getHtmlElementByClassName(CSS_CLASSES.BUTTON_PREVIOUS);
+        return buttonPrevious.click();
 
       case "ArrowRight": // right-key
-        btnNext = document.querySelector(
-          "." + CSS_CLASSES.BTN_NEXT
-        ) as HTMLElement;
-        return btnNext.click();
+        buttonNext = getHtmlElementByClassName(CSS_CLASSES.BUTTON_NEXT);
+        return buttonNext.click();
       default:
         return;
     }
@@ -354,9 +338,10 @@ class Lightbox {
     body.classList.remove(CSS_CLASSES.NO_SCROLL);
   }
 
-  setCurrentImageSet(event: Event) {
+  setCurrentImageProperties(event: Event) {
     const imageSetId = this.getImageSetId(event);
     this.currentImageSet = this.imageSets[imageSetId];
+    this.currentImageSetLength = this.imageSets[imageSetId].length;
   }
 
   setBodyOverflow() {
@@ -364,44 +349,61 @@ class Lightbox {
     body.classList.add(CSS_CLASSES.NO_SCROLL);
   }
 
+  prepareLightboxOverlay(lightboxOverlay: HTMLElement) {
+    this.setLightboxOverlayMarkup(lightboxOverlay);
+    this.setLightboxOverlayVisible(lightboxOverlay);
+  }
+
+  setLightboxOverlayVisible(lightboxOverlay: HTMLElement) {
+    lightboxOverlay.classList.add("visible");
+    lightboxOverlay.classList.remove("hidden");
+  }
+
+  setLightboxOverlayMarkup(lightboxOverlay: HTMLElement) {
+    lightboxOverlay.innerHTML = "";
+    lightboxOverlay.innerHTML = overlayMarkup;
+  }
+
   setImageDescription(currentImageIndex: number) {
     const descriptionText = this.getDescriptionText(currentImageIndex);
 
     if (typeof descriptionText !== "undefined") {
-      const description = document.querySelector(
-        "." + CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_DESCRIPTION
-      ) as HTMLElement;
+      const description = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_DESCRIPTION
+      );
+
       description.textContent = descriptionText;
     }
   }
 
   setImageSource(currentImageIndex: number) {
     const sourceText = this.getSourceText(currentImageIndex);
-    const imageSource = document.querySelector(
-      "." + CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_SOURCE
-    ) as HTMLElement;
+    const imageSource = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_SOURCE
+    );
     if (typeof sourceText !== "undefined") {
       imageSource.textContent = sourceText;
     }
   }
 
   setImageCounter(imageNumber: number): void {
-    const imageCounter = document.querySelector(
-      "." + CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_COUNTER
-    ) as HTMLElement;
+    const imageCounter = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_COUNTER
+    );
+
     imageCounter.innerHTML = `<span class="first-digit">${imageNumber}</span> / ${
       this.currentImageSet ? Object.values(this.currentImageSet).length : ""
     }`;
   }
 
-  showLightboxImage(url: string, text?: string): void {
+  showLightboxOverlayImage(url: string, text?: string): void {
     this.showLoadingAnimation();
 
-    const overlayImage = document.querySelector(
-      "." + CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
-    ) as HTMLElement;
+    const lightboxOverlayImage = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
+    );
 
-    overlayImage.remove();
+    lightboxOverlayImage.remove();
 
     this.addNewImageToHtml(url, text);
   }
@@ -410,8 +412,9 @@ class Lightbox {
     this.imageSlider.showImageDescription &&
       this.setImageDescription(currentImageIndex);
     this.imageSlider.showImageSource && this.setImageSource(currentImageIndex);
-    this.imageSlider.showImageCounter &&
-      this.setImageCounter(currentImageIndex + 1);
+    this.imageSlider.showImageCounter && this.currentImageSetLength > 1
+      ? this.setImageCounter(currentImageIndex + 1)
+      : null;
   }
 
   updateImageIndex(newIndex: number) {
@@ -419,9 +422,9 @@ class Lightbox {
   }
 
   addNewImageToHtml(url: string, text?: string) {
-    const imageContainer = document.querySelector(
-      "." + CSS_CLASSES.IMAGE_CONTAINER
-    ) as HTMLElement;
+    const imageContainer = getHtmlElementByClassName(
+      CSS_CLASSES.IMAGE_CONTAINER
+    );
 
     const newImage = new Image();
 
@@ -432,21 +435,59 @@ class Lightbox {
       this.hideLoadingAnimation();
       imageContainer.appendChild(newImage);
     };
+
+    this.adjustImageHeight();
   }
 
+  adjustImageHeight = () => {
+    waitForElementToBeVisible(CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE).then(() => {
+      const lightboxOverlay = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY
+      );
+
+      const lightboxOverlayHeaderRow = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY_HEADER_ROW
+      );
+
+      const lightboxOverlayFooterRow = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY_FOOTER_ROW
+      );
+
+      const lightboxOverlayBodyRow = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY_BODY_ROW
+      );
+
+      const lightboxOverlayImage = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
+      );
+
+      const overlayHeight = lightboxOverlay.offsetHeight;
+      const headerHeight = lightboxOverlayHeaderRow.offsetHeight;
+      const footerHeight = lightboxOverlayFooterRow.offsetHeight;
+
+      lightboxOverlayBodyRow.style.height = `${
+        overlayHeight - (footerHeight + headerHeight)
+      }px`;
+
+      lightboxOverlayImage.style.maxHeight = `${
+        overlayHeight - (footerHeight + headerHeight)
+      }px`;
+    });
+  };
+
   showLoadingAnimation() {
-    const loadingDiv = document.querySelector(
-      "." + CSS_CLASSES.LOADING_ANIMATION
-    ) as HTMLElement;
-    loadingDiv.classList.add(CSS_CLASSES.SHOW);
-    loadingDiv.classList.remove(CSS_CLASSES.HIDE);
+    const loadingAnimation = getHtmlElementByClassName(
+      CSS_CLASSES.LOADING_ANIMATION
+    );
+    loadingAnimation.classList.add(CSS_CLASSES.SHOW);
+    loadingAnimation.classList.remove(CSS_CLASSES.HIDE);
   }
 
   hideLoadingAnimation() {
-    const loadingDiv = document.querySelector(
-      "." + CSS_CLASSES.LOADING_ANIMATION
-    ) as HTMLElement;
-    loadingDiv.classList.add(CSS_CLASSES.HIDE);
+    const loadingAnimation = getHtmlElementByClassName(
+      CSS_CLASSES.LOADING_ANIMATION
+    );
+    loadingAnimation.classList.add(CSS_CLASSES.HIDE);
   }
 }
 

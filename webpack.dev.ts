@@ -8,7 +8,7 @@ const config: webpack.Configuration = merge(webpackCommon, {
   mode: "development",
   devtool: "inline-source-map",
   devServer: {
-    watchFiles: paths.src.root,
+    watchFiles: [paths.src.scripts, paths.src.root + "/index.html"],
     static: {
       directory: paths.dest.root
     },

@@ -1,0 +1,6 @@
+@use "sass:map";
+
+$icon-colors: (
+  "regular": map.get($descriptive-colors, "quill-gray"),
+  "light": map.get($descriptive-colors, "white")
+);

@@ -1,0 +1,8 @@
+@use "sass:map";
+@use "sass:color";
+
+$text-colors: (
+  "regular": map.get($descriptive-colors, "quill-gray"),
+  "dark": map.get($descriptive-colors, "oslo-gray"),
+  "link": color.adjust(map.get($descriptive-colors, "trout"), $lightness: -12%)
+);

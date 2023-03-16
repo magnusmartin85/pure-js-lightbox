@@ -1,10 +1,5 @@
 @use "sass:map";
 
 a {
-  color: map.get($text-colors, "link");
   text-decoration: none;
-
-  &:hover {
-    color: map.get($text-colors, "linkHover");
-  }
 }

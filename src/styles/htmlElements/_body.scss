@@ -1,7 +1,6 @@
 @use "sass:map";
 
 body {
-  background-color: map.get($descriptive-colors, "white");
   font-family: $font-family-1;
   margin: 0;
 }

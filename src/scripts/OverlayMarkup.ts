@@ -26,7 +26,7 @@ export const overlayMarkup = `
   </div>
   <div class="lightbox-overlay-body-col-2">
     <div class="loading-animation">
-      <img alt="loading..." src="../loading-animation.svg" />
+      <img alt="loading..." src="./loading-animation.svg" />
     </div>
 
     <img alt="" class="lightbox-overlay-image" src="" />

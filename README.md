@@ -8,7 +8,7 @@
 - Mobile friendly
 - Touch and swipe support
 - Keyboard navigation
-- Lightweight: ~9KB (generated js file)
+- Lightweight: ~11KB (generated js file)
 
 ## Getting started
 

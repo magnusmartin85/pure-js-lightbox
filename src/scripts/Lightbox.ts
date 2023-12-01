@@ -1,13 +1,16 @@
 /**
- * Lightbox v1.0
+ * Lightbox v1.0.2
  * by Magnus Martin
  *
- * More info:
+ * Author:
  * https://mgnmrt.com
+ *
+ * Demo:
+ * https://pure-js-lightbox.com
  *
  */
 import { CSS_CLASSES } from "./constants";
-import { overlayMarkup } from "./OverlayMarkup";
+import { getOverlayMarkup, getOverlayThumbnailImagesMarkup } from "./Markup";
 import { getHtmlElementByClassName, waitForElementToBeVisible } from "./helper";
 import {
   ConfigProps,
@@ -46,8 +49,7 @@ class Lightbox {
     );
 
     // Create array of objects
-    const images = Array.from(imageCollection).map((image, index) => ({
-      id: index,
+    const images = Array.from(imageCollection).map((image) => ({
       description: image.getAttribute("alt"),
       url: image.getAttribute("src"),
       photographer: image.getAttribute("data-photographer"),
@@ -56,18 +58,24 @@ class Lightbox {
     const imageSets: ImageSetsProps = [];
     let currentImageSetId = "";
     let currentImageSetIndex = -1;
+    let currentImageId = -1;
 
     images.forEach((image: ImageProps) => {
       if (image.imageSetId !== currentImageSetId) {
+        currentImageId = -1;
         currentImageSetIndex++;
+        currentImageId++;
         currentImageSetId = image.imageSetId;
+        image["id"] = currentImageId;
         imageSets[currentImageSetIndex] = [];
         imageSets[currentImageSetIndex].push(image);
       } else {
+        currentImageId++;
+        image["id"] = currentImageId;
         imageSets[currentImageSetIndex].push(image);
       }
     });
-
+    console.warn(imageSets);
     return imageSets;
   };
 
@@ -82,6 +90,28 @@ class Lightbox {
         this.setCurrentImageProperties(event);
         this.openLightboxOverlay(event);
         this.showBackdrop();
+      });
+    }
+  }
+
+  addClickListenersToThumbnailImages(): void {
+    const triggerCollection = document.getElementsByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL
+    );
+
+    for (let i = 0; i < triggerCollection.length; i++) {
+      const currentTrigger = triggerCollection[i];
+      currentTrigger.addEventListener("click", () => {
+        const imageIndex = Number(
+          currentTrigger.children[0].getAttribute("data-id")
+        );
+        const imageAltText =
+          currentTrigger.children[0].getAttribute("alt") || "";
+        const imageUrl = currentTrigger.children[0].getAttribute("src") || "";
+        this.updateImageIndex(imageIndex);
+        this.showLightboxOverlayImage(imageUrl, imageAltText || "");
+        this.updateFooterData(imageIndex);
+        this.setActiveThumbnailImage(imageIndex);
       });
     }
   }
@@ -113,6 +143,7 @@ class Lightbox {
           this.updateImageIndex(nextImageIndex);
           this.showLightboxOverlayImage(nextImageUrl, nextAltText || "");
           this.updateFooterData(nextImageIndex);
+          this.setActiveThumbnailImage(nextImageIndex);
         })
       : nextButton.remove();
   }
@@ -137,6 +168,7 @@ class Lightbox {
             previousAltText || ""
           );
           this.updateFooterData(previousImageIndex);
+          this.setActiveThumbnailImage(previousImageIndex);
         })
       : previousButton.remove();
   }
@@ -219,7 +251,7 @@ class Lightbox {
     }
   }
 
-  addSliderHtmlToDom(event: Event) {
+  addLightboxHtmlToDom(event: Event) {
     const imageSetId = this.getImageSetId(event);
     const imageIndex = this.getImageIndex(event);
     const imageSet = this.imageSets[imageSetId]
@@ -243,6 +275,7 @@ class Lightbox {
     this.addClickListenerToCloseButton();
     this.addClickListenerToNextButton();
     this.addClickListenerToPreviousButton();
+    this.setActiveThumbnailImage(imageIndex);
   }
 
   getDescriptionText(currentImageIndex: number): string {
@@ -286,17 +319,17 @@ class Lightbox {
 
   hideBackdrop(): void {
     const backdrop = getHtmlElementByClassName(CSS_CLASSES.BACKDROP);
-    backdrop.classList.replace(CSS_CLASSES.SHOW, CSS_CLASSES.HIDE);
+    backdrop.classList.replace(CSS_CLASSES.VISIBLE, CSS_CLASSES.HIDDEN);
   }
 
   showBackdrop(): void {
     const backdrop = getHtmlElementByClassName(CSS_CLASSES.BACKDROP);
-    backdrop.classList.replace(CSS_CLASSES.HIDE, CSS_CLASSES.SHOW);
+    backdrop.classList.replace(CSS_CLASSES.HIDDEN, CSS_CLASSES.VISIBLE);
   }
 
   hideOverlay(): void {
     const overlay = getHtmlElementByClassName(CSS_CLASSES.LIGHTBOX_OVERLAY);
-    overlay.classList.replace(CSS_CLASSES.SHOW, CSS_CLASSES.HIDE);
+    overlay.classList.replace(CSS_CLASSES.VISIBLE, CSS_CLASSES.HIDDEN);
     this.removeEventListenersForKeyboard();
     this.removeEventListenersForTouch();
   }
@@ -327,15 +360,31 @@ class Lightbox {
     event.preventDefault();
     this.currentImageIndex = this.getImageIndex(event);
 
-    this.addSliderHtmlToDom(event);
+    this.addLightboxHtmlToDom(event);
     this.setBodyOverflow();
     this.addEventListenersForKeyboard();
     this.addEventListenersForTouch();
+    this.addClickListenersToThumbnailImages();
   }
 
   removeBodyOverflow() {
     const body = this.body as HTMLElement;
     body.classList.remove(CSS_CLASSES.NO_SCROLL);
+  }
+
+  setActiveThumbnailImage(imageIndex: number) {
+    const triggerCollection = document.getElementsByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL
+    );
+
+    for (let i = 0; i < triggerCollection.length; i++) {
+      triggerCollection[i].classList.remove("active");
+    }
+
+    const imageDiv = document.querySelector(
+      `[data-id='${imageIndex}']`
+    )?.parentElement;
+    imageDiv?.classList.add("active");
   }
 
   setCurrentImageProperties(event: Event) {
@@ -360,6 +409,16 @@ class Lightbox {
   }
 
   setLightboxOverlayMarkup(lightboxOverlay: HTMLElement) {
+    let thumbnailImagesMarkup: string[] = [];
+
+    if (this.currentImageSet.length > 1) {
+      thumbnailImagesMarkup = getOverlayThumbnailImagesMarkup(
+        this.currentImageSet
+      );
+    }
+
+    const overlayMarkup = getOverlayMarkup(thumbnailImagesMarkup);
+
     lightboxOverlay.innerHTML = "";
     lightboxOverlay.innerHTML = overlayMarkup;
   }
@@ -445,6 +504,14 @@ class Lightbox {
         CSS_CLASSES.LIGHTBOX_OVERLAY
       );
 
+      const lightboxOverlayThumbnailsRow = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL_ROW
+      );
+
+      const lightboxOverlayImage = getHtmlElementByClassName(
+        CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
+      );
+
       const lightboxOverlayHeaderRow = getHtmlElementByClassName(
         CSS_CLASSES.LIGHTBOX_OVERLAY_HEADER_ROW
       );
@@ -457,21 +524,45 @@ class Lightbox {
         CSS_CLASSES.LIGHTBOX_OVERLAY_BODY_ROW
       );
 
-      const lightboxOverlayImage = getHtmlElementByClassName(
-        CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
+      const loadingAnimationdDiv = getHtmlElementByClassName(
+        CSS_CLASSES.LOADING_ANIMATION
       );
 
       const overlayHeight = lightboxOverlay.offsetHeight;
       const headerHeight = lightboxOverlayHeaderRow.offsetHeight;
       const footerHeight = lightboxOverlayFooterRow.offsetHeight;
 
-      lightboxOverlayBodyRow.style.height = `${
-        overlayHeight - (footerHeight + headerHeight)
-      }px`;
+      if (lightboxOverlayThumbnailsRow) {
+        const thumbnailsHeight = lightboxOverlayThumbnailsRow.offsetHeight;
 
-      lightboxOverlayImage.style.maxHeight = `${
-        overlayHeight - (footerHeight + headerHeight)
-      }px`;
+        const lightboxOverlayGroup1 = getHtmlElementByClassName(
+          CSS_CLASSES.LIGHTBOX_OVERLAY_GROUP_1
+        );
+
+        lightboxOverlayGroup1.style.height = `${
+          overlayHeight - thumbnailsHeight
+        }px`;
+
+        lightboxOverlayImage.style.maxHeight = `${
+          overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
+        }px`;
+
+        loadingAnimationdDiv.style.height = `${
+          overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
+        }px`;
+      } else {
+        lightboxOverlayBodyRow.style.height = `${
+          overlayHeight - (footerHeight + headerHeight)
+        }px`;
+
+        lightboxOverlayImage.style.maxHeight = `${
+          overlayHeight - (footerHeight + headerHeight)
+        }px`;
+
+        loadingAnimationdDiv.style.height = `${
+          overlayHeight - (footerHeight + headerHeight)
+        }px`;
+      }
     });
   };
 
@@ -479,15 +570,17 @@ class Lightbox {
     const loadingAnimation = getHtmlElementByClassName(
       CSS_CLASSES.LOADING_ANIMATION
     );
-    loadingAnimation.classList.add(CSS_CLASSES.SHOW);
-    loadingAnimation.classList.remove(CSS_CLASSES.HIDE);
+    loadingAnimation.classList.add(CSS_CLASSES.VISIBLE);
+    loadingAnimation.classList.remove(CSS_CLASSES.HIDDEN);
   }
 
   hideLoadingAnimation() {
-    const loadingAnimation = getHtmlElementByClassName(
+    const loadingAnimationDiv = getHtmlElementByClassName(
       CSS_CLASSES.LOADING_ANIMATION
     );
-    loadingAnimation.classList.add(CSS_CLASSES.HIDE);
+
+    loadingAnimationDiv.classList.add(CSS_CLASSES.HIDDEN);
+    loadingAnimationDiv.classList.remove(CSS_CLASSES.VISIBLE);
   }
 }
 

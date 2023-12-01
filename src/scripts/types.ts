@@ -8,7 +8,7 @@ export type ConfigProps = {
 
 export type ImageProps = {
   description?: string | null;
-  id: number;
+  id?: number;
   imageSetId: string;
   photographer?: string | null;
   url: string | null;

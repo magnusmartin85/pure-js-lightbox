@@ -1,11 +1,17 @@
 .button-next-row {
-  @extend %btn-row;
+  @extend %button-row;
 }
 
 .button-next {
-  @extend %btn-1;
+  @extend %button;
 
   margin: 0 15px;
+  position: absolute;
+  right: 0.15rem;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    position: static;
+  }
 
   .line1 {
     border-radius: 100px;

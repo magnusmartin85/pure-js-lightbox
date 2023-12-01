@@ -1,6 +1,6 @@
 @use "sass:map";
 
-%btn-row {
+%button-row {
   align-items: center;
   display: flex;
   flex-wrap: nowrap;
@@ -10,7 +10,7 @@
   width: 100%;
 }
 
-%btn-1 {
+%button {
   align-items: center;
   background-color: map.get($descriptive-colors, "black-06");
   border-radius: 10px;

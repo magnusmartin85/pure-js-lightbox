@@ -1,3 +1,15 @@
+@use "sass:map";
+
+.lightbox-overlay-footer-col-1 {
+  background-color: map.get($descriptive-colors, "black-08");
+  flex-basis: 100%;
+
+  @media only screen and (min-width: $breakpoint-md) {
+    bottom: 2.6rem;
+    position: relative;
+  }
+}
+
 .lightbox-overlay-footer-col-2 {
-  flex-basis: 90%;
+  flex-basis: 100%;
 }

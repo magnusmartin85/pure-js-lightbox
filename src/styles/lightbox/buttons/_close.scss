@@ -1,7 +1,7 @@
 @use "sass:map";
 
 .button-close {
-  @extend %btn-1;
+  @extend %button;
 
   align-items: center;
   display: flex;

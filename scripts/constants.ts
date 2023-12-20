@@ -1,4 +1,4 @@
-const CSS_CLASSES = {
+export const CSS_CLASSES = {
   BACKDROP: "lightbox-backdrop",
   BUTTON_CLOSE: "button-close",
   BUTTON_NEXT: "button-next",
@@ -22,5 +22,3 @@ const CSS_CLASSES = {
   PREVIEW_IMAGE: "preview-image",
   VISIBLE: "visible"
 };
-
-export { CSS_CLASSES };

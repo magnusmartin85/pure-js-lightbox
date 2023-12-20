@@ -1,16 +1,14 @@
 import path from "node:path";
 
-const paths = {
+export const paths = {
   src: {
-    assets: path.resolve(__dirname, "./src/assets"),
-    images: path.resolve(__dirname, "./src/images"),
-    root: path.resolve(__dirname, "./src"),
-    scripts: path.resolve(__dirname, "./src/scripts")
+    assets: path.resolve(__dirname, "./assets"),
+    images: path.resolve(__dirname, "./images"),
+    root: path.resolve(__dirname, "./"),
+    scripts: path.resolve(__dirname, "./scripts")
   },
   dest: {
-    root: path.resolve(__dirname, "./dist"),
-    images: path.resolve(__dirname, "./dist/images")
+    root: path.resolve(__dirname, "./public"),
+    images: path.resolve(__dirname, "./public/images")
   }
 };
-
-export { paths };

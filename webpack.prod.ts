@@ -1,7 +1,7 @@
-const TerserPlugin = require("terser-webpack-plugin");
-const { merge } = require("webpack-merge");
-import * as webpack from "webpack";
+import webpack from "webpack";
+import TerserPlugin from "terser-webpack-plugin";
 import webpackCommon from "./webpack.common";
+import { merge } from "webpack-merge";
 
 const config: webpack.Configuration = merge(webpackCommon, {
   mode: "production",

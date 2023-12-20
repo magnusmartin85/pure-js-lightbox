@@ -43,7 +43,7 @@ class Lightbox {
   }
 
   // 1. Create image objects
-  getImageSets = () => {
+  getImageSets = (): ImageSetsProps => {
     const imageCollection = document.getElementsByClassName(
       CSS_CLASSES.PREVIEW_IMAGE
     );
@@ -75,7 +75,7 @@ class Lightbox {
         imageSets[currentImageSetIndex].push(image);
       }
     });
-    console.warn(imageSets);
+
     return imageSets;
   };
 
@@ -189,7 +189,7 @@ class Lightbox {
     this.swipedLeftOrRight = firstTouch.clientX > 0;
   }
 
-  handleTouchMove(event: TouchEvent) {
+  handleTouchMove(event: TouchEvent): void {
     if (!this.swipedLeftOrRight) {
       return;
     }
@@ -211,11 +211,11 @@ class Lightbox {
     this.swipedLeftOrRight = false;
   }
 
-  addEventListenersForKeyboard() {
+  addEventListenersForKeyboard(): void {
     document.addEventListener("keydown", this.addKeyboardListeners);
   }
 
-  removeEventListenersForKeyboard() {
+  removeEventListenersForKeyboard(): void {
     document.removeEventListener("keydown", this.addKeyboardListeners);
   }
 
@@ -251,7 +251,7 @@ class Lightbox {
     }
   }
 
-  addLightboxHtmlToDom(event: Event) {
+  addLightboxHtmlToDom(event: Event): void {
     const imageSetId = this.getImageSetId(event);
     const imageIndex = this.getImageIndex(event);
     const imageSet = this.imageSets[imageSetId]
@@ -305,7 +305,7 @@ class Lightbox {
       : "";
   }
 
-  getImageSetId(event: Event) {
+  getImageSetId(event: Event): number {
     const element = event.target as HTMLElement;
     const lightboxId = element.getAttribute("data-lightbox-id") || "";
     return this.imageSets.findIndex((imageSet) => {
@@ -334,7 +334,7 @@ class Lightbox {
     this.removeEventListenersForTouch();
   }
 
-  addKeyboardListeners(event: KeyboardEvent) {
+  addKeyboardListeners(event: KeyboardEvent): void {
     let buttonClose: HTMLElement;
     let buttonPrevious: HTMLElement;
     let buttonNext: HTMLElement;
@@ -356,7 +356,7 @@ class Lightbox {
     }
   }
 
-  openLightboxOverlay(event: Event) {
+  openLightboxOverlay(event: Event): void {
     event.preventDefault();
     this.currentImageIndex = this.getImageIndex(event);
 
@@ -367,12 +367,12 @@ class Lightbox {
     this.addClickListenersToThumbnailImages();
   }
 
-  removeBodyOverflow() {
+  removeBodyOverflow(): void {
     const body = this.body as HTMLElement;
     body.classList.remove(CSS_CLASSES.NO_SCROLL);
   }
 
-  setActiveThumbnailImage(imageIndex: number) {
+  setActiveThumbnailImage(imageIndex: number): void {
     const triggerCollection = document.getElementsByClassName(
       CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL
     );
@@ -387,28 +387,28 @@ class Lightbox {
     imageDiv?.classList.add("active");
   }
 
-  setCurrentImageProperties(event: Event) {
+  setCurrentImageProperties(event: Event): void {
     const imageSetId = this.getImageSetId(event);
     this.currentImageSet = this.imageSets[imageSetId];
     this.currentImageSetLength = this.imageSets[imageSetId].length;
   }
 
-  setBodyOverflow() {
+  setBodyOverflow(): void {
     const body = this.body as HTMLElement;
     body.classList.add(CSS_CLASSES.NO_SCROLL);
   }
 
-  prepareLightboxOverlay(lightboxOverlay: HTMLElement) {
+  prepareLightboxOverlay(lightboxOverlay: HTMLElement): void {
     this.setLightboxOverlayMarkup(lightboxOverlay);
     this.setLightboxOverlayVisible(lightboxOverlay);
   }
 
-  setLightboxOverlayVisible(lightboxOverlay: HTMLElement) {
+  setLightboxOverlayVisible(lightboxOverlay: HTMLElement): void {
     lightboxOverlay.classList.add("visible");
     lightboxOverlay.classList.remove("hidden");
   }
 
-  setLightboxOverlayMarkup(lightboxOverlay: HTMLElement) {
+  setLightboxOverlayMarkup(lightboxOverlay: HTMLElement): void {
     let thumbnailImagesMarkup: string[] = [];
 
     if (this.currentImageSet.length > 1) {
@@ -423,7 +423,7 @@ class Lightbox {
     lightboxOverlay.innerHTML = overlayMarkup;
   }
 
-  setImageDescription(currentImageIndex: number) {
+  setImageDescription(currentImageIndex: number): void {
     const descriptionText = this.getDescriptionText(currentImageIndex);
 
     if (typeof descriptionText !== "undefined") {
@@ -435,7 +435,7 @@ class Lightbox {
     }
   }
 
-  setImageSource(currentImageIndex: number) {
+  setImageSource(currentImageIndex: number): void {
     const sourceText = this.getSourceText(currentImageIndex);
     const imageSource = getHtmlElementByClassName(
       CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_SOURCE
@@ -467,7 +467,7 @@ class Lightbox {
     this.addNewImageToHtml(url, text);
   }
 
-  updateFooterData(currentImageIndex: number) {
+  updateFooterData(currentImageIndex: number): void {
     this.imageSlider.showImageDescription &&
       this.setImageDescription(currentImageIndex);
     this.imageSlider.showImageSource && this.setImageSource(currentImageIndex);
@@ -476,11 +476,11 @@ class Lightbox {
       : null;
   }
 
-  updateImageIndex(newIndex: number) {
+  updateImageIndex(newIndex: number): void {
     this.currentImageIndex = newIndex;
   }
 
-  addNewImageToHtml(url: string, text?: string) {
+  addNewImageToHtml(url: string, text?: string): void {
     const imageContainer = getHtmlElementByClassName(
       CSS_CLASSES.IMAGE_CONTAINER
     );
@@ -499,74 +499,76 @@ class Lightbox {
   }
 
   adjustImageHeight = () => {
-    waitForElementToBeVisible(CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE).then(() => {
-      const lightboxOverlay = getHtmlElementByClassName(
-        CSS_CLASSES.LIGHTBOX_OVERLAY
-      );
-
-      const lightboxOverlayThumbnailsRow = getHtmlElementByClassName(
-        CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL_ROW
-      );
-
-      const lightboxOverlayImage = getHtmlElementByClassName(
-        CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
-      );
-
-      const lightboxOverlayHeaderRow = getHtmlElementByClassName(
-        CSS_CLASSES.LIGHTBOX_OVERLAY_HEADER_ROW
-      );
-
-      const lightboxOverlayFooterRow = getHtmlElementByClassName(
-        CSS_CLASSES.LIGHTBOX_OVERLAY_FOOTER_ROW
-      );
-
-      const lightboxOverlayBodyRow = getHtmlElementByClassName(
-        CSS_CLASSES.LIGHTBOX_OVERLAY_BODY_ROW
-      );
-
-      const loadingAnimationdDiv = getHtmlElementByClassName(
-        CSS_CLASSES.LOADING_ANIMATION
-      );
-
-      const overlayHeight = lightboxOverlay.offsetHeight;
-      const headerHeight = lightboxOverlayHeaderRow.offsetHeight;
-      const footerHeight = lightboxOverlayFooterRow.offsetHeight;
-
-      if (lightboxOverlayThumbnailsRow) {
-        const thumbnailsHeight = lightboxOverlayThumbnailsRow.offsetHeight;
-
-        const lightboxOverlayGroup1 = getHtmlElementByClassName(
-          CSS_CLASSES.LIGHTBOX_OVERLAY_GROUP_1
+    waitForElementToBeVisible(CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE).then(
+      (): void => {
+        const lightboxOverlay = getHtmlElementByClassName(
+          CSS_CLASSES.LIGHTBOX_OVERLAY
         );
 
-        lightboxOverlayGroup1.style.height = `${
-          overlayHeight - thumbnailsHeight
-        }px`;
+        const lightboxOverlayThumbnailsRow = getHtmlElementByClassName(
+          CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL_ROW
+        );
 
-        lightboxOverlayImage.style.maxHeight = `${
-          overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
-        }px`;
+        const lightboxOverlayImage = getHtmlElementByClassName(
+          CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
+        );
 
-        loadingAnimationdDiv.style.height = `${
-          overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
-        }px`;
-      } else {
-        lightboxOverlayBodyRow.style.height = `${
-          overlayHeight - (footerHeight + headerHeight)
-        }px`;
+        const lightboxOverlayHeaderRow = getHtmlElementByClassName(
+          CSS_CLASSES.LIGHTBOX_OVERLAY_HEADER_ROW
+        );
 
-        lightboxOverlayImage.style.maxHeight = `${
-          overlayHeight - (footerHeight + headerHeight)
-        }px`;
+        const lightboxOverlayFooterRow = getHtmlElementByClassName(
+          CSS_CLASSES.LIGHTBOX_OVERLAY_FOOTER_ROW
+        );
 
-        loadingAnimationdDiv.style.height = `${
-          overlayHeight - (footerHeight + headerHeight)
-        }px`;
+        const lightboxOverlayBodyRow = getHtmlElementByClassName(
+          CSS_CLASSES.LIGHTBOX_OVERLAY_BODY_ROW
+        );
+
+        const loadingAnimationdDiv = getHtmlElementByClassName(
+          CSS_CLASSES.LOADING_ANIMATION
+        );
+
+        const overlayHeight = lightboxOverlay.offsetHeight;
+        const headerHeight = lightboxOverlayHeaderRow.offsetHeight;
+        const footerHeight = lightboxOverlayFooterRow.offsetHeight;
+
+        if (lightboxOverlayThumbnailsRow) {
+          const thumbnailsHeight = lightboxOverlayThumbnailsRow.offsetHeight;
+
+          const lightboxOverlayGroup1 = getHtmlElementByClassName(
+            CSS_CLASSES.LIGHTBOX_OVERLAY_GROUP_1
+          );
+
+          lightboxOverlayGroup1.style.height = `${
+            overlayHeight - thumbnailsHeight
+          }px`;
+
+          lightboxOverlayImage.style.maxHeight = `${
+            overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
+          }px`;
+
+          loadingAnimationdDiv.style.height = `${
+            overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
+          }px`;
+        } else {
+          lightboxOverlayBodyRow.style.height = `${
+            overlayHeight - (footerHeight + headerHeight)
+          }px`;
+
+          lightboxOverlayImage.style.maxHeight = `${
+            overlayHeight - (footerHeight + headerHeight)
+          }px`;
+
+          loadingAnimationdDiv.style.height = `${
+            overlayHeight - (footerHeight + headerHeight)
+          }px`;
+        }
       }
-    });
+    );
   };
 
-  showLoadingAnimation() {
+  showLoadingAnimation(): void {
     const loadingAnimation = getHtmlElementByClassName(
       CSS_CLASSES.LOADING_ANIMATION
     );
@@ -574,7 +576,7 @@ class Lightbox {
     loadingAnimation.classList.remove(CSS_CLASSES.HIDDEN);
   }
 
-  hideLoadingAnimation() {
+  hideLoadingAnimation(): void {
     const loadingAnimationDiv = getHtmlElementByClassName(
       CSS_CLASSES.LOADING_ANIMATION
     );

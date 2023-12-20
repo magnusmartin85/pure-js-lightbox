@@ -1,4 +1,4 @@
-import CopyPlugin = require("copy-webpack-plugin");
+import CopyPlugin from "copy-webpack-plugin";
 import webpack from "webpack";
 import { paths } from "./paths";
 

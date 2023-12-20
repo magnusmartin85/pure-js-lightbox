@@ -1,5 +1,5 @@
 import "webpack-dev-server";
-import * as webpack from "webpack";
+import webpack from "webpack";
 import webpackCommon from "./webpack.common";
 import { merge } from "webpack-merge";
 import { paths } from "./paths";
@@ -10,7 +10,7 @@ const config: webpack.Configuration = merge(webpackCommon, {
   devServer: {
     watchFiles: [paths.src.scripts, paths.src.root + "/index.html"],
     static: {
-      directory: paths.dest.root
+      directory: paths.src.root
     },
     compress: true,
     port: 9000

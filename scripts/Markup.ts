@@ -30,7 +30,7 @@ export const getOverlayMarkup = (thumbnailImagesMarkup: string[]) =>
     </div>
     <div class="lightbox-overlay-body-col-2">
       <div class="loading-animation">
-        <img alt="loading..." src="./loading-animation.svg" />
+        <img alt="loading..." src="./assets/svg/loading-animation.svg" />
       </div>
   
       <img alt="" class="lightbox-overlay-image" src="" />
@@ -42,12 +42,12 @@ export const getOverlayMarkup = (thumbnailImagesMarkup: string[]) =>
             <div class="line1">
               <div class="line2"></div>
             </div>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
   
-  <div class="lightbox-overlay-footer-row">
+  <div class="lightbox-overlay-footer-row"> 
     <div class="lightbox-overlay-footer-col-1">
       <p class="lightbox-overlay-image-description"></p>
       <p class="lightbox-overlay-image-source"></p>

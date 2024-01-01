@@ -5,6 +5,7 @@ export const CSS_CLASSES = {
   BUTTON_PREVIOUS: "button-previous",
   HIDDEN: "hidden",
   IMAGE_CONTAINER: "lightbox-overlay-body-col-2",
+  IMAGE_COUNTER_FIRST_DIGIT: "first-digit",
   LIGHTBOX_OVERLAY: "lightbox-overlay",
   LIGHTBOX_OVERLAY_BODY_ROW: "lightbox-overlay-body-row",
   LIGHTBOX_OVERLAY_FOOTER_ROW: "lightbox-overlay-footer-row",
@@ -20,5 +21,14 @@ export const CSS_CLASSES = {
   LOADING_ANIMATION: "loading-animation",
   NO_SCROLL: "no-scroll",
   PREVIEW_IMAGE: "preview-image",
-  VISIBLE: "visible"
+  VISIBLE: "visible",
+  ACTIVE: "active"
+};
+
+export const HTML_ATTRIBUTES = {
+  ALT: "alt",
+  SRC: "src",
+  DATA_PHOTOGRAPHER: "data-photographer",
+  DATA_LIGHTBOX_ID: "data-lightbox-id",
+  DATA_ID: "data-id"
 };

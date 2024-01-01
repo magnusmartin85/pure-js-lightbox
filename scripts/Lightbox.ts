@@ -9,9 +9,14 @@
  * https://pure-js-lightbox.com
  *
  */
-import { CSS_CLASSES } from "./constants";
+import { CSS_CLASSES, HTML_ATTRIBUTES } from "./constants";
 import { getOverlayMarkup, getOverlayThumbnailImagesMarkup } from "./Markup";
-import { getHtmlElementByClassName, waitForElementToBeVisible } from "./helper";
+import {
+  getHtmlElementByClassName,
+  getHtmlElementByTagName,
+  getHtmlElementsByClassName,
+  waitForElementToBeVisible
+} from "./helper";
 import {
   ConfigProps,
   ImageProps,
@@ -28,10 +33,10 @@ class Lightbox {
   };
   private swipedLeftOrRight: boolean;
   private leftOrRightSwipeAmount: number;
-  body = document.querySelector("body");
-  currentImageIndex = 0;
-  currentImageSet: ImageSetProps;
-  currentImageSetLength: number;
+  private body = getHtmlElementByTagName("body");
+  private currentImageIndex = 0;
+  private currentImageSet: ImageSetProps;
+  private currentImageSetLength: number;
 
   constructor(config: ConfigProps) {
     this.imageSets = this.getImageSets();
@@ -42,18 +47,20 @@ class Lightbox {
     this.currentImageSetLength = this.currentImageSet.length;
   }
 
-  // 1. Create image objects
+  /**
+   *  Create image objects.
+   */
   getImageSets = (): ImageSetsProps => {
-    const imageCollection = document.getElementsByClassName(
+    const imageCollection = getHtmlElementsByClassName(
       CSS_CLASSES.PREVIEW_IMAGE
     );
 
     // Create array of objects
     const images = Array.from(imageCollection).map((image) => ({
-      description: image.getAttribute("alt"),
-      url: image.getAttribute("src"),
-      photographer: image.getAttribute("data-photographer"),
-      imageSetId: image.getAttribute("data-lightbox-id") || ""
+      description: image.getAttribute(HTML_ATTRIBUTES.ALT),
+      url: image.getAttribute(HTML_ATTRIBUTES.SRC),
+      photographer: image.getAttribute(HTML_ATTRIBUTES.DATA_PHOTOGRAPHER),
+      imageSetId: image.getAttribute(HTML_ATTRIBUTES.DATA_LIGHTBOX_ID) || ""
     }));
     const imageSets: ImageSetsProps = [];
     let currentImageSetId = "";
@@ -79,13 +86,16 @@ class Lightbox {
     return imageSets;
   };
 
+  /**
+   *
+   */
   addClickListenersToPreviewImages(): void {
-    const triggerCollection = document.getElementsByClassName(
+    const previewImages: HTMLCollectionOf<Element> = getHtmlElementsByClassName(
       CSS_CLASSES.PREVIEW_IMAGE
     );
 
-    for (let i = 0; i < triggerCollection.length; i++) {
-      const currentTrigger = triggerCollection[i];
+    for (let i = 0; i < previewImages.length; i++) {
+      const currentTrigger = previewImages[i];
       currentTrigger.addEventListener("click", (event) => {
         this.setCurrentImageProperties(event);
         this.openLightboxOverlay(event);
@@ -94,20 +104,23 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   */
   addClickListenersToThumbnailImages(): void {
-    const triggerCollection = document.getElementsByClassName(
-      CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL
-    );
+    const thumbnailImages: HTMLCollectionOf<Element> =
+      getHtmlElementsByClassName(CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL);
 
-    for (let i = 0; i < triggerCollection.length; i++) {
-      const currentTrigger = triggerCollection[i];
+    for (let i = 0; i < thumbnailImages.length; i++) {
+      const currentTrigger = thumbnailImages[i];
       currentTrigger.addEventListener("click", () => {
         const imageIndex = Number(
-          currentTrigger.children[0].getAttribute("data-id")
+          currentTrigger.children[0].getAttribute(HTML_ATTRIBUTES.DATA_ID)
         );
         const imageAltText =
-          currentTrigger.children[0].getAttribute("alt") || "";
-        const imageUrl = currentTrigger.children[0].getAttribute("src") || "";
+          currentTrigger.children[0].getAttribute(HTML_ATTRIBUTES.ALT) || "";
+        const imageUrl =
+          currentTrigger.children[0].getAttribute(HTML_ATTRIBUTES.SRC) || "";
         this.updateImageIndex(imageIndex);
         this.showLightboxOverlayImage(imageUrl, imageAltText || "");
         this.updateFooterData(imageIndex);
@@ -116,6 +129,9 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   */
   addClickListenerToCloseButton(): void {
     const closeButton = getHtmlElementByClassName(CSS_CLASSES.BUTTON_CLOSE);
 
@@ -126,6 +142,9 @@ class Lightbox {
     });
   }
 
+  /**
+   *
+   */
   addClickListenerToNextButton(): void {
     const nextButton = getHtmlElementByClassName(CSS_CLASSES.BUTTON_NEXT);
 
@@ -148,6 +167,9 @@ class Lightbox {
       : nextButton.remove();
   }
 
+  /**
+   *
+   */
   addClickListenerToPreviousButton(): void {
     const previousButton = getHtmlElementByClassName(
       CSS_CLASSES.BUTTON_PREVIOUS
@@ -173,22 +195,36 @@ class Lightbox {
       : previousButton.remove();
   }
 
+  /**
+   *
+   */
   addEventListenersForTouch(): void {
     document.addEventListener("touchstart", this.handleTouchStart);
     document.addEventListener("touchmove", this.handleTouchMove);
   }
 
+  /**
+   *
+   */
   removeEventListenersForTouch(): void {
     document.removeEventListener("touchstart", this.handleTouchStart);
     document.removeEventListener("touchmove", this.handleTouchMove);
   }
 
+  /**
+   *
+   * @param event
+   */
   handleTouchStart(event: TouchEvent): void {
     const firstTouch = event.touches[0];
     this.leftOrRightSwipeAmount = firstTouch.clientX;
     this.swipedLeftOrRight = firstTouch.clientX > 0;
   }
 
+  /**
+   *
+   * @param event
+   */
   handleTouchMove(event: TouchEvent): void {
     if (!this.swipedLeftOrRight) {
       return;
@@ -219,6 +255,10 @@ class Lightbox {
     document.removeEventListener("keydown", this.addKeyboardListeners);
   }
 
+  /**
+   *
+   * @param index
+   */
   getPreviousImageIndex(index: number): number {
     if (index === 0) {
       return this.currentImageSet
@@ -229,9 +269,13 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   * @param event
+   */
   getImageIndex(event: Event): number {
     const element = event.target as HTMLElement;
-    const imageSrc = element.getAttribute("src");
+    const imageSrc = element.getAttribute(HTML_ATTRIBUTES.SRC);
     return this.currentImageSet
       ? Object.values(this.currentImageSet).findIndex(
           (image) => image.url === imageSrc
@@ -239,6 +283,10 @@ class Lightbox {
       : -1;
   }
 
+  /**
+   *
+   * @param currentImageIndex
+   */
   getNextImageIndex(currentImageIndex: number): number {
     const currentImageSetLength = this.currentImageSet
       ? Object.values(this.currentImageSet).length
@@ -251,6 +299,10 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   * @param event
+   */
   addLightboxHtmlToDom(event: Event): void {
     const imageSetId = this.getImageSetId(event);
     const imageIndex = this.getImageIndex(event);
@@ -278,24 +330,40 @@ class Lightbox {
     this.setActiveThumbnailImage(imageIndex);
   }
 
+  /**
+   *
+   * @param currentImageIndex
+   */
   getDescriptionText(currentImageIndex: number): string {
     return this.currentImageSet
       ? <string>this.currentImageSet[currentImageIndex].description
       : "";
   }
 
+  /**
+   *
+   * @param currentImageIndex
+   */
   getSourceText(currentImageIndex: number): string {
     return this.currentImageSet
       ? <string>this.currentImageSet[currentImageIndex].photographer
       : "";
   }
 
+  /**
+   *
+   * @param imageIndex
+   */
   getPreviousImageUrl(imageIndex: number): string {
     return this.currentImageSet
       ? <string>this.currentImageSet[imageIndex].url
       : "";
   }
 
+  /**
+   *
+   * @param imageIndex
+   */
   getNextImageUrl(imageIndex: number): string {
     if (imageIndex === this.currentImageSetLength) {
       return this.currentImageSet ? <string>this.currentImageSet[0].url : "";
@@ -305,13 +373,18 @@ class Lightbox {
       : "";
   }
 
+  /**
+   * Check one image of each image set.
+   * Look for the dataLightboxId string.
+   * If found in an image set, this is the current image set.
+   * @param event
+   */
   getImageSetId(event: Event): number {
     const element = event.target as HTMLElement;
-    const lightboxId = element.getAttribute("data-lightbox-id") || "";
+    const lightboxId =
+      element.getAttribute(HTML_ATTRIBUTES.DATA_LIGHTBOX_ID) || "";
+
     return this.imageSets.findIndex((imageSet) => {
-      // Check one image of each image set.
-      // Look for the dataLightboxId string
-      // If found in an image set, this is the current image set.
       const firstImageSet = imageSet && imageSet[0];
       return firstImageSet?.imageSetId === lightboxId;
     });
@@ -334,21 +407,25 @@ class Lightbox {
     this.removeEventListenersForTouch();
   }
 
+  /**
+   *
+   * @param event
+   */
   addKeyboardListeners(event: KeyboardEvent): void {
     let buttonClose: HTMLElement;
     let buttonPrevious: HTMLElement;
     let buttonNext: HTMLElement;
 
     switch (event.key) {
-      case "Escape": // esc-key
+      case "Escape":
         buttonClose = getHtmlElementByClassName(CSS_CLASSES.BUTTON_CLOSE);
         return buttonClose.click();
 
-      case "ArrowLeft": // left-key
+      case "ArrowLeft":
         buttonPrevious = getHtmlElementByClassName(CSS_CLASSES.BUTTON_PREVIOUS);
         return buttonPrevious.click();
 
-      case "ArrowRight": // right-key
+      case "ArrowRight":
         buttonNext = getHtmlElementByClassName(CSS_CLASSES.BUTTON_NEXT);
         return buttonNext.click();
       default:
@@ -356,6 +433,10 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   * @param event
+   */
   openLightboxOverlay(event: Event): void {
     event.preventDefault();
     this.currentImageIndex = this.getImageIndex(event);
@@ -367,47 +448,72 @@ class Lightbox {
     this.addClickListenersToThumbnailImages();
   }
 
+  /**
+   *
+   */
   removeBodyOverflow(): void {
     const body = this.body as HTMLElement;
     body.classList.remove(CSS_CLASSES.NO_SCROLL);
   }
 
+  /**
+   *
+   * @param imageIndex
+   */
   setActiveThumbnailImage(imageIndex: number): void {
-    const triggerCollection = document.getElementsByClassName(
+    const triggerCollection = getHtmlElementsByClassName(
       CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL
     );
 
     for (let i = 0; i < triggerCollection.length; i++) {
-      triggerCollection[i].classList.remove("active");
+      triggerCollection[i].classList.remove(CSS_CLASSES.ACTIVE);
     }
 
-    const imageDiv = document.querySelector(
-      `[data-id='${imageIndex}']`
-    )?.parentElement;
-    imageDiv?.classList.add("active");
+    const imageDiv = document.querySelector(`[data-id='${imageIndex}']`)
+      ?.parentElement;
+    imageDiv?.classList.add(CSS_CLASSES.ACTIVE);
   }
 
+  /**
+   *
+   * @param event
+   */
   setCurrentImageProperties(event: Event): void {
     const imageSetId = this.getImageSetId(event);
     this.currentImageSet = this.imageSets[imageSetId];
     this.currentImageSetLength = this.imageSets[imageSetId].length;
   }
 
+  /**
+   *
+   */
   setBodyOverflow(): void {
     const body = this.body as HTMLElement;
     body.classList.add(CSS_CLASSES.NO_SCROLL);
   }
 
+  /**
+   *
+   * @param lightboxOverlay
+   */
   prepareLightboxOverlay(lightboxOverlay: HTMLElement): void {
     this.setLightboxOverlayMarkup(lightboxOverlay);
     this.setLightboxOverlayVisible(lightboxOverlay);
   }
 
+  /**
+   *
+   * @param lightboxOverlay
+   */
   setLightboxOverlayVisible(lightboxOverlay: HTMLElement): void {
-    lightboxOverlay.classList.add("visible");
-    lightboxOverlay.classList.remove("hidden");
+    lightboxOverlay.classList.add(CSS_CLASSES.VISIBLE);
+    lightboxOverlay.classList.remove(CSS_CLASSES.HIDDEN);
   }
 
+  /**
+   *
+   * @param lightboxOverlay
+   */
   setLightboxOverlayMarkup(lightboxOverlay: HTMLElement): void {
     let thumbnailImagesMarkup: string[] = [];
 
@@ -423,6 +529,10 @@ class Lightbox {
     lightboxOverlay.innerHTML = overlayMarkup;
   }
 
+  /**
+   *
+   * @param currentImageIndex
+   */
   setImageDescription(currentImageIndex: number): void {
     const descriptionText = this.getDescriptionText(currentImageIndex);
 
@@ -435,6 +545,10 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   * @param currentImageIndex
+   */
   setImageSource(currentImageIndex: number): void {
     const sourceText = this.getSourceText(currentImageIndex);
     const imageSource = getHtmlElementByClassName(
@@ -445,16 +559,27 @@ class Lightbox {
     }
   }
 
+  /**
+   *
+   * @param imageNumber
+   */
   setImageCounter(imageNumber: number): void {
     const imageCounter = getHtmlElementByClassName(
       CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE_COUNTER
     );
 
-    imageCounter.innerHTML = `<span class="first-digit">${imageNumber}</span> / ${
+    imageCounter.innerHTML = `<span class="${
+      CSS_CLASSES.IMAGE_COUNTER_FIRST_DIGIT
+    }">${imageNumber}</span> / ${
       this.currentImageSet ? Object.values(this.currentImageSet).length : ""
     }`;
   }
 
+  /**
+   *
+   * @param url
+   * @param text
+   */
   showLightboxOverlayImage(url: string, text?: string): void {
     this.showLoadingAnimation();
 
@@ -464,7 +589,7 @@ class Lightbox {
 
     lightboxOverlayImage.remove();
 
-    this.addNewImageToHtml(url, text);
+    this.addNewImageToHtml(url.replace("small/", ""), text);
   }
 
   updateFooterData(currentImageIndex: number): void {
@@ -476,10 +601,19 @@ class Lightbox {
       : null;
   }
 
+  /**
+   *
+   * @param newIndex
+   */
   updateImageIndex(newIndex: number): void {
     this.currentImageIndex = newIndex;
   }
 
+  /**
+   *
+   * @param url
+   * @param text
+   */
   addNewImageToHtml(url: string, text?: string): void {
     const imageContainer = getHtmlElementByClassName(
       CSS_CLASSES.IMAGE_CONTAINER
@@ -489,7 +623,7 @@ class Lightbox {
 
     newImage.src = url;
     newImage.className = CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE;
-    newImage.setAttribute("alt", <string>text);
+    newImage.setAttribute(HTML_ATTRIBUTES.ALT, <string>text);
     newImage.onload = () => {
       this.hideLoadingAnimation();
       imageContainer.appendChild(newImage);
@@ -525,7 +659,7 @@ class Lightbox {
           CSS_CLASSES.LIGHTBOX_OVERLAY_BODY_ROW
         );
 
-        const loadingAnimationdDiv = getHtmlElementByClassName(
+        const loadingAnimation = getHtmlElementByClassName(
           CSS_CLASSES.LOADING_ANIMATION
         );
 
@@ -548,7 +682,7 @@ class Lightbox {
             overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
           }px`;
 
-          loadingAnimationdDiv.style.height = `${
+          loadingAnimation.style.height = `${
             overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
           }px`;
         } else {
@@ -560,7 +694,7 @@ class Lightbox {
             overlayHeight - (footerHeight + headerHeight)
           }px`;
 
-          loadingAnimationdDiv.style.height = `${
+          loadingAnimation.style.height = `${
             overlayHeight - (footerHeight + headerHeight)
           }px`;
         }

@@ -12,7 +12,7 @@ export const getOverlayMarkup = (thumbnailImagesMarkup: string[]) =>
     <div class="lightbox-overlay-header-col-3">
       <div aria-label="Close" class="button-close">
         <div class="line1">
-          <div class="line2"></div>
+          <div class="line2"></div> 
         </div>
       </div>
     </div>

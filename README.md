@@ -8,15 +8,15 @@
 - Mobile friendly
 - Touch and swipe support
 - Keyboard navigation
-- Lightweight: ~11KB (generated js file)
-
+- Lightweight
+- 
 ## Getting started
 
-1. Download the zip file of the latest release from GitHub. You will find a js and a css file inside.
-2. Include the css file at the top of your page in the head section:
-   `<link href="path/to/pure-js-lightbox.css" rel="stylesheet" />`
+1. Download the zip file of the latest release from GitHub. You will find HTML, JS and a CSS file inside.
+2. Include the CSS file at the top of your page in the head section:
+   `<link href="path/to/pure-js-lightbox-core.css" rel="stylesheet" />`
 3. Place the script tag at the bottom of your page right before the closing body tag:
-   `<script src="path/to/pure-js-lightbox.js"></script>`
+   `<script src="path/to/pure-js-lightbox-core.js"></script>`
 4. Add `<img>` tags with attributes to your html:
 
    ```
@@ -60,7 +60,7 @@ To serve on localhost run `npm run start` on the command line.
 ### Build
 
 For a production build run `npm run build` on the command line.
-This will generate a `public` directory with `index.html`, `pure-js-lightbox.js`, `pure-js-lightbox.css`
+This will generate a `public` directory with `index.html`, `pure-js-lightbox-core.js`, `pure-js-lightbox-core.css`
 and `loading-animation.svg`.
 
 ## Demo

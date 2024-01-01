@@ -3,8 +3,8 @@
   "version": "1.0.2",
   "description": "Vanilla JS Lightbox",
   "scripts": {
-    "build": "webpack --config webpack.prod.ts",
-    "start": "webpack serve --config webpack.dev.ts"
+    "build": "webpack --config webpack/webpack.prod.ts",
+    "start": "webpack serve --config webpack/webpack.dev.ts"
   },
   "repository": {
     "type": "git",

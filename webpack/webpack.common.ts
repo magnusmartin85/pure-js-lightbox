@@ -11,7 +11,11 @@ const config: webpack.Configuration = {
     new CopyPlugin({
       patterns: [
         {
-          from: `${paths.src.svg}/loading-animation.svg`,
+          from: paths.src.svg,
+          to: paths.dest.svg
+        },
+        {
+          from: `${paths.src.root}/index.html`,
           to: paths.dest.root
         }
       ]
@@ -33,7 +37,7 @@ const config: webpack.Configuration = {
         exclude: /node_modules/,
         type: "asset/resource",
         generator: {
-          filename: "pure-js-lightbox.css"
+          filename: "pure-js-lightbox-core.css"
         },
         use: ["sass-loader"]
       },
@@ -45,7 +49,7 @@ const config: webpack.Configuration = {
     ]
   },
   output: {
-    filename: "pure-js-lightbox.js",
+    filename: "pure-js-lightbox-core.js",
     clean: true,
     path: paths.dest.root
   }

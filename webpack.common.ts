@@ -6,16 +6,12 @@ const config: webpack.Configuration = {
   stats: {
     errorDetails: true
   },
-  entry: paths.src.scripts + "/index.ts",
+  entry: `${paths.src.scripts}/index.ts`,
   plugins: [
     new CopyPlugin({
       patterns: [
         {
-          from: paths.src.assets + "/loading-animation.svg",
-          to: paths.dest.root
-        },
-        {
-          from: paths.src.root + "/index.html",
+          from: `${paths.src.svg}/loading-animation.svg`,
           to: paths.dest.root
         }
       ]

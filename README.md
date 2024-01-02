@@ -9,7 +9,7 @@
 - Touch and swipe support
 - Keyboard navigation
 - Lightweight
-- 
+
 ## Getting started
 
 1. Download the zip file of the latest release from GitHub. You will find HTML, JS and a CSS file inside.

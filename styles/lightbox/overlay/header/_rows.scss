@@ -1,7 +1,9 @@
 .lightbox-overlay-header-row {
   align-items: center;
+  align-self: flex-end;
   display: flex;
-  flex-wrap: nowrap;
-  height: 52px;
+  flex-basis: 100%;
+  flex-wrap: wrap;
   justify-content: space-between;
+  padding: 10px 0;
 }

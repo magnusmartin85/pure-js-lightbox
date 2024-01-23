@@ -1,10 +1,8 @@
 .lightbox-overlay-footer-row {
+  align-self: flex-start;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
+  flex-basis: 100%;
   justify-content: center;
-
-  @media only screen and (min-width: $breakpoint-md) {
-    justify-content: space-between;
-  }
 }

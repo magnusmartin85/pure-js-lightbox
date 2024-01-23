@@ -1,8 +1,7 @@
 import { ImageSetProps } from "./types";
 
-export const getOverlayMarkup = (thumbnailImagesMarkup: string[]) =>
-  `
-<div class="lightbox-overlay-container">
+export const getOverlayMarkup = (thumbnailImagesMarkup: string) =>
+  `<div class="lightbox-overlay-container">
   <div class="lightbox-overlay-header-row">
     <div class="lightbox-overlay-header-col-1"></div>
   
@@ -38,7 +37,7 @@ export const getOverlayMarkup = (thumbnailImagesMarkup: string[]) =>
   
     <div class="lightbox-overlay-body-col-3">
       <div class="button-next-row">
-        <div class="button-next">  
+        <div class="button-next">
             <div class="line1">
               <div class="line2"></div>
             </div>
@@ -59,15 +58,18 @@ export const getOverlayMarkup = (thumbnailImagesMarkup: string[]) =>
       </div>
     </div>
   </div>
-</div> 
-`.trim();
+</div>`.trim();
 
 export const getOverlayThumbnailImagesMarkup = (imageSet: ImageSetProps) => {
-  return imageSet.map((image) => {
-    return `
+  let markup = "";
+
+  imageSet.forEach((image) => {
+    markup += `
       <div class="lightbox-overlay-thumbnail">
-        <img data-id="${image.id}" alt="${image.description}" src="${image.url}"/>
+        <img data-id="${image.id}" alt="${image.description}" src="${image.url}" />
       </div>
-`.trim();
+    `.replace("/,/i", "");
   });
+
+  return markup;
 };

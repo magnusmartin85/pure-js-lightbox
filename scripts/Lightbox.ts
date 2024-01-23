@@ -446,6 +446,7 @@ class Lightbox {
     this.addEventListenersForKeyboard();
     this.addEventListenersForTouch();
     this.addClickListenersToThumbnailImages();
+    this.addWindowResizeEventListener();
   }
 
   /**
@@ -515,7 +516,7 @@ class Lightbox {
    * @param lightboxOverlay
    */
   setLightboxOverlayMarkup(lightboxOverlay: HTMLElement): void {
-    let thumbnailImagesMarkup: string[] = [];
+    let thumbnailImagesMarkup: string = "";
 
     if (this.currentImageSet.length > 1) {
       thumbnailImagesMarkup = getOverlayThumbnailImagesMarkup(
@@ -621,24 +622,19 @@ class Lightbox {
 
     const newImage = new Image();
 
-    newImage.src = url;
     newImage.className = CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE;
     newImage.setAttribute(HTML_ATTRIBUTES.ALT, <string>text);
     newImage.onload = () => {
       this.hideLoadingAnimation();
       imageContainer.appendChild(newImage);
+      this.adjustImageHeight();
     };
-
-    this.adjustImageHeight();
+    newImage.src = url;
   }
 
   adjustImageHeight = () => {
     waitForElementToBeVisible(CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE).then(
       (): void => {
-        const lightboxOverlay = getHtmlElementByClassName(
-          CSS_CLASSES.LIGHTBOX_OVERLAY
-        );
-
         const lightboxOverlayThumbnailsRow = getHtmlElementByClassName(
           CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL_ROW
         );
@@ -647,56 +643,21 @@ class Lightbox {
           CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
         );
 
-        const lightboxOverlayHeaderRow = getHtmlElementByClassName(
-          CSS_CLASSES.LIGHTBOX_OVERLAY_HEADER_ROW
-        );
-
-        const lightboxOverlayFooterRow = getHtmlElementByClassName(
-          CSS_CLASSES.LIGHTBOX_OVERLAY_FOOTER_ROW
-        );
-
         const lightboxOverlayBodyRow = getHtmlElementByClassName(
           CSS_CLASSES.LIGHTBOX_OVERLAY_BODY_ROW
         );
 
-        const loadingAnimation = getHtmlElementByClassName(
-          CSS_CLASSES.LOADING_ANIMATION
-        );
-
-        const overlayHeight = lightboxOverlay.offsetHeight;
-        const headerHeight = lightboxOverlayHeaderRow.offsetHeight;
-        const footerHeight = lightboxOverlayFooterRow.offsetHeight;
-
         if (lightboxOverlayThumbnailsRow) {
-          const thumbnailsHeight = lightboxOverlayThumbnailsRow.offsetHeight;
-
-          const lightboxOverlayGroup1 = getHtmlElementByClassName(
-            CSS_CLASSES.LIGHTBOX_OVERLAY_GROUP_1
-          );
-
-          lightboxOverlayGroup1.style.height = `${
-            overlayHeight - thumbnailsHeight
-          }px`;
-
-          lightboxOverlayImage.style.maxHeight = `${
-            overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
-          }px`;
-
-          loadingAnimation.style.height = `${
-            overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
-          }px`;
+          this.handleImageHeightWithThumbnailRow();
         } else {
-          lightboxOverlayBodyRow.style.height = `${
-            overlayHeight - (footerHeight + headerHeight)
-          }px`;
+          this.handleImageHeightWithoutThumbnailRow();
+        }
 
-          lightboxOverlayImage.style.maxHeight = `${
-            overlayHeight - (footerHeight + headerHeight)
-          }px`;
+        const imageHeight = lightboxOverlayImage.offsetHeight;
+        const imageContainerHeight = lightboxOverlayBodyRow.offsetHeight;
 
-          loadingAnimation.style.height = `${
-            overlayHeight - (footerHeight + headerHeight)
-          }px`;
+        if (imageContainerHeight > imageHeight) {
+          lightboxOverlayBodyRow.style.height = `${imageHeight}px`;
         }
       }
     );
@@ -717,6 +678,101 @@ class Lightbox {
 
     loadingAnimationDiv.classList.add(CSS_CLASSES.HIDDEN);
     loadingAnimationDiv.classList.remove(CSS_CLASSES.VISIBLE);
+  }
+
+  private handleImageHeightWithThumbnailRow() {
+    const lightboxOverlay = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY
+    );
+
+    const lightboxOverlayThumbnailsRow = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_THUMBNAIL_ROW
+    );
+
+    const lightboxOverlayImage = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
+    );
+
+    const lightboxOverlayHeaderRow = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_HEADER_ROW
+    );
+
+    const lightboxOverlayFooterRow = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_FOOTER_ROW
+    );
+
+    const loadingAnimation = getHtmlElementByClassName(
+      CSS_CLASSES.LOADING_ANIMATION
+    );
+
+    const lightboxOverlayGroup1 = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_GROUP_1
+    );
+
+    const overlayHeight = lightboxOverlay.offsetHeight;
+    const headerHeight = lightboxOverlayHeaderRow.offsetHeight;
+    const footerHeight = lightboxOverlayFooterRow.offsetHeight;
+    const thumbnailsHeight = lightboxOverlayThumbnailsRow.offsetHeight;
+
+    lightboxOverlayGroup1.style.height = `${
+      overlayHeight - thumbnailsHeight
+    }px`;
+
+    lightboxOverlayImage.style.maxHeight = `${
+      overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
+    }px`;
+
+    loadingAnimation.style.height = `${
+      overlayHeight - (thumbnailsHeight + headerHeight + footerHeight)
+    }px`;
+  }
+
+  private handleImageHeightWithoutThumbnailRow() {
+    const lightboxOverlay = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY
+    );
+
+    const lightboxOverlayImage = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_IMAGE
+    );
+
+    const lightboxOverlayHeaderRow = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_HEADER_ROW
+    );
+
+    const lightboxOverlayFooterRow = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_FOOTER_ROW
+    );
+
+    const lightboxOverlayBodyRow = getHtmlElementByClassName(
+      CSS_CLASSES.LIGHTBOX_OVERLAY_BODY_ROW
+    );
+
+    const loadingAnimation = getHtmlElementByClassName(
+      CSS_CLASSES.LOADING_ANIMATION
+    );
+
+    const overlayHeight = lightboxOverlay.offsetHeight;
+    const headerHeight = lightboxOverlayHeaderRow.offsetHeight;
+    const footerHeight = lightboxOverlayFooterRow.offsetHeight;
+
+    lightboxOverlayBodyRow.style.height = `${
+      overlayHeight - (footerHeight + headerHeight)
+    }px`;
+
+    lightboxOverlayImage.style.maxHeight = `${
+      overlayHeight - (footerHeight + headerHeight)
+    }px`;
+
+    loadingAnimation.style.height = `${
+      overlayHeight - (footerHeight + headerHeight)
+    }px`;
+  }
+
+  private addWindowResizeEventListener() {
+    addEventListener("resize", () => {
+      this.adjustImageHeight();
+    });
   }
 }
 

@@ -9,10 +9,13 @@ export const getHtmlElementByClassName = (
 };
 
 /**
- * Source: https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
+ * Source1: https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
+ * Source2: https://stackoverflow.com/questions/2342132/waiting-for-image-to-load-in-javascript
  * @param cssClass
  */
-export const waitForElementToBeVisible = (cssClass: string): Promise<any> => {
+export const waitForElementToBeVisible = (
+  cssClass: string
+): Promise<Element | null> => {
   return new Promise((resolve) => {
     if (document.querySelector(`.${cssClass}`)) {
       return resolve(document.querySelector(`.${cssClass}`));
@@ -20,20 +23,6 @@ export const waitForElementToBeVisible = (cssClass: string): Promise<any> => {
   });
 };
 
-/**
- *
- * @param tagName
- * @param root
- */
-export const getHtmlElementsByTagName = (
-  tagName: string | { [p: number]: string },
-  root?: Element
-): NodeListOf<HTMLElement> => {
-  if (root) {
-    return root.querySelectorAll(`${tagName}`);
-  }
-  return document.querySelectorAll(`${tagName}`);
-};
 /**
  *
  * @param tagName

@@ -7,7 +7,7 @@
   margin: 0;
   text-align: center;
 
-  @media only screen and (min-width: $breakpoint-md) {
+  @media (width >= $breakpoint-md) {
     font-size: $counter-font-size-desktop;
   }
 

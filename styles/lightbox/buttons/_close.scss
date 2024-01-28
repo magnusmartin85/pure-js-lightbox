@@ -6,6 +6,7 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  margin-right: 20px;
 
   .line1 {
     background-color: map.get($icon-colors, "regular");

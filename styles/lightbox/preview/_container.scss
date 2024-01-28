@@ -1,47 +1,4 @@
-@use "sass:math";
-
-$margin-full: 2%;
-$margin-half: math.div($margin-full, 2);
-
-.preview-image-container {
+.core-container {
   display: flex;
-  flex-basis: math.div(100%, 2) - math.div($margin-full * 3, 2);
-  font-size: 12px;
-  overflow: hidden;
-
-  @media (width >= $breakpoint-sm) {
-    flex-basis: math.div(100%, 3) - math.div($margin-full * 3, 2);
-  }
-
-  &:nth-child(n) {
-    margin: $margin-half $margin-half $margin-half $margin-full;
-
-    @media (width >= $breakpoint-sm) {
-      &:nth-child(n) {
-        margin: $margin-half;
-      }
-    }
-  }
-
-  &:nth-child(2n) {
-    margin: $margin-half;
-
-    @media (width >= $breakpoint-sm) {
-      &:nth-child(2n) {
-        margin: $margin-half;
-      }
-    }
-  }
-
-  &:nth-child(3n) {
-    @media (width >= $breakpoint-sm) {
-      &:nth-child(2n) {
-        margin: $margin-half;
-      }
-    }
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
+  flex-wrap: wrap;
 }
